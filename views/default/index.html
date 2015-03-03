@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+{{for pos,park in enumerate(parks):}}
+    {{include 'default/park_box.html'}}
+{{pass}}

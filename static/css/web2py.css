@@ -1,0 +1,692 @@
+/** these MUST stay **/
+a {text-decoration:none; white-space:nowrap}
+a:hover {text-decoration:underline}
+th,label {font-weight:bold; white-space: normal; word-wrap: break-word;}
+td,th {text-align:left; padding:2px 5px 2px 5px}
+th {vertical-align:middle; border-right:1px solid white}
+td {vertical-align:top}
+form table tr td label {text-align:left}
+p,table,ol,ul {padding:0; margin: 0.75em 0}
+p {text-align:justify}
+ol, ul {list-style-position:outside; margin-left:2em}
+li {margin-bottom:0.5em}
+span,input,select,textarea,button,label,a {display:inline}
+img {border:0}
+blockquote,blockquote p,p blockquote {
+  font-style:italic; margin:0.5em 30px 0.5em 30px; font-size:0.9em}
+i,em {font-style:italic}
+strong {font-weight:bold}
+small {font-size:0.8em}
+code {font-family:Courier}
+textarea {width:100%}
+video {width:400px}
+audio {width:200px}
+input[type=text],input[type=password],select{width:300px;}
+.hidden {display:none;visibility:visible}
+.right {float:right; text-align:right}
+.left {float:left; text-align:left}
+.center {width:100; text-align:center; vertical-align:middle}
+section {
+	padding-top: 30px;
+}
+/** end **/
+
+/* Sticky footer begin */
+
+.main {
+  padding:20px 0 50px 0;
+}
+
+/*.footer,.push {
+  height:6em;
+  padding:1em 0;
+  clear:both;
+}*/
+
+.footer-content {position:relative; bottom:-4em; width:100%}
+
+.auth_navbar {
+    white-space:nowrap;
+}
+
+/* Sticky footer end */
+
+.footer {
+    border-top:1px #DEDEDE solid;
+}
+.header {
+	/* background:<fill here for header image>; */
+}
+
+
+fieldset {padding:16px; border-top:1px #DEDEDE solid}
+fieldset legend {text-transform:uppercase; font-weight:bold; padding:4px 16px 4px 16px; background:#f1f1f1}
+
+
+/* fix ie problem with menu */
+
+td.w2p_fw {padding-bottom:1px}
+td.w2p_fl,td.w2p_fw,td.w2p_fc {vertical-align:top}
+td.w2p_fl {text-align:left}
+td.w2p_fl, td.w2p_fw {padding-right:7px}
+td.w2p_fl,td.w2p_fc {padding-top:4px}
+div.w2p_export_menu {margin:5px 0}
+div.w2p_export_menu a, div.w2p_wiki_tags a, div.w2p_cloud a {margin-left:5px; padding:2px 5px; background-color:#f1f1f1; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+
+/* tr#submit_record__row {border-top:1px solid #E5E5E5} */
+#submit_record__row td {padding-top:.5em}
+
+/* Fix */
+#auth_user_remember__row label {display:inline}
+#web2py_user_form td {vertical-align:top}
+
+/*********** web2py specific ***********/
+div.flash {
+    font-weight:bold;
+    display:none;
+    position:fixed;
+    padding:10px;
+    top:48px;
+    right:50px;
+    min-width:280px;
+    opacity:0.95;
+    margin:0px 0px 10px 10px;
+    vertical-align:middle;
+    cursor:pointer;
+    color:#fff;
+    background-color:#000;
+    border:2px solid #fff;
+    border-radius:8px;
+    -o-border-radius: 8px;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    background-image: -webkit-linear-gradient(top,#222,#000);
+    background-image: -o-linear-gradient(top,#222,#000);
+    background-image: -moz-linear-gradient(90deg, #222, #000);
+    background-image: linear-gradient(top,#222,#000);
+    background-repeat: repeat-x;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    z-index:2000;
+}
+
+div.flash #closeflash{color:inherit; float:right;}
+.ie-lte7  div.flash
+#closeflash{color:expression(this.parentNode.currentStyle['color']);float:none;position:absolute;right:4px;}
+
+div.flash:hover { opacity:0.25; }
+
+div.error_wrapper {display:block}
+div.error {
+    width: 298px;
+    background:red;
+    border: 2px solid #d00;
+    color:white;
+    padding:5px;
+    display:inline-block;
+    background-image: -webkit-linear-gradient(left,#f00,#fdd);
+    background-image: -o-linear-gradient(left,#f00,#fdd);
+    background-image: -moz-linear-gradient(0deg, #f00, #fdd);
+    background-image: linear-gradient(left,#f00,#fdd);
+    background-repeat: repeat-y;
+}
+
+.topbar {
+    padding:10px 0;
+    width:100%;
+    color:#959595;
+    vertical-align:middle;
+    padding:auto;
+    background-image:-khtml-gradient(linear,left top,left bottom,from(#333333),to(#222222));
+    background-image:-moz-linear-gradient(top,#333333,#222222);
+    background-image:-ms-linear-gradient(top,#333333,#222222);
+    background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#333333),color-stop(100%,#222222));
+    background-image:-webkit-linear-gradient(top,#333333,#222222);
+    background-image:-o-linear-gradient(top,#333333,#222222);
+    background-image:linear-gradient(top,#333333,#222222);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333',endColorstr='#222222',GradientType=0);
+    -webkit-box-shadow:0 1px 3px rgba(0,0,0,0.25),inset 0 -1px 0 rgba(0,0,0,0.1);
+    -moz-box-shadow:0 1px 3px rgba(0,0,0,0.25),inset 0 -1px 0 rgba(0,0,0,0.1);
+    box-shadow:0 1px 3px rgba(0,0,0,0.25),inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+.topbar a {
+    color:#e1e1e1;
+}
+
+#navbar {float:right; padding:5px; /* same as superfish */}
+
+.statusbar {
+    background-color:#F5F5F5;
+    margin-top:1em;
+    margin-bottom:1em;
+    padding:.5em 1em;
+    border:1px solid #ddd;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+
+.breadcrumbs {float:left}
+
+.copyright {float:left}
+#poweredBy {float:right}
+
+/* #MEDIA QUERIES SECTION */
+
+/*
+*Grid
+*
+* The default style for SQLFORM.grid even using jquery-iu or another ui framework
+* will look better with the declarations below
+* if needed to remove base.css consider keeping these following lines in some css file.
+*/
+/* .web2py_table {border:1px solid #ccc} */
+.web2py_paginator {}
+.web2py_grid {width:100%}
+.web2py_grid table {width:100%}
+.web2py_grid tbody td {padding:2px 5px 2px 5px; vertical-align: middle;}
+
+.web2py_grid thead th,.web2py_grid tfoot td {
+    background-color:#EAEAEA;
+    padding:10px 5px 10px 5px;
+}
+
+.web2py_grid tr.odd {background-color:#F9F9F9}
+.web2py_grid tr:hover {background-color:#F5F5F5}
+
+/*
+.web2py_breadcrumbs a {
+    line-height:20px; margin-right:5px; display:inline-block;
+    padding:3px 5px 3px 5px;
+    font-family:'lucida grande',tahoma,verdana,arial,sans-serif;
+    color:#3C3C3D;
+    text-shadow:1px 1px 0 #FFFFFF;
+    white-space:nowrap; overflow:visible; cursor:pointer;
+    background:#ECECEC;
+    border:1px solid #CACACA;
+    -webkit-border-radius:2px; -moz-border-radius:2px;
+    -webkit-background-clip:padding-box; border-radius:2px;
+    outline:none; position:relative; zoom:1; *display:inline;
+}
+*/
+
+.web2py_console form {
+    width: 100%;
+    display: inline;
+    vertical-align: middle;
+    margin: 0 0 0 5px;
+}
+
+.web2py_console form select {
+    margin:0;
+}
+
+.web2py_search_actions {
+    float:left;
+    text-align:left;
+}
+
+.web2py_grid .row_buttons {
+    min-height:25px;
+    vertical-align:middle;
+}
+.web2py_grid .row_buttons a {
+    margin:3px;
+}
+
+.web2py_search_actions {
+    width:100%;
+}
+
+.web2py_grid .row_buttons a,
+.web2py_paginator ul li a,
+.web2py_search_actions a,
+.web2py_console input[type=submit],
+.web2py_console input[type=button],
+.web2py_console button {
+    line-height:20px;
+    margin-right:2px; display:inline-block;
+    padding:3px 5px 3px 5px;
+}
+
+.web2py_counter {
+    margin-top:5px;
+    margin-right:2px;
+    width:35%;
+    float:right;
+    text-align:right;
+}
+
+/*Fix firefox problem*/
+.web2py_table {clear:both; display:block}
+
+.web2py_paginator {
+    padding:5px;
+    text-align:right;
+    background-color:#f2f2f2;
+
+}
+.web2py_paginator ul {
+    list-style-type:none;
+    margin:0px;
+    padding:0px;
+}
+
+.web2py_paginator ul li {
+    display:inline;
+}
+
+.web2py_paginator .current {
+    font-weight:bold;
+}
+
+.web2py_breadcrumbs ul {
+    list-style:none;
+    margin-bottom:18px;
+}
+
+li.w2p_grid_breadcrumb_elem {
+    display:inline-block;
+}
+
+.web2py_console form { vertical-align: middle; }
+.web2py_console input, .web2py_console select,
+.web2py_console a { margin: 2px; }
+
+
+#wiki_page_body {
+   width: 600px;
+   height: auto;
+   min-height: 400px;
+}
+
+/* fix some IE problems */
+
+.ie-lte7 .topbar .container {z-index:2}
+.ie-lte8 div.flash{ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222222', endColorstr='#000000', GradientType=0 ); }
+.ie-lte8 div.flash:hover {filter:alpha(opacity=25);}
+.ie9 #w2p_query_panel {padding-bottom:2px}
+
+.chart, #traffic_chart_m {
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+/*    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);*/
+    height: 370px;
+    margin: 0px auto 30px;
+    padding-left: 10px;
+    padding-right: 10px;    
+    padding-top: 10px;
+    padding-bottom: 45px;
+    border-radius: 5px 5px 5px 5px;
+	position: relative;
+
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+
+	/*-webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,.15), 0 -3px 3px rgba(0, 0, 0, 0.2) inset;
+	   -moz-box-shadow: inset 0 3px 3px rgba(0,0,0,.15), 0 -3px 3px rgba(0, 0, 0, 0.2) inset;
+	        box-shadow: inset 0 3px 3px rgba(0,0,0,.15), 0 -3px 3px rgba(0, 0, 0, 0.2) inset;*/
+}
+.nav.nav-tabs{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+#map_canvas{
+    height: 370px;
+}
+#loading {
+	position: absolute;
+}
+
+#slider-range-min {
+	display: inline-block;
+	width: 200px;
+}
+
+/* Few css tips from bootstrap docs, released under CC-BY 3.0 */
+body > .navbar {
+    font-size: 13px;
+}
+body > .navbar li a.brand {
+   /* color: #000001; */
+    float: right;
+    font-weight: bold;
+    padding-left: 0;
+    padding-right: 0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.125);
+    transition: all 0.2s linear 0s;
+	-webkit-transition: all .2s linear;
+	   -moz-transition: all .2s linear;
+		transition: all .2s linear;
+}
+body > .navbar li a.brand:hover {
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+header {
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2) inset, 0 -3px 7px rgba(0, 0, 0, 0.2) inset;
+    color: #FFFFFF;
+    padding-top: 50px;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0px;
+    position: relative;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 0, 0, 0.075); 
+    background: #020031; /* Old browsers */
+    background: -moz-linear-gradient(45deg,  #AA0031 0%, #6d3353 100%); /* FF3.6+ */
+    background: linear-gradient(45deg, #AA0031 0%, #6D3353 100%) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #AA0031), color-stop(100%,#6d3353)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(45deg,   #AA0031 0%,#6d3353 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(45deg,   #AA0031 0%,#6d3353 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(45deg,  #AA0031 0%,#6d3353 100%); /* IE10+ */
+    background: linear-gradient(45deg,   #AA0031 0%,#6d3353 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=' #AA0031', endColorstr='#6d3353',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+     -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+          box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+}
+header h1 {
+    font-size: 60px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+header p {
+    padding-top: 7px;   
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+header .container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#githubSticker {
+    top: 40px; 
+    right: 0; 
+    border: 0;
+	position: absolute;
+}
+
+.bs-docs-sidebar .bs-docs-sidenav {
+  width: 228px;
+  margin: 30px 0 0;
+  padding: 0;
+  background-color: #fff;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
+          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+}
+.bs-docs-sidebar .bs-docs-sidenav > li > a {
+  display: block;
+  width: 190px \9;
+  margin: 0 0 -1px;
+  padding: 8px 14px;
+  border: 1px solid #e5e5e5;
+}
+.bs-docs-sidebar .bs-docs-sidenav > li:first-child > a {
+  -webkit-border-radius: 6px 6px 0 0;
+     -moz-border-radius: 6px 6px 0 0;
+          border-radius: 6px 6px 0 0;
+}
+.bs-docs-sidebar .bs-docs-sidenav > li:last-child > a {
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+.bs-docs-sidebar .bs-docs-sidenav > .active > a {
+  position: relative;
+  z-index: 2;
+  padding: 9px 15px;
+  border: 0;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
+}
+/* Chevrons */
+.bs-docs-sidebar .bs-docs-sidenav .icon-chevron-right {
+  float: right;
+  margin-top: 2px;
+  margin-right: -6px;
+  opacity: .25;
+}
+
+.bs-docs-sidebar .bs-docs-sidenav a:hover .icon-chevron-right {
+  opacity: .5;
+}
+.bs-docs-sidebar .bs-docs-sidenav .active .icon-chevron-right,
+.bs-docs-sidebar .bs-docs-sidenav .active a:hover .icon-chevron-right {
+  background-image: url(/vtraffic/static/images/glyphicons-halflings-white.png);
+  opacity: 1;
+}
+/*.bs-docs-sidenav.affix {
+  top: 40px;
+}*/
+.bs-docs-sidebar .bs-docs-sidenav.affix-bottom {
+  position: absolute;
+  top: auto;
+  bottom: 270px;
+}
+
+#logs a input {
+	margin-top: -2px;
+	margin-right: 5px;
+}
+
+.legend_box {
+	margin-right: 5px;
+	margin-left: 5px;
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+
+.legend_box_color {
+	border-radius: 2px 2px 2px 2px;
+    display: inline-block;
+    float: left;
+    height: 16px;
+	line-height: 16px;
+    /*margin-left: -5px;*/
+    margin-right: 4px;
+	margin-top: 1px;
+    width: 6px;
+	background-color: #ccc;
+	white-space: nowrap;
+}
+
+.chart .nav-pills {
+	margin-bottom: 5px;
+}
+
+#testmap img {
+	max-width: none !important;
+}
+
+.pie_label {
+    margin-top: 95px;
+	color: #14B8D4;
+	text-align: center;
+    z-index: 100;
+}
+
+table address {
+	margin-bottom: 0;
+}
+
+form.form-inline {
+	margin-bottom: 0;
+}
+
+td h4 .label {
+	padding-top: 4px;
+	padding-right: 6px;
+	padding-bottom: 4px;
+	padding-left: 6px;
+	margin-right: 5px;
+}
+td h4 .label i {
+	padding-right: 4px;
+}
+
+
+/* Desktop
+------------------------- */
+@media (max-width: 980px) {
+  /* Unfloat brand */
+  body > .navbar-fixed-top .brand {
+    float: left;
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* When affixed, space properly */
+  .bs-docs-sidebar .bs-docs-sidenav {
+    top: 0;
+    width: 218px;
+    margin-top: 30px;
+    margin-right: 0;
+  }
+  header {
+    padding-top: 20px;
+  }
+  #githubSticker {
+	display: none;
+  }
+  /*.pie_label {
+		margin-left: 60px;
+  }*/
+
+
+}
+
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 979px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+  /* Widen masthead and social buttons to fill body padding */
+  header {
+    margin-top: -5px; /* Offset bottom margin on .navbar */
+  }
+  /* Adjust sidenav width */
+  .bs-docs-sidebar .bs-docs-sidenav {
+    width: 166px;
+    margin-top: 20px;
+  }
+  .bs-docs-sidenav.affix {
+    top: 0;
+  }
+  header {
+    padding-top: 20px;
+  }
+  #githubSticker {
+	display: none;
+  }
+}
+
+/* Tablet
+------------------------- */
+@media (max-width: 767px) {
+  /* Remove any padding from the body */
+  body {
+    padding-top: 0;
+  }
+
+  /* Widen masthead and social buttons to fill body padding */
+  header {
+    margin-top:   -20px; /* Offset bottom margin on .navbar */
+    margin-right: -20px;
+    margin-left:  -20px;
+  }
+
+  /* Sidenav */
+  .bs-docs-sidenav {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .bs-docs-sidenav.affix {
+    position: static;
+    width: auto;
+    top: 0;
+  }
+  header {
+    padding-top: 10px;
+  }
+  #githubSticker {
+	display: none;
+  }
+}
+
+/* Landscape phones
+------------------------- */
+@media (max-width: 480px) {
+  /* Remove padding above jumbotron */
+  body {
+    padding-top: 0;
+  }
+  header {
+    margin-top: -10px; /* Offset bottom margin on .navbar */
+  }
+  /* Downsize the jumbotrons */
+  header h1 {
+    font-size: 45px;
+  }
+  header {
+    padding-top: 10px;
+  }
+  #githubSticker {
+	display: none;
+  }
+}
+
+/** sticky footer **/
+html, body {
+   height: 100%;
+   /* The html and body elements cannot have any padding or margin. */
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by it's height */
+	margin: 0 auto -121px;
+}
+
+/* Set the fixed height of the footer here */
+#push,#footer {
+	height: 120px;
+}
+
+
+.carousel .carousel-indicators .active {
+    background-color: #AA0031;
+}
+.has-switch {
+    min-width: 80px !important;
+    margin-left: -10px;
+}
+
+.form-container form {
+    padding-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-collapse: separate;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+

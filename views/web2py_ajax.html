@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    var ajax_error_500 = '{{=XML(T('An error occured, please %s the page') % A(T('reload'), _href=URL(args=request.args, vars=request.vars))) }}'
+    var free_slot_text = '{{=T("Free slots")}}';
+    var capacity = '{{=T("Capacity")}}';
+    var appName = '{{=request.application}}';
+    var data_not_available_str = '{{=T("Predictions currently unavailable")}}';
+</script>
+{{
+    response.files.insert(0,URL('static','js/jquery.min.js'))
+	response.files.insert(3,URL('static','js/web2py.js'))
+	response.files.insert(3,URL('static','js/utility.js'))
+	response.files.append(URL('static','js/app.js'))
+    response.files.append(URL('static','js/jquery.flot.js'))
+    response.files.append(URL('static','js/jquery.flot.time.js'))
+    response.files.append(URL('static','js/jquery.flot.resize.js'))
+    #response.files.append(URL('static','js/jquery.flot.selection.js'))
+    #response.files.append(URL('static','js/jquery.event.drag.js'))
+    #response.files.append(URL('static','js/jquery.flot.navigate.js'))
+    response.files.append(URL('static','js/jquery.flot.tooltip.js'))
+    response.files.append(URL('static','js/jquery.flot.axislabels.js'))
+    #response.files.append(URL('static','js/jquery.flot.canvas.js'))
+    response.files.append(URL('static','js/jquery.flot.threshold.js'))
+    response.files.append(URL('static','js/date.js'))
+    response.files.append(URL('static','js/leaflet.js'))
+    response.files.append(URL('static','css/leaflet.css'))
+	response.include_meta()
+	response.include_files()
+}}

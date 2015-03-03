@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="no-js" dir="ltr" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
+<head> 
+  <title>Homepage | BZ Parking</title>
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!--[if lte IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  
+  <meta charset="utf-8" />
+
+  <!-- http://dev.w3.org/html5/markup/meta.name.html -->
+  <meta name="application-name" content="{{=request.application}}" />
+
+  <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+  <link href="{{=URL('static','css/standard.css')}}" rel="stylesheet" media="screen,projection,print" type="text/css" />
+
+  {{include 'web2py_ajax.html'}}
+  {{include 'metadata.html'}}
+</head>
+<!--  ng-cloak -->
+<body>
+	<header class="header" id="header">
+		<div class="aux">
+		<h1 class="logo" id="logo"><a href="{{=URL('default','index', host=True)}}"><img src="{{=URL('static','images/logo-bolzano-parking.png')}}" alt="Bolzano Parking Beta" /> <span class="alt">Bolzano Parking</span></a><a href="" class="beta round">Beta</a></h1>
+			<div class="lang round">
+				<span class="round">{{=T.accepted_language.split('-')[0]}}</span>
+				{{ll=['it','en','de']}}
+				{{ll.remove(T.accepted_language.split('-')[0])}}
+				<ul class="round">
+				    {{for l in ll:}}
+					<li><a href="{{=URL(language=l)}}">{{=l.upper()}}</a></li>
+					{{pass}}
+				</ul>
+			</div>
+		</div>
+    </header>
+    <main id="main" class="main">
+        <div class="aux">			
+			<div class="actions">
+     			{{=LOAD('default','get_times', ajax=True, _class='time')}}
+     			<div class="notice-time">{{=T('Previsione aggiornata alle')}} <span class='msg'></span></div>
+				<div class="switcher controls box round">
+					<ul>
+						<li><a href="{{=URL('default', 'index')}}" class="grid {{='active' if request.function != 'map' else ''}}">Visualizzazione griglia</a></li>
+						<li><a href="{{=URL('default', 'map')}}" class="map {{='active' if request.function == 'map' else ''}}">Visualizzazione mappa</a></li>
+					</ul>	
+				</div>
+				<div class="other controls box round">
+					<ul>
+						<li><a href="#" id="updateall" class="update">Aggiorna i dati <div class="updating-s round"></div></a></li>
+					</ul>	
+				</div>
+				<div class="notice notice-update round">Dati aggiornati!</div>
+			</div>	
+        {{include}}
+        </div>
+    </main>
+  
+  
+  <aside id="aside" class="aside">
+	    <div class="aux">
+	    	<div class="share">
+		    	<div class="addthisbox">
+					<h3>Condividi BZ Parking sui social:</h3>
+					<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+						<a class="addthis_button_facebook"></a>
+						<a class="addthis_button_twitter"></a>
+						<a class="addthis_button_pinterest_share"></a>
+						<a class="addthis_button_google_plusone_share"></a>
+						<a class="addthis_button_compact"></a><a class="addthis_counter addthis_bubble_style"></a>
+					</div>
+		    	</div>
+	    	</div>	
+	    	
+	    	<ul class="buttons">
+	    		<!--li class="share-btn round"><a href="#"><strong>{{=T('Share')}}</strong> {{=T('on social and with a widget')}}</a></li-->
+	    		<li class="developers-btn round"><a href="https://github.com/ilvalle/parkbz"><strong>{{=T('Are you a developer?')}}</strong> {{=T('join the project')}}</a></li>
+	    	    <li class="developers-btn round survey-btn"><a href="https://docs.google.com/forms/d/{{=T('1qgBMiNqcWilOYJcOI4KM2YqB7Vt9nH-cACty__zCzD8')}}/viewform" target="_blank"><strong>{{=T("Go to the survey!")}}</strong></a></li>
+	    	</ul>
+	    	
+	    	<div class="widget-cont">
+		    	<div class="widget">
+			    	<h3>Widget</h3>
+			    	<div class="embed-box">
+				    	<div class="embed">	
+					    	<h4>Codice Embed</h4>
+					    	<div class="carpark-selector">
+						    	<span class="box round">BZ Centro</span>
+								<ul class="box round">
+									<li><a href="#">Central Parking</a></li>
+									<li><a href="#">City Parking</a></li>
+									<li><a href="#">Fiera</a></li>
+									<li><a href="#">Laurin</a></li>
+									<li><a href="#">Luna</a></li>
+									<li class="last"><a href="#">Piazza Walther</a></li>
+								</ul>
+					    	</div>
+					    	<textarea onclick="this.focus();this.select()" readonly="readonly">&lt;div class="parking-widget" data-href="http://parking.integreen-life.bz.it" data-ref="108"&gt;&lt;/div&gt;&lt;script&gt;!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=http://parking.integreen-life.bz.it/parkbz/it/static/js/widget.js;fjs.parentNode.insertBefore(js,fjs);}(document,"script","parking-widget");&lt;/script&gt;</textarea>
+				    	</div>
+				    	<div class="preview">
+				    		<h4>Anteprima</h4>
+				    		<div class="previewbox round">
+					    		<!-- preview code to go here -->			    		
+				    		</div>
+				    	</div>	
+			    	</div>
+		    	</div>
+	    	</div>	
+	    </div>
+    </aside>
+    <footer id="footer-1" class="footer-1">
+    	<div class="aux">
+	    	<h3>{{=T("The experimental apps of the")}}<strong>{{=T("Municipality of Bolzano")}}</strong></h3>
+			<ul>
+				<li class="bzparking"><a href="http://parking.bz.it/" target="_blank"><img src="{{=URL('static','images/logo-bzparking.png')}}" alt="BZ Parking"></a></li>
+				<li class="bzbus"><a href="http://bus.bz.it"><img src="{{=URL('static','images/logo-bzbus.png')}}" alt="BZ Bus"></a></li>
+				<li class="bztraffic"><a href="http://traffic.bz.it/" target="_blank"><img src="{{=URL('static','images/logo-bztraffic.png')}}" alt="BZ Traffic"></a></li>
+			</ul>
+    	</div>
+    </footer>    
+    <footer id="footer-2" class="footer-2">
+    	<div class="aux">
+		    <div class="aux2">
+		    	<ul>
+					<li class="first "><a href="http://www.provincia.bz.it/europa/it/finanziamenti-ue/competitivit%C3%A0-regionale-ed-occupazione-fesr.asp"><img src="{{=URL('static','images/logo-eu.jpg')}}" alt="Logo FESR EU" /></a></li>
+					<li class=""><a href="http://www.comune.bolzano.it/"><img src="{{=URL('static','images/logo-bz.jpg')}}" alt="Logo Comune di Bolzano" /></a></li>
+					<li class=""><a href="https://tis.bz.it/open"><img src="{{=URL('static','images/logo-tis.jpg')}}" alt="Logo TIS Innovation Park" /></a></li>
+				</ul>
+		    </div>
+		    <div class="text">		    
+			    <p>Code licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> available on <a href="https://github.com/ilvalle/parkbz">github</a><br />Powered by <a href="http://web2py.com/">web2py</a> python web framework</p>
+				<p>{{=T('Contact')}}: project [at] integreen-life.bz.it</p>
+			</div>
+    	</div>
+    </footer>
+    
+  	<a href="https://github.com/ilvalle/parkbz" id="github">Fork me on GitHub</a>
+<script>
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-59614679-1', 'auto');
+  ga('send', 'pageview');
+
+</script> 
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fd055665d176cbf"></script>
+</body>
+</html>

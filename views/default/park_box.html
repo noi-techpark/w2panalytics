@@ -1,0 +1,31 @@
+{{if globals().get('url_base', False) and url_base:}}
+    {{url_freeslots="http://parking.bz.it/%s/default/freeslots.json?parking_id=%s" % (request.application, park['park_id'])}}
+    {{url_prediction="http://parking.bz.it/%s/default/prediction.json?parking_id=%s" % (request.application, park['park_id'])}}
+{{else:}}
+    {{url_freeslots=URL('default', 'freeslots.json', vars={'parking_id':park['park_id']})}}
+    {{url_prediction=URL('default', 'prediction.json', vars={'parking_id':park['park_id']})}}
+{{pass}}
+
+{{if globals().get('tooltip', False):}}
+<div id="park_{{=park['park_id']}}" class="carpark" data-id="{{=park['park_id']}}" data-url="{{=url_freeslots}}">
+{{else:}}
+<div id="park_{{=park['park_id']}}" class="carpark box {{='odd' if (pos+1)%2==1 else ''}} {{='third' if (pos+1)%3==0 else ''}}" data-id="{{=park['park_id']}}" data-url="{{=url_freeslots}}">
+{{pass}}
+<div class="carpark-aux">
+	<h2>{{=park['name']}}</h2>
+	<ul>
+		<li class="address"><a href="{{=URL('default', 'map', vars={'parking_id':park['park_id']})}}">{{=park['address']}}</a></li>
+		<li class="phone"><a href="tel:{{=(park['phone'] or '--')}}">{{=(park['phone'] or '--')}}</a></li>
+	</ul>
+	<div class="slots"><strong class="available-slots"><span class="number">...</span><span class='value_type'>{{=T('Free slots')}}</span><span class="value_time"></span></strong> {{=T('out of')}} <strong>{{=park['slots']}} {{=T('Available slots')}}</strong><div class="updating"></div></div>
+	<div class="forecast">
+		<h3 data-id="{{=park['park_id']}}" data-url="{{=url_prediction}}" data-slots='{{=park['slots']}}'>{{=T('24h forecast')}}</h3>
+		<div class="graph" id="graph_{{=park['park_id']}}"  style="height: 136px">
+		</div>
+		<div class="updating"></div>
+	</div>	
+</div>
+</div>
+{{if globals().get('pos', False) and ((pos+1)%3==0):}}
+<div class="clear-box"></div>
+{{pass}}

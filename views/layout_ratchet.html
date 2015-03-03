@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Ratchet template page</title>
+
+    <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- Include the compiled Ratchet CSS -->
+    <link href="{{=URL('static','css/ratchet.min.css')}}" rel="stylesheet">
+    <link href="{{=URL('static','css/ratchet-theme-android.min.css')}}" rel="stylesheet">
+    <!-- Include the compiled Ratchet JS -->
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+  </head>
+  <body ontouchstart="">
+    <header class="bar bar-nav">
+      <h1 class="title">Title</h1>
+    </header>
+    <nav class="bar bar-tab">
+  <a class="tab-item active" href="#">
+    <span class="icon icon-home"></span>
+    <span class="tab-label">Home</span>
+  </a>
+  <a class="tab-item" href="#">
+    <span class="icon icon-person"></span>
+    <span class="tab-label">Map</span>
+  </a>
+  <a class="tab-item" href="#">
+    <span class="icon icon-star-filled"></span>
+    <span class="tab-label">Favorites</span>
+  </a>
+  <a class="tab-item" href="{{=URL('ratchet', 'prova123', extension='html')}}" data-transition="slide-in">
+    <span class="icon icon-search"></span>
+    <span class="tab-label">Search</span>
+  </a>
+  <a class="tab-item" href="/ratchet/prova123" data-transition="slide-in" >
+    <span class="icon icon-gear"></span>
+    <span class="tab-label">Settings</span>
+  </a>
+</nav>
+    <!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+    <div class="content">
+          {{include}}
+    </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{{=URL('static','js/ratchet.min.js')}}"></script>
+    <script src="{{=URL('static','js/docs.min.js')}}"></script>
+  </body>
+</html>
