@@ -455,3 +455,7 @@ only screen and (min-resolution: 2dppx){
     background: #0a99d4;
 }
 
+.mastheader h1 {
+    color: white;
+}
+
