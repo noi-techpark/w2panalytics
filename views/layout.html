@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" dir="ltr" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
 <head> 
-  <title>Map Clean-roads</title>
+  <title>Map clean-roads</title>
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -26,8 +26,9 @@
 	<header class="header" id="header">
 		<div class="aux mastheader">
 		<!--h1 class="logo" id="logo"><a href="{{=URL('default','index', host=True)}}"><img src="{{=URL('static','images/logo-bolzano-parking.png')}}" alt="Bolzano Parking Beta" /> <span class="alt">Bolzano Parking</span></a><a href="" class="beta round">Beta</a></h1-->
-		<h1>Cleanroads</h1>
-			<!--div class="lang round">
+		<h1>Viaggiare nel tratto di test di CLEAN-ROADS<a href="" class="beta round">Beta</a></h1>
+		<h3>Servizio sperimentale</h3>
+			<div class="lang round">
 				<span class="round">{{=T.accepted_language.split('-')[0]}}</span>
 				{{ll=['it','en','de']}}
 				{{ll.remove(T.accepted_language.split('-')[0])}}
@@ -36,33 +37,46 @@
 					<li><a href="{{=URL(language=l)}}">{{=l.upper()}}</a></li>
 					{{pass}}
 				</ul>
-			</div-->
+			</div>
 		</div>
     </header>
     <main id="main" class="main">
         <div class="aux">			
-			<!--div class="actions">
-     			{{=LOAD('default','get_times', ajax=True, _class='time')}}
-     			<div class="notice-time">{{=T('Previsione aggiornata alle')}} <span class='msg'></span></div>
-				<div class="switcher controls box round">
-					<ul>
-						<li><a href="{{=URL('default', 'index')}}" class="grid {{='active' if request.function != 'map' else ''}}">Visualizzazione griglia</a></li>
-						<li><a href="{{=URL('default', 'map')}}" class="map {{='active' if request.function == 'map' else ''}}">Visualizzazione mappa</a></li>
-					</ul>	
-				</div>
-				<div class="other controls box round">
-					<ul>
-						<li><a href="#" id="updateall" class="update">Aggiorna i dati <div class="updating-s round"></div></a></li>
-					</ul>	
-				</div>
-				<div class="notice notice-update round">Dati aggiornati!</div>
-			</div-->	
         {{include}}
         </div>
     </main>
+    <a href="https://github.com/ilvalle/cleanroads" id="github">Fork me on GitHub</a>
+    <aside id="aside" class="aside">
+        <ul class="buttons">
+            <li class="developers-btn round survey-btn"><a href="https://docs.google.com/forms/d/1Duapi8B5CbcfIk61gRBXc5ix72IhzfmpD36ki5Su5iA/viewform" target="_blank"><strong>{{=T("Go to the survey!")}}</strong></a></li>
+        </ul>
+    </aside>
   
-  
-   <a href="https://github.com/ilvalle/cleanroads" id="github">Fork me on GitHub</a>
+    <footer id="footer-2" class="footer-2">
+    <div class="aux">
+        <div class="aux2">
+        <ul>
+            <li class="span2"><a href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" class="pull-right"></a></li>
+            <li class="span2"><a href="http://www.provincia.tn.it/" title="Provincia di Trento"><img alt="Provincia di Trento" src="http://clean-roads.eu/clean-roads-theme/images/logoTN.jpg"></a> </li>
+            <li class="span2"><a href="http://www.famassystem.it/" title="FAMAS"><img alt="FAMAS" src="http://clean-roads.eu/clean-roads-theme/images/logoFAMAS.gif"></a></li>
+            <li class="span2"><a href="http://www.tis.bz.it/" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png"></a></li>
+        </ul>
+        </div>
+        <div class="text">		    
+		    <p>Code licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> available on <a href="https://github.com/ilvalle/cleanroads">github</a><br />Powered by <a href="http://web2py.com/">web2py</a> python web framework</p>
+
+    	</div>
+    </div>
+    </footer>
+   
+   
+   
+   
+   
+   
+   
+   
+   
 <!--script>
 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

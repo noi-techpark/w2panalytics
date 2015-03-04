@@ -224,7 +224,7 @@ position: absolute;
 
 @media only screen and (min-width:25em){
 
-	a.beta{bottom:20%;left:106%;font-size:.9em;padding:0.25em .6em}
+	a.beta{bottom:20%;left:106%;font-size:.9em;padding:0.25em .6em;}
 .footer-1 ul {
 width: 304px;
 height: 161px;
@@ -245,7 +245,7 @@ padding-bottom: 0;
 	
 	.aux{width:90%}
 	header{padding:40px 0 15px 0}	
-	a.beta{bottom:23px;left:280px;font-size:1em;padding:0.3em .7em}
+	a.beta{bottom:23px;left:280px;font-size:18px;padding:0.3em .7em}
 	.carpark{width:49%}
 	.odd{margin-right:2%}
 	.main{padding-top:3.5em;padding-bottom:3.5em}
@@ -452,10 +452,27 @@ only screen and (min-resolution: 2dppx){
 }
 
 .survey-btn {
-    background: #0a99d4;
+    background: #00a2ce;
 }
 
-.mastheader h1 {
+.mastheader h1, .mastheader h3 {
     color: white;
+}
+
+.mastheader h3 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.8em;
+}
+
+.column-9 {
+    width: 75%;
+}
+
+.column-3 {
+    width: 25%;
+}
+.beta {
+    font-size:0.8em;
 }
 
