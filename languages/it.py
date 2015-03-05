@@ -294,6 +294,7 @@
 'User %(id)s Profile updated': 'User %(id)s Profile updated',
 'User %(id)s Registered': 'User %(id)s Registered',
 'User ID': 'ID Utente',
+'Vai al questionario!': 'Vai al questionario!',
 'value already in database or empty': 'value already in database or empty',
 'Verify Password': 'Verify Password',
 'Via Dr. Julius Perathoner': 'Via Dr. Julius Perathoner',

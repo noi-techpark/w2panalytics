@@ -168,7 +168,7 @@ author: Madeincima.it
 		.footer-2 .eu{width:12%}
 		.footer-2 .bz{width:33%}
 		.footer-2 .tis{margin:0;width:18%}
-		.footer-2 img{width:100%;display:block}
+		.footer-2 img{    height: 70px;display:block}
 		.footer-2 p{clear:both}
 		
 	#github{display:none}
@@ -475,4 +475,8 @@ only screen and (min-resolution: 2dppx){
 .beta {
     font-size:0.8em;
 }
+.logo-1 img{
+
+}
+
 

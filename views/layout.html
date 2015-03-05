@@ -14,8 +14,8 @@
   <!-- http://dev.w3.org/html5/markup/meta.name.html -->
   <meta name="application-name" content="{{=request.application}}" />
 
-  <link rel="shortcut icon" href="{{=URL('static','images/favicon.ico')}}" type="image/x-icon">
-  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon.png')}}">
+  <link rel="shortcut icon" href="{{=URL('static','images/favicon2.ico')}}" type="image/x-icon">
+  <link rel="apple-touch-icon" href="{{=URL('static','images/favicon2.png')}}">
   <link href="{{=URL('static','css/standard.css')}}" rel="stylesheet" media="screen,projection,print" type="text/css" />
   <link href="{{=URL('static','css/web2py_bootstrap.css')}}" rel="stylesheet" media="screen,projection,print" type="text/css" />
   {{include 'web2py_ajax.html'}}
@@ -28,7 +28,7 @@
 		<!--h1 class="logo" id="logo"><a href="{{=URL('default','index', host=True)}}"><img src="{{=URL('static','images/logo-bolzano-parking.png')}}" alt="Bolzano Parking Beta" /> <span class="alt">Bolzano Parking</span></a><a href="" class="beta round">Beta</a></h1-->
 		<h1>Viaggiare nel tratto di test di CLEAN-ROADS<a href="" class="beta round">Beta</a></h1>
 		<h3>Servizio sperimentale</h3>
-			<div class="lang round">
+			<!--div class="lang round">
 				<span class="round">{{=T.accepted_language.split('-')[0]}}</span>
 				{{ll=['it','en','de']}}
 				{{ll.remove(T.accepted_language.split('-')[0])}}
@@ -37,7 +37,7 @@
 					<li><a href="{{=URL(language=l)}}">{{=l.upper()}}</a></li>
 					{{pass}}
 				</ul>
-			</div>
+			</div-->
 		</div>
     </header>
     <main id="main" class="main">
@@ -48,7 +48,7 @@
     <a href="https://github.com/ilvalle/cleanroads" id="github">Fork me on GitHub</a>
     <aside id="aside" class="aside">
         <ul class="buttons">
-            <li class="developers-btn round survey-btn"><a href="https://docs.google.com/forms/d/1Duapi8B5CbcfIk61gRBXc5ix72IhzfmpD36ki5Su5iA/viewform" target="_blank"><strong>{{=T("Go to the survey!")}}</strong></a></li>
+            <li class="developers-btn round survey-btn"><a href="https://docs.google.com/forms/d/1Duapi8B5CbcfIk61gRBXc5ix72IhzfmpD36ki5Su5iA/viewform" target="_blank"><strong>{{=T("Vai al questionario!")}}</strong></a></li>
         </ul>
     </aside>
   
@@ -56,10 +56,11 @@
     <div class="aux">
         <div class="aux2">
         <ul>
-            <li class="span2"><a href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" class="pull-right"></a></li>
-            <li class="span2"><a href="http://www.provincia.tn.it/" title="Provincia di Trento"><img alt="Provincia di Trento" src="http://clean-roads.eu/clean-roads-theme/images/logoTN.jpg"></a> </li>
-            <li class="span2"><a href="http://www.famassystem.it/" title="FAMAS"><img alt="FAMAS" src="http://clean-roads.eu/clean-roads-theme/images/logoFAMAS.gif"></a></li>
-            <li class="span2"><a href="http://www.tis.bz.it/" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png"></a></li>
+            <li class="logo-1"><a href="http://clean-roads.eu" title="Cleanroads" target="_blank"><img src="/cleanroads/static/images/logo-cleanroads.jpg"></a></li>
+            <li class="logo-1"><a href="http://www.provincia.tn.it/" title="Provincia di Trento"><img alt="Provincia di Trento" src="http://clean-roads.eu/clean-roads-theme/images/logoTN.jpg"></a> </li>
+            <li class="logo-1"><a href="http://www.famassystem.it/" title="FAMAS"><img alt="FAMAS" src="http://clean-roads.eu/clean-roads-theme/images/logoFAMAS.gif"></a></li>
+            <li class="logo-1"><a href="http://www.tis.bz.it/" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png"></a></li>
+            <li class="logo-1"><a href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg"></a></li>
         </ul>
         </div>
         <div class="text">		    
