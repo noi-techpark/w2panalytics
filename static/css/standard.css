@@ -137,7 +137,7 @@ author: Madeincima.it
 	.aside{float:left;width:100%;background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:2em 0;position:relative}
 		.aside .buttons{color:#fff;text-align:center;font-size:1.3em;margin:0 auto;width:60%;min-width:13em;max-width:340px}
 		.aside .buttons strong{display:block;font-size:1.2em;line-height:100%;font-family: 'titillium_websemibold',arial,sans-serif;font-weight:normal;margin-bottom:0.2em;text-shadow:1px 1px 1px #065b7e}
-		.aside .buttons a{display:block;color:#fff;border:0;padding:.8em 0 .9em 0;white-space:nowrap}
+		.aside .buttons a{display:block;color:#fff;border:0;padding:.8em .8em .9em .8em;white-space:nowrap}
 		.aside .buttons em{font-style:normal;font-family: 'titillium_webbold',arial,sans-serif}
 		.share-btn{background:#0a99d4;text-shadow:1px 1px 1px #065b7e;display:none}
 		.developers-btn{

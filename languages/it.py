@@ -41,6 +41,7 @@
 'cache': 'cache',
 'Cache': 'Cache',
 'Cache Keys': 'Cache Keys',
+'Campagna sperimentale 14-15': 'Campagna sperimentale 14-15',
 'Cannot be empty': 'Non può essere vuoto',
 'Capacity': 'Capacità',
 'Central Parking': 'Central Parking',
