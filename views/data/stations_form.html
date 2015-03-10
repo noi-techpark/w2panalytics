@@ -1,0 +1,15 @@
+<form  id="" class="form-inline" action="{{=URL('data', 'get_data_types')}}">
+<div class="form-group">
+    <div class="input-group">
+    <div class="input-group-addon">Stazione</div>
+    <select class="form-control" name="station" id="select_frontend">
+    		<option value=""></option>
+		{{for station in stations: }}
+			<option value="{{=station['id']}}">{{=station['name']}}</option>
+		{{pass}}
+	</select>
+	</div>
+    <input type="hidden" id="shadow" value="">
+    <input id='frontend_frontend' type="submit" class="update btn btn-success" value="Seleziona" />
+</div>
+</form>

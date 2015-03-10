@@ -1,251 +1,113 @@
+// Map
+jQuery.fn.add_os_map = function() {
+	OpenLayers.ImgPath = "static/js/img/";
+	var placeHolder = $(this[0]);
 
-/* fix missing indexOf for ie8 */
-if (!('indexOf' in Array.prototype)) {
-    Array.prototype.indexOf= function(find, i /*opt*/) {
-        if (i===undefined) i= 0;
-        if (i<0) i+= this.length;
-        if (i<0) i= 0;
-        for (var n= this.length; i<n; i++)
-            if (i in this && this[i]===find)
-                return i;
-        return -1;
-    };
-}
-
-var template_js = '<p class="repo-name"><a href="{{link}}"><strong>{{name}}</strong></a></p><small>{{address}}</small>';
-var type='free';
-var default_msg = free_slot_text;
-var msg = default_msg;
-var period=undefined;
-var text;
-var popup_open;
-$(document).on("slidend", ".forecast h3.open", function(e) {
-    if (popup_open != undefined) {
-        popup_open._adjustPan();    // _adjustPan is an internal function, it could change in the future
-    }
-    var ph = $(this).siblings('.graph')[0];
-    var prediction_url = $(this).data("url");
-    var slots = $(this).data("slots");
-    var chart = new plot(ph, prediction_url, slots);
-});
-
-$(document).on("click", "#updateall", function(e) {
-    $('.carpark').trigger('reload');
-});
-
-$(document).on("reload", '.carpark', function(e, avoid_notification) {
-    el = $(this);
-    park_id = $(el).data('id');
-    park_url = $(el).data('url');
-    realtime_slots(park_id, park_url, avoid_notification);
-});
-
-$(document).on("click", '.times a', function(e) {
-    var el = $(this);
-    type = $(el).data('type'); //'Parking forecast'
-    period = $(el).data('period');
-    text = $(el).html();
-    if ($(el).data('default-msg')){
-        msg = el.html();
-        $('main').addClass('forecast');
-    } else {
-        msg = default_msg;
-        $('main').removeClass('forecast');
-    }
-    $('.time span.box.round').html(el.html());
-    $('.carpark').trigger('reload', true);
-    $('.times.round.box').fadeToggle('fast');
-//    $('.overlay-dropdown').remove();
-    $('.actions .time li.current').removeClass('current');
-    $(el).parent('li').addClass('current');
-    $('.map-cont').trigger('forecast', true);
-});
-
-function realtime_slots (id, url, avoid_notification) {
-    var el = $( '#park_'+id);
-    $(".slots .updating", el).show();
-    $(".actions .notice-update").hide();
-    var params = { type:type, period:period };
-    url_request = url + '&' + jQuery.param(params);
-    $.ajax({
-		url: url_request,
-		method: 'GET',
-	    dataType: 'json',
-	    complete: function() {
-            $(".slots .updating", el).hide();
-	    }, 
-	    success: function(json) {
-            $('.available-slots', el).removeClass('almost-full');
-            $('.available-slots', el).removeClass('available');
-            $('.available-slots', el).removeClass('full');
-	        if(json.length == 0) {
-                $(".notice-time").hide();
-                $('.number', el).html("...");
-                $(".value_time", el).html('')
-                return
-            }
-
-	        //if (n_realtime_active_operations === 0) {
-            //    $(that.placeholder).trigger($.Event('loaded',{}));
-            //}
-            $('.number', el).html(json.freeslots);
-            
-            if (! avoid_notification) {
-                $(".actions .notice-update").show();
-                $(".actions .notice-update").delay(5000).fadeOut(500);
-            }
-            if (json.freeslots < 10){
-                css_class = 'full';
-            } else if (json.freeslots < 70){
-                css_class = 'almost-full'
-            } else {
-                css_class = 'available'
-            }
-
-            $('.available-slots', el).addClass(css_class);
-            //{{='full' if park['freeslots'] < 10 else ('almost-full' if park['freeslots'] < 70 else 'available')}}
-            if (json.created_on) {
-                $(".notice-time span").html(json.created_on);
-                $(".notice-time").show();
-                $(el).addClass('forecast');
-                $(".value_time", el).html(msg);
-            } else {
-                $(".notice-time").hide();
-                $(el).removeClass('forecast');
-                $(".value_time", el).html('');
-            }
-	    },
-	    error: function (e, status) {
-            $('.available-slots', el).removeClass('almost-full');
-            $('.available-slots', el).removeClass('available');
-            $('.available-slots', el).removeClass('full');
-            $(".notice-time").hide();
-            $('.number', el).html("...");
-            $(".value_time", el).html('');
-            return
-	    },
+	var zoom = 17;
+	var lon  = 43.0000;//{{=park['longitude']}};
+	var lat  = 11.0000;//{{=park['latitude']}};
+	var map = new OpenLayers.Map($(this).attr('id'), {
+		projection: "EPSG:900913",
+		theme: null,
 	});
+	var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+	var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+	var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+
+	// layers
+	var layer_osm = new OpenLayers.Layer.OSM();
+	var layer_markers = new OpenLayers.Layer.Markers( "Markers" );
+
+	map.addLayer(layer_osm);
+	map.addLayer(layer_markers);
+	map.setCenter(position, zoom );
+	return map;
 }
 
-function plot (placeholder, url, slots) {
-    timezoneJS.timezone.zoneFileBasePath = '/' + appName + '/static/js/tz';
+function add_os_marker(layer, lat, lon) {
+	var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+	var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+	var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+	m = new OpenLayers.Marker(position);
+	layer.addMarker(m);
+	return m;
+}
 
-    this.default_options = {
-        xaxis: { mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,},
-	    series: {
-		    lines: {
-			    show: false
-		    },
-		    points: {
-			    show: false
-		    },
-		    bars: {
-		        show: true, barWidth: 900*1000*0.8, fill: 1, linewidth:0,align: "center",
-		    }
-	    },
-	    grid: {
-			color: "#444444",
-			backgroundColor: {
-				colors: ["#fff", "#e4f4f4"]
-			},
-			borderColor: "#FFFFFF",
-			//tickColor: "#CCCCCC",
-			//aboveData: false,
-			//borderWidth: 1,
-			clickable: true,
-			hoverable: true,
-			autoHighlight: true,
-			markings: [
-			    { color: "#FF0000", lineWidth: 1, yaxis: {} }
-		    ],
-		},
-	    yaxis: {
-		    min: 0, max: this.slots,
-		    axisLabel: free_slot_text,
-		    axisLabelFontFamily: "Helvetica Neue,Helvetica,Arial,sans-serif",
-		    axisLabelPadding: 2,
-		    //tickSize: 200,
-		    ticks: 4, //[0, [this.slots, "\u03c0/2"]],
-		    //axisLabelUseCanvas: true,
-			//axisLabelFontSizePixels: 1em,
-	    },
-	    tooltip: true, 
-		tooltipOpts: {
-			content:      free_slot_text + " %y",
-			xDateFormat: "%b %d, %H:%M:%S",
-			defaultTheme:  true,
-		},
+function add_after_form(xhr, target) {
+    html = $.parseHTML(xhr.responseText, document, true);
+    t = $('#' + target );
+    t.siblings().remove();
+    t.after(html);
+    $.web2py.trap_form("", 'select_frontend');
+}
 
-	    legend: false,
-	};
+function append_to_sidebar(xhr, target) {
+    html = $.parseHTML(xhr.responseText, document, true);
+    t = $('#' + target);
+    t.append(html);
+}
 
-    this.data = [{
-		    threshold: [{
-				below: 70,
-				color: "rgb(247,154,8)"
-			}, {
-				below: 10,
-				color: "rgb(200, 20, 30)"
-			}],
-            color: "rgb(111,170,41)",
-			data: []
-	}];
-
-    this.onDataReceived = function (json, url) {
-        if(json.length == 0) {
-            return this.data_not_available();
-        }
-        this.data[0].data = json;
-        this.default_options.yaxis.max = this.slots + (0.1*this.slots);
-        this.default_options.grid.markings[0].yaxis = {from:this.slots, to:this.slots}; // RED line 
-        this.plot = $.plot(this.ph, this.data, this.default_options);
-        //var thatC = this;
-        //setTimeout(function(){
-            //o = thatC.plot.pointOffset({ x: 0, y: thatC.slots});
-        $(this.ph).append("<div class='capacity'>" + capacity + "</div>");
-		    //$(thatC.ph).append("<div class='capacity'>Capacità</div>");
-        //}, 10);
-    };
-
-    this.loadData = function(url) {
-	    var that = this;
-        that.n_active_operations = that.n_active_operations + 1;
-        $(that.ph).trigger($.Event('loading',{}));
-		$.ajax({
-			url: url,
-			method: 'GET',
-		    dataType: 'json',
-		    success: function(json) {
-		        that.onDataReceived(json, url);
-                that.n_active_operations = that.n_active_operations - 1;
-		        if (that.n_active_operations === 0) {
-                    $(that.ph).trigger($.Event('loaded',{}));
-                }
-                $(that.ph).siblings(".updating").hide();
-		    },
-		});
-    };
-
-    this.data_not_available = function() {
-        $(this.ph).html(data_not_available_str);
-    };
     
-    this.init = function(placeholder, url, slots) {
-        this.slots = slots;
-        this.ph = placeholder;
-        this.loadData(url);
+function onEachFeature (feature, layer) {
+    if (feature.properties && feature.properties.popupContent) {
+        popupContent = feature.properties.popupContent;
+    }
+
+    layer.bindPopup(popupContent);
+}
+function get_data(a_obj) {
+    console.log(a_obj);
+    var params = {
+        frontend: a_obj.data('frontend'),
+        station : a_obj.data('station'),
+        unit: a_obj.data('unit'),
+        data_type: a_obj.data('type'),
+        data_label: a_obj.attr("title"),
+        period: a_obj.data("period"),
     };
-	this.init(placeholder, url, slots);
-	this.plot;
+    var url = url_get_data;
+    var uri = url + '?' + $.param(params);
+    plot_console.loadData(uri);
 }
 
 
-setInterval( function() {
-    $('.carpark').trigger('reload', true);    
-}, 300000 );
-setTimeout( function() { 
-    $('.carpark').trigger('reload', true);
-}, Math.floor((Math.random()*10)+1)*250);
-
-
-
+(function ($, undefined) {
+	$(document).on('click', '#period a', function(e) {
+		e.preventDefault();
+		anchor = $('li.active a[data-toggle="tab"]').attr('href');
+		url    = $(this).attr('href');
+		window.location = url + anchor;
+	});
+    $(document).on('click', '#sidebar_console li a', function() {
+	    var key = $(this).attr("id");	
+	    $(this).toggleClass('muted');
+	    var current = plot_console.getObj(key);
+	    if (typeof current === "undefined") {
+		    if ( ! $(this).hasClass('muted')) {
+			    return get_data($(this));
+		    } else { 
+			    // skip already coming call			
+			    $(this).toggleClass('muted');
+		    }
+	    } else {
+		    var index = jQuery.inArray(current, plot_console.data);
+		    if ( index > -1 ) {
+			    $('#' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
+			    plot_console.data.splice(index, 1);
+		    } else {
+			    plot_console.data.push(current);
+		    }
+	    }
+	    plot_console.plotAccordingToChoices();	
+    });
+	
+    $(document).on('ajax:complete', 'form', function() {
+        if ( $(this).attr('data-w2p_target') !== undefined ){
+            $(this).addClass('no_trap');    //Workaround to avoid double submits
+            $.web2py.enableElement($(this).find($.web2py.formInputClickSelector));
+        }
+    });
+	
+	
+	
+})(jQuery);

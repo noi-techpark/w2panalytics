@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 #session.forget(response)
+
+
 import requests
+baseurl = "http://ipchannels.integreen-life.bz.it/RWISFrontEnd"
 
 #@cache.action(time_expire=3600, cache_model=cache.ram)
 def index():
     return {}
+
 
 geoserver_url = "http://geodata.integreen-life.bz.it"
 def wms():
@@ -16,3 +20,5 @@ def wms():
         return r.text
     else:
         return response.stream(r.raw)
+       
+

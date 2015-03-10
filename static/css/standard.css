@@ -53,7 +53,7 @@ author: Madeincima.it
 	img,fieldset{border:0}
 	p,ul,ol,li,form,fieldset,table,td,th,h1,h2,h3,h4,h5,sup{margin:0;padding:0}
 	ul,li{list-style-type:none}
-	a {color:#009cdd;text-decoration:none;border-bottom:1px dotted #009cdd;padding-bottom:.2em}
+	a {color:#009cdd;text-decoration:none;padding-bottom:.2em}
 	a:hover {
         border-bottom: 1px solid #fff;
         text-decoration: none;
@@ -248,7 +248,7 @@ padding-bottom: 0;
 	a.beta{bottom:23px;left:280px;font-size:18px;padding:0.3em .7em}
 	.carpark{width:49%}
 	.odd{margin-right:2%}
-	.main{padding-top:3.5em;padding-bottom:3.5em}
+	.main{padding:3.5em;}
 	
 	.share{position:absolute;top:120px;width:100%;display:none}
 	.addthisbox{margin:0 auto;}
@@ -477,6 +477,41 @@ only screen and (min-resolution: 2dppx){
 }
 .logo-1 img{
 
+}
+#grafici {
+    padding: 10px;
+}
+.legend_box {
+	margin-right: 5px;
+	margin-left: 5px;
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+
+.legend_box_color {
+	border-radius: 2px 2px 2px 2px;
+    display: inline-block;
+    float: left;
+    height: 16px;
+	line-height: 16px;
+    /*margin-left: -5px;*/
+    margin-right: 4px;
+	margin-top: 1px;
+    width: 6px;
+	background-color: #ccc;
+	white-space: nowrap;
+}
+.data-content {
+    padding-top: 10px;
+}
+.data-content .col-md-2 {
+    padding-left: 0px;
+}
+h4 {
+    padding-left: 10px;
+}
+.col-md-2 .nav>li>a{ 
+    padding-left: 10px;
 }
 
 
