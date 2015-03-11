@@ -120,10 +120,10 @@ td.w2p_fl,td.w2p_fc {padding:0;}
 /* because web2py handles this via js */
 textarea { width:90%}
 .hidden{visibility:visible;}
-/* right folder for bootstrap black images/icons */
+/* right folder for bootstrap black images/icons 
 [class^="icon-"],[class*=" icon-"]{
   background-image:url("../images/glyphicons-halflings.png")
-}
+}*/
 /* right folder for bootstrap white images/icons */
 .icon-white,
 .nav-tabs > .active > a > [class^="icon-"],

@@ -26,10 +26,14 @@
           <div>{{#=LOAD('data','get_stations', ajax=True)}}</div>
       </div>
       <div role="tabpanel" class="tab-pane active" id="grafici">
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+            <span></span> <b class="caret"></b>
+        </div>
         <div id='select_data'>{{=LOAD('data','get_stations', ajax=False)}}</div>
         <div class="container-fluid data-content">
             <div class='row'>
-                    <div class='col-md-2' id='sidebar_console'>
+                    <div class="col-md-2 panel-group" id='sidebar_console'>
                     </div>
                     <div class='col-md-10' id='chart_space'>
                     <div id="compare_chart"  style="height:370px"> </div>
@@ -122,5 +126,12 @@
                   + picker.endDate.format('MMMM D, YYYY')
                 ); 
               });
+    jQuery('document').ready(function() {
+        jQuery('#sidebar_console').on('show hide', function() {
+            jQuery(this).css('height', 'auto');
+        });
+        jQuery('#sidebar_console').collapse({ parent: true, toggle: true }); 
+    });
+    
 
 </script>

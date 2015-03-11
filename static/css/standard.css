@@ -121,7 +121,7 @@ author: Madeincima.it
         .forecast .available-slots .value_time{height:1.6em;display:block;text-transform:none;font-size:0.9em}
         .forecast .available-slots{padding: 1.8em 0.2em 0.2em}
 		.available-slots .number{font-size:3.3em;margin-bottom:.37em;display:block}
-		.available{background:#6faa29;border-color:#83bc3f;text-shadow:1px 1px 1px #417108}
+
 		.almost-full{background:#f79a08;border-color:#feaa27;text-shadow:1px 1px 1px #ad6c05}
 		.full{background:#d21919;border-color:#e02b2b;text-shadow:1px 1px 1px #990707}
 	

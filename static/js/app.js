@@ -70,6 +70,9 @@ function get_data(a_obj) {
     plot_console.loadData(uri);
 }
 
+function fix_dynamic_accordion(ele) {
+    $(ele).find(".collapse").removeClass("in");
+};
 
 (function ($, undefined) {
 	$(document).on('click', '#period a', function(e) {
