@@ -48,6 +48,7 @@ function lplot (ph, options) {
 	this.options;
 	this.plot;
     this.n_active_operations = 0;    // Number of ongoing requests
+    this.reset_zoom = false;
 
 	this.plotAccordingToChoices = function () {
 		var tab = this.placeholder.split('_chart')[0];
@@ -69,12 +70,13 @@ function lplot (ph, options) {
 		// Preserve current zoom/pan while plotting new data
         zoomed = {};
         $.extend(zoomed, this.options);
-        if (this.plot !== undefined) {
+        if ((this.plot !== undefined)) {
             // Get the current zoom
             var zoom = this.plot.getAxes();
             // Add the zoom to standard options
             zoomed.xaxis.min = zoom.xaxis.min;
             zoomed.xaxis.max = zoom.xaxis.max;
+            console.log(zoomed.xaxis);
         } else {
             zoomed.xaxis.min = undefined;
             zoomed.xaxis.max = undefined;
@@ -178,7 +180,12 @@ function lplot (ph, options) {
 		return undefined;
 	};
 	
-	this.reload_all = function() {
+	this.reload_all = function(x_min, x_max) {
+	    if (x_min || x_max) {
+	        this.plot = undefined;
+            this.pre_x_min = x_min;
+            this.pre_x_max = x_max;
+	    }
     	this.datasets = [];
         currentData = this.data;
         this.data = [];

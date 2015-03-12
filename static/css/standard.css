@@ -244,11 +244,14 @@ padding-bottom: 0;
 @media only screen and (min-width:46.875em){
 	
 	.aux{width:90%}
-	header{padding:40px 0 15px 0}	
+	header{padding:5px 0 15px 0}	
 	a.beta{bottom:23px;left:280px;font-size:18px;padding:0.3em .7em}
 	.carpark{width:49%}
 	.odd{margin-right:2%}
-	.main{padding:3.5em;}
+	.main{
+	    padding-left:3.5em;
+        padding-right:3.5em;	    
+	}
 	
 	.share{position:absolute;top:120px;width:100%;display:none}
 	.addthisbox{margin:0 auto;}

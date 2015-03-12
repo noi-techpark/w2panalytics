@@ -4,13 +4,14 @@
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
-    <li role="presentation"><a href="#punchcard" aria-controls="punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
     <li role="presentation" class="active"><a href="#grafici" aria-controls="punchcard" role="tab" data-toggle="tab">Grafici</a></li>
-    <li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li>    
+    
+    <!--li role="presentation"><a href="#punchcard" aria-controls="punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
+    <li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li-->
   </ul>
 
   <!-- Tab panes -->
-  <div class=" container-fluid box">
+  <div class="container-fluid box">
   <div class="tab-content row">
       <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
             <div class="map-cont box row">
@@ -26,11 +27,14 @@
           <div>{{#=LOAD('data','get_stations', ajax=True)}}</div>
       </div>
       <div role="tabpanel" class="tab-pane active" id="grafici">
-        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-            <span></span> <b class="caret"></b>
+        <div class="row">
+            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; margin-right:15px;border: 1px solid #ccc">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                <span></span> <b class="caret"></b>
+            </div>
+            <div id='select_data' class="col-md-5">{{=LOAD('data','get_stations', ajax=False)}}</div>
+            <a id='loading' class="btn bnt-info col-md-2">Caricamento...</a>
         </div>
-        <div id='select_data'>{{=LOAD('data','get_stations', ajax=False)}}</div>
         <div class="container-fluid data-content">
             <div class='row'>
                     <div class="col-md-2 panel-group" id='sidebar_console'>
@@ -50,6 +54,9 @@
 <script>
     $.web2py.trap_form("", 'select_data');
     $.web2py.ajax_init('');
+    $(document).on('shown.bs.tab','body a[data-toggle="tab"]', function() { 
+        map.invalidateSize(false);
+    });
     url_get_data = '{{=URL("data", "get_data.json")}}'
     timezoneJS.timezone.zoneFileBasePath = '{{=URL('vtraffic', 'static/js', 'tz')}}';
     var options_console = { 
@@ -112,7 +119,7 @@
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         startDate = start;
         endDate = end;
-        plot_console.reload_all();
+        plot_console.reload_all(startDate.unix(), endDate.unix());
     }
     pickler = $('#reportrange').daterangepicker(datapickler_option, date_set);
     
@@ -126,12 +133,15 @@
                   + picker.endDate.format('MMMM D, YYYY')
                 ); 
               });
-    jQuery('document').ready(function() {
-        jQuery('#sidebar_console').on('show hide', function() {
-            jQuery(this).css('height', 'auto');
-        });
-        jQuery('#sidebar_console').collapse({ parent: true, toggle: true }); 
-    });
-    
 
+    $("#loading").hide();
+    $('#compare_chart').on('loaded', function() {
+        $('#loading').fadeOut();
+        $('body').css("cursor", "auto");
+    });
+
+    $('#compare_chart').on('loading', function() {
+        $('#loading').fadeIn();
+        $('body').css("cursor", "progress");
+    });
 </script>

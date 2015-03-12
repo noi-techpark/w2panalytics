@@ -25,9 +25,9 @@
 <body>
 	<header class="header" id="header">
 		<div class="aux mastheader">
-		<!--h1 class="logo" id="logo"><a href="{{=URL('default','index', host=True)}}"><img src="{{=URL('static','images/logo-bolzano-parking.png')}}" alt="Bolzano Parking Beta" /> <span class="alt">Bolzano Parking</span></a><a href="" class="beta round">Beta</a></h1-->
 		<h1>Viaggiare nel tratto di test di CLEAN-ROADS<a href="" class="beta round">Beta</a></h1>
 		<h3>Servizio sperimentale</h3>
+		<!--div class="flash">{{=response.flash or ''}}</div-->
 			<!--div class="lang round">
 				<span class="round">{{=T.accepted_language.split('-')[0]}}</span>
 				{{ll=['it','en','de']}}
@@ -72,26 +72,15 @@
     </footer>
     <script src="{{=URL('static','js/d3.v3.min.js')}}"></script>
     <script src="{{=URL('static','js/d3.punchcard.js')}}"></script>   
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 
-   
-   
-   
-   
-   
-   
-<!--script>
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-59614679-1', 'auto');
-  ga('send', 'pageview');
-
-</script--> 
-
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-60589558-1', 'auto');
+          ga('send', 'pageview');
+    </script>
 </body>
 </html>
