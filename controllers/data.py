@@ -23,7 +23,10 @@ def _get_station(stationcode):
 def get_data_types():
     session.forget(request)
     station = request.vars.station
-    name = _get_station(station)['name']
+    s_obj = _get_station(station)
+    if s_obj == None:
+        raise HTTP(404, 'Station not found')
+    name = s_obj['name']
 
     response.headers['web2py-component-content'] = 'hide'
     response.headers['web2py-component-command'] = "fix_dynamic_accordion('#sidebar_console'); append_to_sidebar(xhr, 'sidebar_console');" #$('.collapse').collapse('hide');" #$('#list_%(station)s').collapse('show');" % {'station':station} 
