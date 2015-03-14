@@ -34,6 +34,7 @@
             </div>
             <div id='select_data' class="col-md-5">{{=LOAD('data','get_stations', ajax=False)}}</div>
             <a id='loading' class="btn bnt-info col-md-2">Caricamento...</a>
+            <a id='empty' class="btn bnt-alert col-md-2">Nessun dato nell'intervallo selezionato</a>
         </div>
         <div class="container-fluid data-content">
             <div class='row'>
@@ -135,13 +136,27 @@
               });
 
     $("#loading").hide();
+    $('#empty').hide();
     $('#compare_chart').on('loaded', function() {
+        //$('#empty').hide();
         $('#loading').fadeOut();
         $('body').css("cursor", "auto");
     });
 
+    $('#compare_chart').on('empty', function() {
+        $("#loading").hide();
+        $('#empty').fadeIn();
+        $('body').css("cursor", "auto");
+    });
+
     $('#compare_chart').on('loading', function() {
+        $('#empty').hide();
         $('#loading').fadeIn();
         $('body').css("cursor", "progress");
+    });
+    
+    $('#compare_chart').on('plotted', function() {
+        $('#empty').hide();
+        $("#loading").hide();
     });
 </script>

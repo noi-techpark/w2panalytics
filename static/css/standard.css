@@ -62,7 +62,7 @@ author: Madeincima.it
 	.clear{clear:both}
 	.ext{text-indent:-9999px;font-size:0;display:block;line-height:0}
 	img{max-width:100%}
-	.box{background:#fcfcfc;-moz-box-shadow:1px 1px 3px #ccc;-webkit-box-shadow:1px 1px 3px #ccc;box-shadow:1px 1px 3px #ccc} 
+	.box{background:#fff;-moz-box-shadow:1px 1px 3px #ccc;-webkit-box-shadow:1px 1px 3px #ccc;box-shadow:1px 1px 3px #ccc} 
 	.round{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;  }
 	
 	

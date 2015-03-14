@@ -70,13 +70,19 @@ function lplot (ph, options) {
 		// Preserve current zoom/pan while plotting new data
         zoomed = {};
         $.extend(zoomed, this.options);
-        if ((this.plot !== undefined)) {
+
+        $(this.placeholder).show();
+        if ((this.data.length === 1) && (jQuery.isEmptyObject(this.data[0].data))) {
+            $(this.placeholder).hide();
+            $(this.placeholder).trigger($.Event('empty',{}));
+            return;
+        } else if ((this.plot !== undefined)) {
             // Get the current zoom
             var zoom = this.plot.getAxes();
             // Add the zoom to standard options
             zoomed.xaxis.min = zoom.xaxis.min;
             zoomed.xaxis.max = zoom.xaxis.max;
-            console.log(zoomed.xaxis);
+//            console.log(zoomed.xaxis);
         } else {
             zoomed.xaxis.min = undefined;
             zoomed.xaxis.max = undefined;
@@ -88,6 +94,7 @@ function lplot (ph, options) {
 		for (var d in dataPlotted) {
 			$("[id='" + dataPlotted[d].id+"']").children('span.legend_box_color').css('background-color', dataPlotted[d].color);
 		}
+		$(this.placeholder).trigger($.Event('plotted',{}));
 	};
 
 	this.onDataReceived = function (json, url) {
@@ -100,7 +107,7 @@ function lplot (ph, options) {
 			this.data = [];		// Reset data
 			this.datasets = [];	
 		}
-	
+
 		var n = Object.keys(this.datasets).length;
 		for (var k in series) {
 			current = series[k];
@@ -111,9 +118,11 @@ function lplot (ph, options) {
 			n = n + 1;
 			current['url'] = url;
 			/*json[k]['label'] = $('#'+k).attr('title') ;*/
-			this.data.push(current);
+			if (current.data.length !== 0) {
+    			this.data.push(current);
+    	    }
 		}
-
+        console.log(this.options.addDynamically);
 		if (this.options.addDynamically === true) {
 			$.merge(this.datasets, series);
 		}  else {
@@ -128,7 +137,18 @@ function lplot (ph, options) {
 		if ($("a.group").length){
     		interval = $("a.group").attr('id').split('_')[1];
 	    	this.options.series.bars.barWidth = 60*60*1000*interval;
-	    } 
+	    }
+	    
+	    // If a data series is empty, it is still stored in the current datasets for further requests in a different time period
+	    // but it isn't plotted
+	    if (series[0].data.length == 0) {
+	        if (this.n_active_operations === 0) {
+    	        $(this.placeholder).trigger($.Event('empty',{}));
+    	    }
+    	    console.log('empty');
+            return;
+        }
+	    
 		this.plotAccordingToChoices();
 	};
 
@@ -150,11 +170,11 @@ function lplot (ph, options) {
 			method: 'GET',
 		    dataType: 'json',
 		    success: function(json) {
-		        that.onDataReceived(json, url)
                 that.n_active_operations = that.n_active_operations - 1;
 		        if (that.n_active_operations === 0) {
                     $(that.placeholder).trigger($.Event('loaded',{}));
                 }
+		        that.onDataReceived(json, url)
 		    },
 		    error: function() {
 		        that.n_active_operations = that.n_active_operations - 1;
