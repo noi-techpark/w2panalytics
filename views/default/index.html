@@ -160,4 +160,15 @@
         $('#empty').hide();
         $("#loading").hide();
     });
+    $(document).on('click', '#frontend_frontend', function(e){
+        form = $(this).parents('form')[0];
+        val = $('select', form).find(":selected").val();
+        obj = $('#list_'+val);
+        if ((! val) || (obj.length) ){
+            e.preventDefault()
+            e.stopImmediatePropagation();
+            fix_dynamic_accordion('#sidebar_console');
+            obj.addClass('in');
+        }
+    });
 </script>

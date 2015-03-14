@@ -268,10 +268,10 @@
         }
 
         form.submit(function (e) {
-          web2py.disableElement(form.find(web2py.formInputClickSelector));
-          web2py.hide_flash();
-          web2py.ajax_page('post', url, form.serialize(), target, form);
-          e.preventDefault();
+            web2py.disableElement(form.find(web2py.formInputClickSelector));
+            web2py.hide_flash();
+            web2py.ajax_page('post', url, form.serialize(), target, form);
+            e.preventDefault();
         });
       });
     },
