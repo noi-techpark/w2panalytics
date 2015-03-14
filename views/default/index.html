@@ -3,9 +3,10 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
-    <li role="presentation" class="active"><a href="#grafici" aria-controls="punchcard" role="tab" data-toggle="tab">Grafici</a></li>
-    
+    <li role="presentation" class="active"><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
+    {{if request.vars.dev:}}
+    <li role="presentation" class=""><a href="#grafici" aria-controls="punchcard" role="tab" data-toggle="tab">Grafici</a></li>
+    {{pass}}
     <!--li role="presentation"><a href="#punchcard" aria-controls="punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
     <li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li-->
   </ul>
@@ -13,7 +14,7 @@
   <!-- Tab panes -->
   <div class="container-fluid box">
   <div class="tab-content row">
-      <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
+      <div role="tabpanel" class="tab-pane active container-fluid" id="mappa">
             <div class="map-cont box row">
             <div class="col-md-9">
                 <div id="map" style="height: 500px"></div>
@@ -26,7 +27,7 @@
       <div role="tabpanel" class="tab-pane" id="punchcard">
           <div>{{#=LOAD('data','get_stations', ajax=True)}}</div>
       </div>
-      <div role="tabpanel" class="tab-pane active" id="grafici">
+      <div role="tabpanel" class="tab-pane " id="grafici">
         <div class="row">
             <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; margin-right:15px;border: 1px solid #ccc">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
