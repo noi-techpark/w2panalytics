@@ -206,7 +206,7 @@ D3punchcard.prototype.draw = function( options ){
     });
 
   // draw text values for each row
-  punchcardRow.
+/*  punchcardRow.
     selectAll('text.value').
     data( function(d, i ) {
       return d.slice(1);
@@ -225,7 +225,7 @@ D3punchcard.prototype.draw = function( options ){
     attr('y', function (d, i) {
       return lineHeight;
     });
-
+*/
   return this;
 };
 

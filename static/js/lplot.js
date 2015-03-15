@@ -267,10 +267,38 @@ function lplot (ph, options) {
 		}
 		this.plotAccordingToChoices();
 	});
-
-
-
-	/*this.init = function(placeholder) {
+	
+    this.register_handlers = function() {
+        var tab = this.placeholder.split('_chart')[0];
+    
+        $(tab).on('click', '#sidebar_console li a', $.proxy(function(event) {
+            var element = event.target;
+	        var key = $(element).attr("id");
+	        $(element).toggleClass('muted');
+	        var current = plot_console.getObj(key);
+	        if (typeof current === "undefined") {
+		        if ( ! $(element).hasClass('muted')) {
+			        return get_data($(element), this);
+		        } else { 
+			        // skip already coming call			
+			        $(element).toggleClass('muted');
+		        }
+	        } else {
+		        var index = jQuery.inArray(current, plot_console.data);
+		        if ( index > -1 ) {
+			        $('#' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
+			        this.data.splice(index, 1);
+		        } else {
+			        this.data.push(current);
+		        }
+	        }
+	        this.plotAccordingToChoices();	
+        }, this));
     };
-	this.init();*/
+
+	this.init = function() {
+	    this.register_handlers();
+	
+    };
+	this.init();
 }

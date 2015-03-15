@@ -41,12 +41,11 @@ function add_after_form(xhr, target) {
     $.web2py.trap_form("", 'select_frontend');
 }
 
-function append_to_sidebar(xhr, target) {
+function append_to(xhr, target) {
     html = $.parseHTML(xhr.responseText, document, true);
-    t = $('#' + target);
+    t = $(target);
     t.append(html);
 }
-
     
 function onEachFeature (feature, layer) {
     if (feature.properties && feature.properties.popupContent) {
@@ -55,7 +54,7 @@ function onEachFeature (feature, layer) {
 
     layer.bindPopup(popupContent);
 }
-function get_data(a_obj) {
+function get_data(a_obj, obj) {
     console.log(a_obj);
     var params = {
         frontend: a_obj.data('frontend'),
@@ -67,10 +66,13 @@ function get_data(a_obj) {
     };
     var url = url_get_data;
     var uri = url + '?' + $.param(params);
-    plot_console.loadData(uri);
+    obj.loadData(uri);
+    return uri
 }
 
+
 function fix_dynamic_accordion(ele) {
+
     $(ele).find(".collapse").removeClass("in");
 };
 
@@ -81,28 +83,7 @@ function fix_dynamic_accordion(ele) {
 		url    = $(this).attr('href');
 		window.location = url + anchor;
 	});
-    $(document).on('click', '#sidebar_console li a', function() {
-	    var key = $(this).attr("id");	
-	    $(this).toggleClass('muted');
-	    var current = plot_console.getObj(key);
-	    if (typeof current === "undefined") {
-		    if ( ! $(this).hasClass('muted')) {
-			    return get_data($(this));
-		    } else { 
-			    // skip already coming call			
-			    $(this).toggleClass('muted');
-		    }
-	    } else {
-		    var index = jQuery.inArray(current, plot_console.data);
-		    if ( index > -1 ) {
-			    $('#' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
-			    plot_console.data.splice(index, 1);
-		    } else {
-			    plot_console.data.push(current);
-		    }
-	    }
-	    plot_console.plotAccordingToChoices();	
-    });
+
 	
     $(document).on('ajax:complete', 'form', function() {
         if ( $(this).attr('data-w2p_target') !== undefined ){
@@ -114,3 +95,35 @@ function fix_dynamic_accordion(ele) {
 	
 	
 })(jQuery);
+
+var startDate = moment().subtract('days', 29);
+var endDate = moment();
+var datapickler_option = {
+    startDate: startDate,
+    endDate: endDate,
+    minDate: '01/01/2012',
+    maxDate: '12/31/2015',
+    dateLimit: { months: 60 },
+    showDropdowns: true,
+    showWeekNumbers: true,
+    timePicker: true,
+    timePickerIncrement: 1,
+    timePicker12Hour: true,
+    ranges: {
+        'Last 2 hours': [moment().subtract('hours', 2), moment().add('days', 1)],
+        'Today': [moment({hour: 00, minute: 00}), moment()],
+        'Yesterday': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
+        'Last 7 Days': [moment().subtract('days', 6), moment().add('days', 1)],
+        'Last 30 Days': [moment().subtract('days', 29), moment().add('days', 1)],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+    },
+    opens: 'left',
+    buttonClasses: ['btn btn-default'],
+    applyClass: 'btn-small btn-primary',
+    cancelClass: 'btn-small',
+    format: 'MM/DD/YYYY',
+    separator: ' to ',
+};
+
+
