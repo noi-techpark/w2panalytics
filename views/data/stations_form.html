@@ -8,7 +8,10 @@
 			<option value="{{=station['id']}}">{{=station['name']}}</option>
 		{{pass}}
 	</select>
+	{{if request.vars.tab:}}
+	<input type="hidden" name="tab" value="{{=request.vars.tab}}">
+    {{pass}}
 	</div>
-    <input id='frontend_frontend' type="submit" class="update btn btn-success" value="Seleziona" />
+    <input  type="submit" class="update btn btn-success" value="Seleziona" />
 </div>
 </form>

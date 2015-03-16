@@ -3,18 +3,18 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
+    <li role="presentation" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
     {{if request.vars.dev:}}
-    <li role="presentation" class=""><a href="#grafici" aria-controls="punchcard" role="tab" data-toggle="tab">Grafici</a></li>
+    <li role="presentation" class=""><a href="#grafici" role="tab" data-toggle="tab">Grafici</a></li>
+    <li role="presentation" class="active"><a href="#punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
     {{pass}}
-    <!--li role="presentation"><a href="#punchcard" aria-controls="punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
-    <li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li-->
+    <!--li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li-->
   </ul>
 
   <!-- Tab panes -->
   <div class="container-fluid box">
   <div class="tab-content row">
-      <div role="tabpanel" class="tab-pane active container-fluid" id="mappa">
+      <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
             <div class="map-cont box row">
             <div class="col-md-9">
                 <div id="map" style="height: 500px"></div>
@@ -24,8 +24,8 @@
             </div>
             </div>
       </div>      
-      <div role="tabpanel" class="tab-pane" id="punchcard">
-          <div>{{#=LOAD('data','get_stations', ajax=True)}}</div>
+      <div role="tabpanel" class="tab-pane active" id="punchcard">
+          {{include 'default/punchcard.html'}}
       </div>
       <div role="tabpanel" class="tab-pane " id="grafici">
         <div class="row">
@@ -33,28 +33,29 @@
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span></span> <b class="caret"></b>
             </div>
-            <div id='select_data' class="col-md-5">{{=LOAD('data','get_stations', ajax=False)}}</div>
+            <div id='select_data' class="col-md-5">{{=LOAD('data','get_stations', ajax=False, vars={'tab':'grafici'})}}</div>
             <a id='loading' class="btn bnt-info col-md-2">Caricamento...</a>
             <a id='empty' class="btn bnt-alert col-md-2">Nessun dato nell'intervallo selezionato</a>
         </div>
         <div class="container-fluid data-content">
             <div class='row'>
-                    <div class="col-md-2 panel-group" id='sidebar_console'>
+                    <div class="col-md-2 panel-group sidebar_grafici sidebar" id='sidebar_grafici'>
                     </div>
                     <div class='col-md-10' id='chart_space'>
-                    <div id="compare_chart"  style="height:370px"> </div>
+                    <div id="grafici_chart"  style="height:370px"> </div>
                     </div>
             </div>
         </div>
       </div>
-      <div role="tabpanel" class="tab-pane" id="dati">
-          <div>{{#=LOAD('data','get_stations', ajax=True)}}</div>
+      <div role="tabpanel " class="tab-pane" id="dati">
+          
       </div>            
   </div>
   </div>
 </div>
 <script>
     $.web2py.trap_form("", 'select_data');
+    $.web2py.trap_form("", 'select_data2');
     $.web2py.ajax_init('');
     $(document).on('shown.bs.tab','body a[data-toggle="tab"]', function() { 
         map.invalidateSize(false);
@@ -74,7 +75,7 @@
 	    },
 	    crosshair: { mode: "x" },
     }
-    var plot_console = new lplot('compare_chart', options_console);
+    var plot_console = new lplot('grafici_chart', options_console);
     var reload_interval;
     var map = L.map('map').setView([46.070091, 11.119763], 10);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -88,35 +89,7 @@
         format: 'image/png',
     }).addTo(map);
     
-    var startDate = moment().subtract('days', 29);
-    var endDate = moment();
-    var datapickler_option = {
-        startDate: startDate,
-        endDate: endDate,
-        minDate: '01/01/2012',
-        maxDate: '12/31/2015',
-        dateLimit: { months: 60 },
-        showDropdowns: true,
-        showWeekNumbers: true,
-        timePicker: true,
-        timePickerIncrement: 1,
-        timePicker12Hour: true,
-        ranges: {
-            'Last 2 hours': [moment().subtract('hours', 2), moment().add('days', 1)],
-            'Today': [moment({hour: 00, minute: 00}), moment()],
-            'Yesterday': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
-            'Last 7 Days': [moment().subtract('days', 6), moment().add('days', 1)],
-            'Last 30 Days': [moment().subtract('days', 29), moment().add('days', 1)],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-        },
-        opens: 'left',
-        buttonClasses: ['btn btn-default'],
-        applyClass: 'btn-small btn-primary',
-        cancelClass: 'btn-small',
-        format: 'MM/DD/YYYY',
-        separator: ' to ',
-    };
+
     var date_set = function(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         startDate = start;
@@ -124,46 +97,40 @@
         plot_console.reload_all(startDate.unix(), endDate.unix());
     }
     pickler = $('#reportrange').daterangepicker(datapickler_option, date_set);
-    
     $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
-    $('#reportrange').on('show', function() { console.log("show event fired"); });
-    $('#reportrange').on('hide', function() { console.log("hide event fired"); });
-    $('#reportrange').on('apply', function(ev, picker) { 
-    console.log("apply event fired, start/end dates are " 
-                  + picker.startDate.format('MMMM D, YYYY') 
-                  + " to " 
-                  + picker.endDate.format('MMMM D, YYYY')
-                ); 
-              });
 
     $("#loading").hide();
     $('#empty').hide();
-    $('#compare_chart').on('loaded', function() {
+    $('#grafici_chart').on('loaded', function() {
         //$('#empty').hide();
         $('#loading').fadeOut();
         $('body').css("cursor", "auto");
     });
 
-    $('#compare_chart').on('empty', function() {
+    $('#grafici_chart').on('empty', function() {
         $("#loading").hide();
         $('#empty').fadeIn();
         $('body').css("cursor", "auto");
     });
 
-    $('#compare_chart').on('loading', function() {
+    $('#grafici_chart').on('loading', function() {
         $('#empty').hide();
         $('#loading').fadeIn();
         $('body').css("cursor", "progress");
     });
     
-    $('#compare_chart').on('plotted', function() {
+    $('#grafici_chart').on('plotted', function() {
         $('#empty').hide();
         $("#loading").hide();
     });
-    $(document).on('click', '#frontend_frontend', function(e){
+
+
+    // Avoid to insert the same station two times
+    $(document).on('click', '.tab-pane .form-inline .btn-success', function(e){
         form = $(this).parents('form')[0];
+        tab_id  = $($(this).parents('.tab-pane')[0]).attr('id');
         val = $('select', form).find(":selected").val();
-        obj = $('#list_'+val);
+        obj = $('#' + tab_id + '_list_' +val);
         if ((! val) || (obj.length) ){
             e.preventDefault()
             e.stopImmediatePropagation();
@@ -171,4 +138,5 @@
             obj.addClass('in');
         }
     });
+
 </script>
