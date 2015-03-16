@@ -24,15 +24,18 @@ def get_data_types():
     session.forget(request)
     station = request.vars.station
     s_obj = _get_station(station)
+    tab_name = request.vars.tab if request.vars.tab else 'sidebar_console'
+    tab = "#%s .sidebar" % request.vars.tab if request.vars.tab else '#sidebar_console'
     if s_obj == None:
         raise HTTP(404, 'Station not found')
     name = s_obj['name']
-
+    
     response.headers['web2py-component-content'] = 'hide'
-    response.headers['web2py-component-command'] = "fix_dynamic_accordion('#sidebar_console'); append_to_sidebar(xhr, 'sidebar_console');" #$('.collapse').collapse('hide');" #$('#list_%(station)s').collapse('show');" % {'station':station} 
+    response.headers['web2py-component-command'] = "fix_dynamic_accordion('%(tab)s'); append_to(xhr, '%(tab)s');" % {'tab':tab}
+
     data_types = __get_types(station)
     data_types.sort(key=lambda v: (v[0],int(v[3])) if len(v)>3 and v[3].isdigit() else v[0])
-    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':'RWISFrontEnd', 'name':name, 'station':station })
+    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':'RWISFrontEnd', 'name':name, 'station':station, 'tab_name':tab_name})
 
 @cache.action(time_expire=180, cache_model=cache.ram, vars=True)
 def get_data():
