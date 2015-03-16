@@ -195,7 +195,12 @@ D3punchcard.prototype.draw = function( options ){
     append('circle').
     style('fill', '#888').
 	attr('value', function(d, i) {
-		return parseFloat( d.value );
+	    v = parseFloat( Number((d.value).toFixed(2))) ;
+        if (v < 0) {
+            return 0;
+        } else {
+            return v;
+        }
 	}).
     attr('r', function(d, i) {
       return rScale( parseFloat( d.value ) );
