@@ -271,7 +271,7 @@ function lplot (ph, options) {
     this.register_handlers = function() {
         var tab = this.placeholder.split('_chart')[0];
     
-        $(tab).on('click', '#sidebar_console li a', $.proxy(function(event) {
+        $(tab).on('click', '#sidebar_grafici li a', $.proxy(function(event) {
             var element = event.target;
 	        var key = $(element).attr("id");
 	        $(element).toggleClass('muted');
@@ -286,7 +286,8 @@ function lplot (ph, options) {
 	        } else {
 		        var index = jQuery.inArray(current, plot_console.data);
 		        if ( index > -1 ) {
-			        $('#' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
+		            // tmp fix
+			        $('#sidebar_grafici #' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
 			        this.data.splice(index, 1);
 		        } else {
 			        this.data.push(current);

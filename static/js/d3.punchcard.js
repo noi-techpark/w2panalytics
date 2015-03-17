@@ -189,11 +189,11 @@ D3punchcard.prototype.draw = function( options ){
   punchcardRow.
     selectAll('circle').
     data( function(d, i ) {
-      return d.slice(1);
+        return d.slice(1);
     } ).
     enter().
     append('circle').
-    style('fill', '#888').
+    style('fill', '#337ab7').
 	attr('value', function(d, i) {
 	    v = parseFloat( Number((d.value).toFixed(2))) ;
         if (v < 0) {
