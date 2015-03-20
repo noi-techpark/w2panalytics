@@ -1,0 +1,24 @@
+<div class="map-cont box row">
+    <div class="col-md-9">
+        <div id="map" style="height: 500px"></div>
+    </div>
+    <div class="col-md-3">
+        <img src="http://geodata.integreen-life.bz.it/geoserver/edi/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=40&HEIGHT=40&LAYER=edi:cleanroads_stations"/>
+    </div>
+</div>
+<script>
+    $(document).on('shown.bs.tab','body a[data-toggle="tab"]', function() { 
+        map.invalidateSize(false);
+    });
+    var map = L.map('map').setView([46.070091, 11.119763], 10);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    var l_cleanroads = L.tileLayer.betterWms("{{=URL('default', 'wms')}}", {
+        layers: 'edi:cleanroads_stations',
+        transparent: true,
+        attribution: "",
+        format: 'image/png',
+    }).addTo(map);
+</script>

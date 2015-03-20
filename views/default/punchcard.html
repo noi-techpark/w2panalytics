@@ -1,0 +1,193 @@
+<div class="row">
+    <div id="reportrange2" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; margin-right:15px;border: 1px solid #ccc">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+        <span></span> <b class="caret"></b>
+    </div>
+    <div id='select_data2' class="col-md-5">{{=LOAD('data','get_stations', ajax=False, vars={'tab':'punchcard'})}}</div>
+    <a id='loading2' class="btn bnt-info col-md-2">Caricamento...</a>
+    <a id='empty2' class="btn bnt-alert col-md-2">Nessun dato nell'intervallo selezionato</a>
+</div>
+<div class="container-fluid data-content">
+    <div class='row'>
+            <div class="col-md-2 panel-group sidebar" data-toggle="collapse" id='sidebar_punchcard'>
+            </div>
+            <div class="panel-group col-md-10" id="accordion_pc" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-warning" id='template_punchcard'>
+                    <div  class="panel-heading" data-toggle="collapse" data-parent="#accordion_pc" href="#collapseOne">
+                        <span class='title'></span>
+                        <!--button type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button-->
+                    </div>
+                    <div class="panel-body collapse in" id="collapseOne">
+
+                        <!--img src="{{=URL('static', 'images/loading.gif')}}"></img-->
+                        <div id="punchcard_div"></div>
+                    </div>
+                </div>
+            </div>            
+    </div>
+</div>
+<script>
+    $.web2py.trap_form("", 'select_data2');
+    $("#loading2").hide();
+    $("#empty2").hide();
+    $("#template_punchcard").hide();
+    var startDate_pc = moment().subtract('days', 7);
+    var endDate_pc = moment();
+    var last_element;
+    var punchcard;
+    pickler = $('#reportrange2').daterangepicker(datapickler_option, function(start, end){
+        $('#reportrange2 span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        startDate_pc = start;
+        endDate_pc = end;
+        if (last_element !== undefined) {
+            $('#punchcard_div').empty();
+            create_punchcard(last_element, "#val");
+        }
+    });
+
+    $('#reportrange2 span').html(startDate_pc.format('MMMM D, YYYY') + ' - ' + endDate_pc.format('MMMM D, YYYY'));
+
+
+    $("#punchcard").on('click', '.sidebar li a', $.proxy(function(event) {
+        var element = event.target;
+        parent = $(element).parents('ul')[0];
+        $(parent).find('span.legend_box_color').css('background-color', "rgb(204,204,204)");
+        $(element).find('span.legend_box_color').css('background-color', "#337ab7");
+        create_punchcard(element, "#val");
+    }, this));
+
+
+    function get_url(element) {
+        var a_obj = $(element);
+        //'station':station, 'name':data_type, 'unit':unit, 'from':from_epoch, 'to'
+        var params = {
+            //frontend: a_obj.data('frontend'),
+            station : a_obj.data('station'),
+            unit: a_obj.data('unit'),
+            name: a_obj.data('type'),
+            data_label: a_obj.attr("title"),
+            period: a_obj.data("period"),
+            from: startDate_pc.valueOf(),
+            to: endDate_pc.valueOf(),
+        };
+        
+        var url = "http://ipchannels.integreen-life.bz.it/RWISFrontEnd/rest/get-records-in-timeframe";
+        var uri = url + '?' + $.param(params);
+        last_element = element;
+        return uri;
+    };
+
+    function showGraph ( data ) {
+        var flatAscending,
+        upperLimit,
+        examplePunchcard;
+
+        flatAscending = data.map( function(array) {
+        var value;
+        return array.slice(1).map( function ( sliced ) {
+        return parseFloat( sliced.value );
+        }).filter(function ( element ) {
+        return element > 0;
+        });
+
+        }).reduce(function(a, b) {
+        return a.concat(b);
+        }).sort(function(a, b) {
+        return a - b;
+        } );
+
+        // we find the upper limit quantile in order
+        // to not show upper outliers
+        upperLimit = d3.quantile( flatAscending, 0.90 );
+
+        punchcard = new D3punchcard({
+            data: data,
+            element: '#punchcard_div',
+            upperLimit: upperLimit
+        })
+        .draw({ width: document.getElementById('punchcard_div').offsetWidth });
+
+        $(function () {
+            $('circle').tooltip({
+                container: 'body',
+                title:function(){
+                    v = $(this).attr('value');
+                    return v;
+                }
+            });
+        });	
+    }
+
+    function create_punchcard(element, ph) {
+        $('#empty').hide();
+        $('#loading2').fadeIn();
+        $('body').css("cursor", "progress"); 
+        url = get_url(element);
+        ele = $('#template_punchcard span').text($(element).data('station-name')+ ': ' + $(element).data('type'));
+        $('#template_punchcard').show();
+        d3.json(url, function(error, json) {
+            if (error) return console.warn(error);
+            // TODO return if the list is empty
+
+            data = json;
+            // Remove milliseconds
+            for (i=0; i < data.length; i++) {
+                data[i].timestamp = data[i].timestamp/1000;
+            }
+		    n_seconds = data[data.length - 1].timestamp - data[0].timestamp;
+		    //console.log(n_seconds);
+		    n_days = Math.ceil(n_seconds / (24*3600));
+		    i = 0
+		    cur_element = 0
+		    days = [];
+		    start_ts = data[0].timestamp - (data[0].timestamp % (3600*24));
+            moment.locale('it');
+            format_days = 'dddd'
+            if (n_days > 1){
+                format_days = 'dddd D MMM';
+            }
+		    for (day=0; day < n_days; day++) {
+			    hours = [];
+                m = moment.unix(start_ts + (day * 24 * 3600) + (6) * 3600)			    
+			    hours.push({key:'day', value:m.format(format_days)});
+			    for(hour=0; hour<24;hour++) {
+				    //console.log(day, hour);
+				    cur_ts_limit = start_ts + (day * 24 * 3600) + (hour + 1) * 3600 -1;
+                    m = moment.unix(cur_ts_limit)
+				    r = {key:m.format('H'), value:0};
+				    // sum all data in the same hour
+				    /*while ( (data[cur_element]) && (data[cur_element].timestamp < cur_ts_limit)){
+					    //console.log(day);
+					    r.value = r.value + data[cur_element].value;
+					    cur_element ++;
+				    }*/
+				    n = 0;
+				    while ( (data[cur_element]) && (data[cur_element].timestamp < cur_ts_limit)){
+					    //console.log(day);
+					    n ++;
+					    r.value = r.value + data[cur_element].value;
+					    cur_element ++;
+				    }
+				    // compute the average
+				    if (n>0) {
+    				    r.value = r.value / n;
+    				}
+				    hours.push(r);
+			    }
+			    days.push(hours);
+		    }
+		    $('#loading2').fadeOut();
+            $('body').css("cursor", "auto");
+		    showGraph(days);
+        });
+    }
+    
+
+/*
+TODO:
+- unit in tooltip
+
+*/
+</script>
