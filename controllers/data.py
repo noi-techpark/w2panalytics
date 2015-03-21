@@ -35,7 +35,7 @@ def get_data_types():
 
     data_types = __get_types(station)
     data_types.sort(key=lambda v: (v[0],int(v[3])) if len(v)>3 and v[3].isdigit() else v[0])
-    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':'RWISFrontEnd', 'name':name, 'station':station, 'tab_name':tab_name})
+    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':'RWISFrontEnd', 'name':name, 'station':station, 'tab_name':tab_name })
 
 @cache.action(time_expire=180, cache_model=cache.ram, vars=True)
 def get_data():

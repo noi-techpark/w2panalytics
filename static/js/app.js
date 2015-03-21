@@ -96,14 +96,14 @@ function fix_dynamic_accordion(ele) {
 	
 })(jQuery);
 
-var startDate = moment().subtract('days', 29);
+var startDate = moment().subtract('days', 7);
 var endDate = moment();
 var datapickler_option = {
     startDate: startDate,
     endDate: endDate,
     minDate: '01/01/2012',
     maxDate: '12/31/2015',
-    dateLimit: { months: 60 },
+    dateLimit: { months: 1 },
     showDropdowns: true,
     showWeekNumbers: true,
     timePicker: true,

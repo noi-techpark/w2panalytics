@@ -44,7 +44,7 @@
         plot_console.reload_all(startDate.unix(), endDate.unix());
     }
     pickler = $('#reportrange').daterangepicker(datapickler_option, date_set);
-    $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+    $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
     $("#loading").hide();
     $('#empty').hide();
     $('#grafici_chart').on('loaded', function() {
