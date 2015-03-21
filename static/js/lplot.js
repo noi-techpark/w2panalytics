@@ -2,7 +2,7 @@ function lplot (ph, options) {
 	
 	this.default_options = { 
 		xaxis: { mode: "time", timezone: false, alignTicksWithAxis:true },
-		yaxis: { mode: 'time', position: 'left', zoomRange: false, panRange: false, },			
+		yaxis: { position: 'left', zoomRange: false, panRange: false, },			
 		y2axis:{ mode: null},
 		series:{ lines: { show: true, fill: true },
 				 points: { show: true },

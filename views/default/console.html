@@ -20,7 +20,6 @@
     $.web2py.trap_form("", 'select_data');
     url_get_data = '{{=URL("data", "get_data.json")}}'
     
-    var plot_console = new lplot('grafici_chart', options_console);
     var reload_interval;
     timezoneJS.timezone.zoneFileBasePath = '{{=URL('vtraffic', 'static/js', 'tz')}}';
     var options_console = { 
@@ -36,6 +35,7 @@
 	    },
 	    crosshair: { mode: "x" },
     }
+    var plot_console = new lplot('grafici_chart', options_console);
         
     var date_set = function(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
