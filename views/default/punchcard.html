@@ -43,7 +43,6 @@
         startDate_pc = start;
         endDate_pc = end;
         if (last_element !== undefined) {
-            $('#punchcard_div').empty();
             create_punchcard(last_element, "#val");
         }
     });
@@ -124,7 +123,8 @@
     function create_punchcard(element, ph) {
         $('#empty').hide();
         $('#loading2').fadeIn();
-        $('body').css("cursor", "progress"); 
+        $('body').css("cursor", "progress");
+        $('#punchcard_div').empty();
         url = get_url(element);
         ele = $('#template_punchcard span').text($(element).data('station-name')+ ': ' + $(element).data('type'));
         $('#template_punchcard').show();
