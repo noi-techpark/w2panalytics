@@ -130,9 +130,14 @@
         $('#template_punchcard').show();
         d3.json(url, function(error, json) {
             if (error) return console.warn(error);
-            // TODO return if the list is empty
-
             data = json;
+            if (data.length == 0) {
+                $('#punchcard_div').html("<p class='text-warning text-center'>Nessun dato per la selezione</p>");
+       		    $('#loading2').fadeOut();
+                $('body').css("cursor", "auto");
+                return;
+            }
+
             // Remove milliseconds
             for (i=0; i < data.length; i++) {
                 data[i].timestamp = data[i].timestamp/1000;
