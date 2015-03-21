@@ -3,10 +3,10 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
+    <li role="presentation" class="active" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
     {{if request.vars.dev:}}
     <li role="presentation" class=""><a href="#grafici" role="tab" data-toggle="tab">Grafici</a></li>
-    <li role="presentation" class="active"><a href="#punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
+    <li role="presentation" ><a href="#punchcard" role="tab" data-toggle="tab">Punchcard</a></li>
     {{pass}}
     <!--li role="presentation"><a href="#dati" aria-controls="punchcard" role="tab" data-toggle="tab">Dati</a></li-->
   </ul>
@@ -14,10 +14,10 @@
   <!-- Tab panes -->
   <div class="container-fluid box">
   <div class="tab-content row">
-      <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
+      <div role="tabpanel" class="tab-pane container-fluid active" id="mappa">
         {{include 'default/map.html'}}
       </div>      
-      <div role="tabpanel" class="tab-pane active" id="punchcard">
+      <div role="tabpanel" class="tab-pane" id="punchcard">
           {{include 'default/punchcard.html'}}
       </div>
       <div role="tabpanel" class="tab-pane " id="grafici">
