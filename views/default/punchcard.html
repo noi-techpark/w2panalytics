@@ -29,7 +29,7 @@
     </div>
 </div>
 <script>
-    moment.locale('it');
+
     $.web2py.trap_form("", 'select_data2');
     $("#loading2").hide();
     $("#empty2").hide();
@@ -144,7 +144,6 @@
 		    cur_element = 0
 		    days = [];
 		    start_ts = data[0].timestamp - (data[0].timestamp % (3600*24));
-            moment.locale('it');
             format_days = 'dddd'
             if (n_days > 1){
                 format_days = 'dddd D MMM';

@@ -1,3 +1,6 @@
+var locale = window.navigator.userLanguage || window.navigator.language;
+moment.locale(locale);
+
 // Map
 jQuery.fn.add_os_map = function() {
 	OpenLayers.ImgPath = "static/js/img/";
