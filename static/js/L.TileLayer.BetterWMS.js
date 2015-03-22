@@ -59,8 +59,13 @@ L.TileLayer.BetterWMS = L.TileLayer.WMS.extend({
   
   showGetFeatureInfo: function (err, latlng, content) {
     if (err) { console.log(err); return; } // do nothing if there's an error
-    
-    // Otherwise show the content in a popup, or something.
+
+    // Avoid to show any tooltip if the content doesn't contain data
+    ele = $.parseHTML(content);
+    if ($(ele).find('.featureInfo').length == 0) {
+        return;
+    }
+    // Otherwise show the content in a popup
     L.popup({ maxWidth: 800})
       .setLatLng(latlng)
       .setContent(content)
