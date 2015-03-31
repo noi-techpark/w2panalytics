@@ -4,6 +4,26 @@ from functools import partial
 baseurl = "http://ipchannels.integreen-life.bz.it/RWISFrontEnd"
 cache_t = (3600*24)
 
+baseurl = "http://ipchannels.integreen-life.bz.it"
+frontends = {'Meteo':'MeteoFrontEnd', 
+             'Vehicle': 'VehicleFrontEnd', 
+             'Environment':'EnvironmentFrontEnd', 
+             'Parking': 'parkingFrontEnd',
+             'Bluetooth':'BluetoothFrontEnd', 
+             'Link':'LinkFrontEnd', 
+             'Street': 'StreetFrontEnd', 
+             'Traffic': 'TrafficFrontEnd',
+             'Cleanroads': 'RWISFrontEnd'}
+
+def get_frontends():
+    session.forget(request)
+    response.headers['web2py-component-content'] = 'append'
+    frontends = __get_frontends()
+    #response.headers['web2py-component-content'] = 'hide'
+    #response.headers['web2py-component-command'] = "add_after_form(xhr, 'form_frontend');"
+    
+    return response.render('data/stations_form.html', {'frontends':frontends, 'frontend':'RWISFrontEnd'})
+
 def get_stations():
     session.forget(request)
     response.headers['web2py-component-content'] = 'append'
@@ -81,3 +101,56 @@ def __get_types(station):
         return types
     types = cache.ram('types_%s' % station, partial(local, station), cache_t)
     return types
+    
+#@cache.action(time_expire=180, cache_model=cache.ram, vars=True)
+def get_geojson():
+    session.forget(request)
+    frontend = request.vars.frontend
+    frontend = frontends[frontend] if frontend in frontends else ''
+    data_type = request.vars.type
+    period = request.vars.period
+
+    stations = cache.ram('__get_stations_info_%s' % frontend, lambda: __get_stations_info(frontend), (3600 * 24))
+
+    for s in stations:
+        s['last_value'] = __get_last_value(frontend, s['id'], data_type, period)
+    
+    features= [{"type": "Feature",
+                "properties": {
+                    "popupContent": "%s %s" % (s['name'], s['last_value']),
+                    "openPopup": False,
+                    "last_value": s['last_value'],
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [s['longitude'], s['latitude']]
+                },} for s in stations] 
+
+    response.headers['Content-Type'] = 'application/json'
+    return response.json({"type": "FeatureCollection", 'features': features}) 
+
+# Return basic info for all available parking lots
+def __get_stations_info(frontend):
+    r = requests.get("%s/%s/rest/get-station-details" % (baseurl, frontend))
+    #print r.url
+    if 'exceptionMessage' in r.json():
+        return []
+    return r.json()
+
+def __get_last_value(frontend, _id,  _type, _period):
+    rest_url = "%s/%s" % (baseurl, frontend)
+    method = "rest/get-records"
+    params = {'name':_type, 'period':_period, 'station':_id, 'seconds': 7200}
+    r = requests.get("%s/%s" % (rest_url, method), params=params)
+    data=r.json()
+
+    index = len(data)-1 # last value
+    if frontend == 'BluetoothFrontEnd':
+        index = len(data)-2      # last but one value
+
+    if 'exceptionMessage' in data or len(data) < -(index):
+        return -1
+
+    obj=data[index]
+    return int(obj['value'])
+    
