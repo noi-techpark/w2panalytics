@@ -1,0 +1,16 @@
+<form  id="" class="form-inline" action="{{=URL('data', 'get_stations')}}">
+<div class="form-group">
+    <div class="input-group">
+    <div class="input-group-addon">Frontend</div>
+    <select class="form-control" name="frontend" id="select_frontend">
+    		<option value=""></option>
+	    {{for frontend in frontends.keys():}}
+		    <option value="{{=frontend}}">{{=frontend}}</option>
+	    {{pass}}
+    {{if request.vars.tab:}}
+	<input type="hidden" name="tab" value="{{=request.vars.tab}}">
+    {{pass}}
+	</div>
+    <input  type="submit" class="update btn btn-success" value="Seleziona" />
+</div>
+</form>
