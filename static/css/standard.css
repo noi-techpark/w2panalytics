@@ -519,7 +519,8 @@ h4 {
 #sidebar_punchcard, #accordion_pc {
     padding-right: 0px;
 }
-
-
+.form-station {
+    padding-left: 10px;
+}
 
 
