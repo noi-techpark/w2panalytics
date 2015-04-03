@@ -5,7 +5,9 @@
 import requests
 baseurl = "http://ipchannels.integreen-life.bz.it/RWISFrontEnd"
 
+
 #@cache.action(time_expire=3600, cache_model=cache.ram)
+@auth.requires_login()
 def index():
     return {}
 
@@ -21,4 +23,7 @@ def wms():
     else:
         return response.stream(r.raw)
        
-
+def user():
+    if request.args(0) == 'login':
+        response.view = 'default/login.html'
+    return dict(form=auth())
