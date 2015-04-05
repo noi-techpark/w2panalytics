@@ -3,9 +3,9 @@
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
         <span></span> <b class="caret"></b>
     </div>
-    <div id='select_data' class="col-md-5">{{=LOAD('data','get_stations', ajax=False, vars={'tab':'grafici'})}}</div>
-    <a id='loading' class="btn bnt-info col-md-2">Caricamento...</a>
-    <a id='empty' class="btn bnt-alert col-md-2">Nessun dato nell'intervallo selezionato</a>
+    <div id='select_data' class="col-md-9"><div id='form_frontend'>{{=LOAD('data','get_frontends', ajax=False, _id="form_frontend", _class='pull-left', vars={'tab':'grafici'})}}</div></div>
+    <a id='loading' class="btn bnt-info col-md-offset-4 col-md-4">Caricamento...</a>
+    <a id='empty' class="btn bnt-alert col-md-offset-4 col-md-4">Nessun dato nell'intervallo selezionato</a>
 </div>
 <div class="container-fluid data-content">
     <div class='row'>

@@ -1,4 +1,5 @@
-<form  id="" class="form-inline" action="{{=URL('data', 'get_data_types')}}">
+<div id="form_stations">
+<form class="form-inline pull-left form-station" action="{{=URL('data', 'get_data_types')}}">
 <div class="form-group">
     <div class="input-group">
     <div class="input-group-addon">Stazione</div>
@@ -12,6 +13,8 @@
 	<input type="hidden" name="tab" value="{{=request.vars.tab}}">
     {{pass}}
 	</div>
+    <input type='hidden' name='frontend' value='{{=frontend}}'>
     <input  type="submit" class="update btn btn-success" value="Seleziona" />
 </div>
 </form>
+</div>

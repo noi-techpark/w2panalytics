@@ -1,23 +1,21 @@
 {{extend 'layout.html'}}
 <div role="tabpanel">
-
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class=""><a href="#grafici" role="tab" data-toggle="tab">Grafici</a></li>
-    <li role="presentation" class="active" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
-  </ul>
-
-  <!-- Tab panes -->
-  <div class="container-fluid box">
-  <div class="tab-content row">
-      <div role="tabpanel" class="tab-pane " id="grafici">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#grafici" role="tab" data-toggle="tab">Grafici</a></li>
+        <li role="presentation" class="" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="container-fluid box">
+    <div class="tab-content row">
+        <div role="tabpanel" class="tab-pane active" id="grafici">
         {{include 'default/console.html'}}
-      </div>
-      <div role="tabpanel" class="tab-pane container-fluid active" id="mappa">
+        </div>
+        <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
         {{include 'default/map.html'}}
-      </div>      
-  </div>
-  </div>
+        </div>      
+    </div>
+    </div>
 </div>
 <script>
     $.web2py.ajax_init('');
