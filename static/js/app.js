@@ -41,7 +41,7 @@ function add_after_form(xhr, target) {
     t = $('#' + target );
     t.siblings().remove();
     t.after(html);
-    $.web2py.trap_form("", 'select_frontend');
+    $.web2py.trap_form("", 'form_stations');
 }
 
 function append_to(xhr, target) {
