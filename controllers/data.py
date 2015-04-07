@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 from functools import partial
-baseurl = "http://ipchannels.integreen-life.bz.it/RWISFrontEnd"
+baseurl = "http://ipchannels.integreen-life.bz.it"
 cache_t = (3600*24)
 
 baseurl = "http://ipchannels.integreen-life.bz.it"
@@ -18,32 +18,38 @@ frontends = {'Meteo':'MeteoFrontEnd',
 def get_frontends():
     session.forget(request)
     response.headers['web2py-component-content'] = 'append'
-    frontends = __get_frontends()
+
     #response.headers['web2py-component-content'] = 'hide'
     #response.headers['web2py-component-command'] = "add_after_form(xhr, 'form_frontend');"
     
-    return response.render('data/stations_form.html', {'frontends':frontends, 'frontend':'RWISFrontEnd'})
+    return response.render('data/frontends_form.html', {'frontends':frontends, 'frontend':'RWISFrontEnd'})
 
 def get_stations():
     session.forget(request)
-    response.headers['web2py-component-content'] = 'append'
-    stations = __get_stations()
-    #response.headers['web2py-component-content'] = 'hide'
-    #response.headers['web2py-component-command'] = "add_after_form(xhr, 'form_frontend');"
-    
-    return response.render('data/stations_form.html', {'stations':stations, 'frontend':'RWISFrontEnd'})
+    frontend = request.vars.frontend    
+    if not frontend or frontend not in frontends:
+        return HTTP(404)
 
-def _get_station(stationcode):
-    for s in __get_stations():
+    response.headers['web2py-component-content'] = 'append'
+    stations = __get_stations(frontends[frontend])
+    response.headers['web2py-component-content'] = 'hide'
+    response.headers['web2py-component-command'] = "add_after_form(xhr, 'form_frontend');"
+    
+    return response.render('data/stations_form.html', {'stations':stations, 'frontend':frontend})
+
+def _get_station(stationcode, frontend):
+    for s in __get_stations(frontend):
         if s['id'] == stationcode:
             return s
     return None
 
-
 def get_data_types():
     session.forget(request)
     station = request.vars.station
-    s_obj = _get_station(station)
+    frontend = request.vars.frontend
+    if not frontend or frontend not in frontends:
+        return HTTP(404)
+    s_obj = _get_station(station, frontends[frontend])
     tab_name = request.vars.tab if request.vars.tab else 'sidebar_console'
     tab = "#%s .sidebar" % request.vars.tab if request.vars.tab else '#sidebar_console'
     if s_obj == None:
@@ -53,9 +59,9 @@ def get_data_types():
     response.headers['web2py-component-content'] = 'hide'
     response.headers['web2py-component-command'] = "fix_dynamic_accordion('%(tab)s'); append_to(xhr, '%(tab)s');" % {'tab':tab}
 
-    data_types = __get_types(station)
+    data_types = __get_types(station, frontends[frontend])
     data_types.sort(key=lambda v: (v[0],int(v[3])) if len(v)>3 and v[3].isdigit() else v[0])
-    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':'RWISFrontEnd', 'name':name, 'station':station, 'tab_name':tab_name })
+    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':frontend, 'name':name, 'station':station, 'tab_name':tab_name })
 
 @cache.action(time_expire=180, cache_model=cache.ram, vars=True)
 def get_data():
@@ -68,8 +74,10 @@ def get_data():
     seconds = request.vars.seconds
     from_epoch = int(request.vars['from'])
     to_epoch = int(request.vars.to)
-
-    url = "%s/rest/get-records-in-timeframe" % (baseurl)
+    frontend = request.vars.frontend
+    if not frontend or frontend not in frontends:
+        return HTTP(404)
+    url = "%s/%s/rest/get-records-in-timeframe" % (baseurl, frontends[frontend])
     params = {'station':station, 'name':data_type, 'unit':unit, 'from':from_epoch, 'to': to_epoch}
     if period:
         params['period'] = period
@@ -82,19 +90,20 @@ def get_data():
     series = [{'data':output, 'id': IS_SLUG()('type_%s_%s_%s' % (station,data_type,period))[0], 'station_id':'station_iud', 'label': "%s - %s" % (station, data_label)}]
     return response.json({'series': series})
 
-def __get_stations():
+def __get_stations(frontend):
     def local():
-        url = "%s/rest/get-station-details" % (baseurl)
+        url = "%s/%s/rest/get-station-details" % (baseurl, frontend)
         r = requests.get(url) # params=url_vars)
+        print r.url
         stations = r.json()
         stations.sort(key=lambda v: v['name'])
         return stations
-    stations = cache.ram('stations', local, cache_t)
+    stations = cache.ram('stations_%s' % frontend, local, cache_t)
     return stations
 
-def __get_types(station):
+def __get_types(station, frontend):
     def local(station):
-        url = "%s/rest/get-data-types" % (baseurl)
+        url = "%s/%s/rest/get-data-types" % (baseurl, frontend)
         r = requests.get(url, params={'station':station})
         types = r.json()
         types.sort(key=lambda v: v)
