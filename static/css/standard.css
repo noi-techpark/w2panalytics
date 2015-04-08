@@ -115,6 +115,7 @@ author: Madeincima.it
 		.phone{background:url(../images/ico-phone.gif) 0 0 no-repeat}
 	
 	.slots{position:absolute;top:0;right:3%;font-size:.85em; min-width:100px;}
+		.available-slots{display:block;padding:1.8em 0.2em 1.3em;margin-bottom:.3em;white-space:nowrap;text-align:center;color:#fff;text-transform:uppercase;font-size:1em;background:#ccc;border-top:4px solid #ccc;}
 		.available-slots .value_time{display:none}
         .forecast .available-slots .value_type{display:block;height:1.3em}
         .forecast .available-slots .value_time{height:1.6em;display:block;text-transform:none;font-size:0.9em}
@@ -168,7 +169,7 @@ author: Madeincima.it
 		.footer-2 .eu{width:12%}
 		.footer-2 .bz{width:33%}
 		.footer-2 .tis{margin:0;width:18%}
-		.footer-2 img{    height: 70px;display:block}
+		.footer-2 img{    max-height: 70px;display:block}
 		.footer-2 p{clear:both}
 		
 	#github{display:none}
@@ -548,4 +549,12 @@ h4 {
 #web2py_user_form img {
 	margin-bottom: 10px;
 }
+
+.integreen {
+    width: 104px;
+    height: 27px;
+    top: -12px;
+    position: relative;
+}
+
 

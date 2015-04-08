@@ -60,8 +60,15 @@ def get_data_types():
     response.headers['web2py-component-command'] = "fix_dynamic_accordion('%(tab)s'); append_to(xhr, '%(tab)s');" % {'tab':tab}
 
     data_types = __get_types(station, frontends[frontend])
-    data_types.sort(key=lambda v: (v[0],int(v[3])) if len(v)>3 and v[3].isdigit() else v[0])
-    return response.render('data/data_types_legend.html', {'data_types':data_types, 'frontend':frontend, 'name':name, 'station':station, 'tab_name':tab_name })
+    if frontend.lower() == 'vehicle':
+        data_types_filtered = filter(lambda r: 'valid' not in r[0], data_types)
+        data_types_filtered = filter(lambda r: 'runtime' not in r[0], data_types_filtered)
+        data_types_filtered = filter(lambda r: 'id_' not in r[0], data_types_filtered)
+        data_types_filtered = filter(lambda r: 'gps_' not in r[0] or 'speed' in r[0], data_types_filtered)
+    else:
+        data_types_filtered = data_types
+    data_types_filtered.sort(key=lambda v: (v[0],int(v[3])) if len(v)>3 and v[3].isdigit() else v[0])
+    return response.render('data/data_types_legend.html', {'data_types':data_types_filtered, 'frontend':frontend, 'name':name, 'station':station, 'tab_name':tab_name })
 
 @cache.action(time_expire=180, cache_model=cache.ram, vars=True)
 def get_data():
