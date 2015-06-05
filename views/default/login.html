@@ -1,27 +1,27 @@
-{{extend 'layout.html'}}
-<div class="row">
-<div id="web2py_user_form">
-<img src="/vtraffic/static/images/logo.jpg"></img>
+{{extend 'layout_login.html'}}
 
-{{=form.custom.begin}}
-<div class="form-group">
-    <label for="exampleInputEmail1">Username</label>
-    {{=form.custom.widget.username}}
-    </div>
-    <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    {{=form.custom.widget.password}}
-    </div>
-  <div class="form-group">
-  <div class="checkbox">
-    <label>
-        <input class="" id="auth_user_remember" name="remember" type="checkbox" value="on"> Remember me
-    </label>
-  </div>
-    <button class="btn btn-large btn-primary " type="submit">Sign in</button>
-
-{{=form.custom.end}}
-
-
-</div>
-</div>
+        <div class="lang round">
+                <span class="round">IT</span>
+                <ul class="round">
+                    <li><a href="#">DE</a></li>
+                    <li><a href="#">EN</a></li>
+                </ul>
+            </div>
+            <div id="login-form">
+                {{=form.custom.begin}}
+                    <h1><img src="{{=URL('static','images/logo-bzanalytics.png')}}" /></h1>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="icon-user"></span>{{=form.custom.widget.username}}
+                        </div>
+                        <div class="input-group">
+                               <span class="icon-pwd"></span>{{=form.custom.widget.password}}
+                        </div>
+                        <button class="btn-login" type="submit">Login</button>
+                        <p id="pwd-remember"><a href="{{=URL(args='retrieve_password')}}" tkey="forgot-password" >lost password</a></p>
+                    </div>     
+                {{=form.custom.end}}
+            </div>
+        </div>
+<script>jQuery(document).ready(function()
+{jQuery('.flash').delay(8000).fadeOut();});</script>

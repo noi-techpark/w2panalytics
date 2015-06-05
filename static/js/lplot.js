@@ -1,5 +1,4 @@
 function lplot (ph, options) {
-	
 	this.default_options = { 
 		xaxis: { mode: "time", timezone: false, alignTicksWithAxis:true },
 		yaxis: { position: 'left', zoomRange: false, panRange: false, },			
@@ -50,15 +49,21 @@ function lplot (ph, options) {
     this.n_active_operations = 0;    // Number of ongoing requests
     this.reset_zoom = false;
 
+    
+    
+   
+    
 	this.plotAccordingToChoices = function () {
 		var tab = this.placeholder.split('_chart')[0];
 
 		if ( jQuery.isEmptyObject(this.data) ) {
-			$( tab + ' .label-warning').show();
-			$(this.placeholder).parent().hide();
+            console.log('jQuery.isEmptyObject(this.data)');
+			$( tab + ' .label-warning').css('visibility', 'visible');
+			$(this.placeholder).parent().css('visibility', 'hidden');
 		} else { 
-			$( tab + ' .label-warning').hide();
-			$(this.placeholder).parent().show();
+            
+			$( tab + ' .label-warning').css('visibility', 'hidden');
+			$(this.placeholder).parent().css('visibility', 'visible');;
 		}
 		if (this.options.crosshair) {
 		    this.options.crosshair.mode = this.data.length>1 ? 'x' : null;
@@ -92,12 +97,15 @@ function lplot (ph, options) {
 		var dataPlotted = this.plot.getData();
 
 		for (var d in dataPlotted) {
-			$("[id='" + dataPlotted[d].id+"']").children('span.legend_box_color').css('background-color', dataPlotted[d].color);
+			$("[id='" + dataPlotted[d].id+"']").children('i.fa-square-o').css('color', dataPlotted[d].color);
+            $("[id='" + dataPlotted[d].id+"']").children('i.fa-square-o').css('background-color',"#fff");
+            $("[id='" + dataPlotted[d].id+"']").children('i.fa-square-o').removeClass('fa-square-o').addClass('fa-check-square-o');
 		}
 		$(this.placeholder).trigger($.Event('plotted',{}));
 	};
 
 	this.onDataReceived = function (json, url) {
+        
 		var tab = this.placeholder.split('_chart')[0];
 		var data_placeholder = $(tab + ' .data_list');
 		var series = json['series'];
@@ -122,7 +130,6 @@ function lplot (ph, options) {
     			this.data.push(current);
     	    }
 		}
-        console.log(this.options.addDynamically);
 		if (this.options.addDynamically === true) {
 			$.merge(this.datasets, series);
 		}  else {
@@ -153,6 +160,7 @@ function lplot (ph, options) {
 	};
 
 	this.loadData = function(url) {
+        
 	    var that = this;
 	    if ((typeof startDate !== "undefined") && (typeof endDate !== "undefined")) {
 	        params = {
@@ -201,6 +209,7 @@ function lplot (ph, options) {
 	};
 	
 	this.reload_all = function(x_min, x_max) {
+        console.log('sono entrato in reload all');
 	    if (x_min || x_max) {
 	        this.plot = undefined;
             this.pre_x_min = x_min;
@@ -238,6 +247,7 @@ function lplot (ph, options) {
 	var tab = this.placeholder.split('_chart')[0];
 
 	$(tab).on('click', '.data_list a', $.proxy(function(event) {
+        
     	var element = event.target;
 		var key = $(element).attr("id");	
 		$(element).toggleClass('muted');	
@@ -252,6 +262,7 @@ function lplot (ph, options) {
 		this.plotAccordingToChoices();	
 	}, this));
 
+    
 	$(tab).on('click', '[name="all"]', function() {
 		this.data = [];
 		for (pos in this.datasets) {
@@ -268,6 +279,7 @@ function lplot (ph, options) {
 		this.plotAccordingToChoices();
 	});
 	
+    
     this.register_handlers = function() {
         var tab = this.placeholder.split('_chart')[0];
     
@@ -287,7 +299,8 @@ function lplot (ph, options) {
 		        var index = jQuery.inArray(current, plot_console.data);
 		        if ( index > -1 ) {
 		            // tmp fix
-			        $('#sidebar_grafici #' + key + ' .legend_box_color').css('background-color', "rgb(204,204,204)");
+			        $('#sidebar_grafici #' + key + ' .fa-check-square-o').css('background-color', "#c0c0c0",'color',"#c0c0c0" );
+                    $('#sidebar_grafici #' + key + ' .fa-check-square-o').removeClass('fa-check-square-o').addClass('fa-square-o');
 			        this.data.splice(index, 1);
 		        } else {
 			        this.data.push(current);
@@ -296,6 +309,7 @@ function lplot (ph, options) {
 	        this.plotAccordingToChoices();	
         }, this));
     };
+    console.log(this.register_handlers)
 
 	this.init = function() {
 	    this.register_handlers();
