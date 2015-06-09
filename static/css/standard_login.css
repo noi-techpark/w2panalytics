@@ -131,9 +131,9 @@ author: Madeincima.it
 		#login-form  form  .form-group{margin-left:43px;}
 		#login-form  form  .input-group{margin-bottom:20px;}
 		#login-form  form  span{width:46px;height:46px;background-color:white;display: inline-block;vertical-align: middle;border-radius:5px 0 0 5px}
-		#login-form  form  span.icon-user{background:#ffffff url(../images/icon-user.png) 0 0 no-repeat;background-position:center;}
-		#login-form  form  span.icon-pwd{background:#ffffff url(../images/icon-pwd.png) 0 0 no-repeat;background-position:center;}
-		#login-form  form  .input-group input{border:none;height:16px;width:213px;padding:15px 5px;border-radius:0 5px 5px 0;font-size: 1.1em;color:#595c68;}
+		#login-form  form  span.icon-user{background:#ffffff url(../images/icon-user.png) 0 0 no-repeat;background-position:center;height:50px}
+		#login-form  form  span.icon-pwd{background:#ffffff url(../images/icon-pwd.png) 0 0 no-repeat;background-position:center;height:50px}
+		#login-form  form  .input-group input{border:none;height:20px;width:213px;padding:15px 5px;border-radius:0 5px 5px 0;font-size: 1.1em;color:#595c68;}
         #login-form  form  .input-group input:-webkit-autofill {-webkit-box-shadow: 0 0 0px 1000px white inset;}
 		#login-form  form  .input-group input::-webkit-input-placeholder{color:#595c68;}
 		#login-form  form  .input-group input:-moz-placeholder{color:#595c68;}
