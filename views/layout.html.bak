@@ -232,16 +232,19 @@
                         $( '#sidebar_grafici').append(data);
                         $( '#sidebar_grafici').show();
                         if(langCode=="it"){
-                            $("#select2-form-control_stations-container").html("Seleziona sorgente");
+                            $("#select2-select_frontend-container").html("Seleziona tipologia");
+                            $("#select2-form-control_stations-results li:first").html("Seleziona sorgente");
 
                        }
                        else{
                            if(langCode=="de"){
-                               $("#select2-form-control_stations-container").html("Quelle wählen");
+                               $("#select2-select_frontend-container").html("Typ auswählen");
+                               $("#select2-form-control_stations-results li:first").html("Quelle wählen");
 
                            }                         
                            else{
-                              $("#select2-form-control_stations-container").html("Select source");
+                              $("#select2-select_frontend-container").html("Select tipology");
+                              $("#select2-form-control_stations-results li:first").html("Select source");
 
                            }
                        }   
