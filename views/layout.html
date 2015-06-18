@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" dir="ltr" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
-<head> 
+<head>
   <title>Map clean-roads</title>
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,9 +8,9 @@
 <!--[if lte IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-  
+
   <meta charset="utf-8" />
- 
+
   <meta name="application-name" content="{{=request.application}}" />
      <script src="{{=URL('static','js/alertify.js')}}"></script>
      <script src="{{=URL('static','css/alertify.core.css')}}"></script>
@@ -34,8 +34,8 @@
 <!--  ng-cloak -->
 
 <body>
-    
-    
+
+
     <header class="header" id="header">
             <div class="aux">
                 <h1 class="logo" id="logo"><a href="#"><img src="{{=URL('static','images/logo-bzanalytics.png')}}" alt="Logo BZ Analytics" /> <span class="alt">BZ Analytics</span></a></h1>
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </header>
-          
+
         {{include}}
     {{block footer}}
     <footer id="footer-2" class="footer-2">
@@ -65,10 +65,10 @@
             <li class="integreen"><a href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg"></a></li>
             <li class="logo-1"><a href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano"></a></li>
             <li class="logo-1"><a href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png"></a></li>
-            <li class="logo-1"><a href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg"></a></li>            
+            <li class="logo-1"><a href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg"></a></li>
         </ul>
         </div>
-        <div class="text">		    
+        <div class="text">
 		                       <p><span tkey="source-code-licensed">Codice licenziato sotto</span> <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br>Powered by <a href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a href="http://www.madeincima.it" target="_blank">Madeincima</a></p>
                     <p><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
 
@@ -88,205 +88,115 @@
     {{pass}}
     <script src="{{=URL('static','js/utility.js')}}"></script>
     <script src="{{=URL('static','js/d3.v3.min.js')}}"></script>
-    <script src="{{=URL('static','js/d3.punchcard.js')}}"></script>    
-    <script type="text/javascript">
-              $('.form-control_frontends').select2();                
-   </script>
+    <script src="{{=URL('static','js/d3.punchcard.js')}}"></script>
+   
     <script>
+        $(function() {
+                var $select_tipology;
+                var $select_source;
+                $( '#sidebar_grafici').hide();
+                setTimeout(function(){
+                    generate_select_frontends();       
+                }, 1000);
+        });   
+         
+        function generate_select_frontends(){
+            $.ajax({
+                        url :"{{=URL('data','get_frontends')}}",
+                        type: 'GET',
+                        success: function(data){
+                            $('#frontends_form').append(data);
+                            adapt_language_tipology(langCode);
+                            $('.form-control_frontends').select2();
+                            $select_tipology=$("#select_frontend"); 
+                            $select_tipology.on("change",function (e) {changeTipology()});
+                            $('#frontends_form').show();
+                        },
+                   
+              });            
+        }
+        function changeTipology(){
+            var val_select_tipology=$("#select2-select_frontend-container").text();
+            $.ajax({
+                url : '{{=URL('data','get_stations')}}',
+                type: 'GET',
+                data : 'frontend='+ val_select_tipology+'&tab=grafici',
+                success: function(data){
+                         $( '#stations').html(data);
+                         adapt_language_select_source(langCode);
+                         $('.form-control_stations').select2();
+                         $select_source=$("#form-control_stations");
+                         changeSource();
+                         $( '#stations').show();
+                      
+               },error: function(req, err){alert('Error server' + err); }
+            });
+       }
        
-       $( '#sidebar_grafici').hide();
+       function changeSource(){
+           $select_source.on("change", function () {  
+               var val_select_tipology=$( "#select2-select_frontend-container" ).text();
+               var val_select_source=$( "select.form-control_stations" ).val();
+                   $.ajax({
+                       url : '{{=URL('data','get_data_types')}}',
+                       type: 'GET',
+                       data : 'station='+val_select_source+'&tab=grafici'+'&frontend='+val_select_tipology,
+                       success: function(data){
+                           if(data=='404 NOT FOUND'){
+                               if(val_select_tipology=='Seleziona tipologia'){
+                                   alertify.alert("Errore scegli una tipologia");
+                               }
+                               else{
+                                   if(val_select_tipology=='Select tipology'){
+                                       alertify.alert("Error select a tipology");
+                                   }
+                                   else{
+                                       alertify.alert("Wählen Sie zuerst Typ");
+                                   }
+                               }
+                            }
+                            else{
+                                $('.link_stations').collapse();
+                                $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_tipology+"<i   class='glyphicon glyphicon-remove'></i></span>")
+                                $( '#sidebar_grafici').append(data);
+                                $('#sidebar_grafici').show();
+                                changeTipology();
+                            }
+                        },error: function(req, err){alert('Error server' + err); }
+                    });
+                });
+       }
+        
        function reset_single_sidebar(el){
-              var well_panel=$(el).next("div");
-              var link=$(well_panel).find( "a" );
-              for(var i=0;i<link.length;i++){
-                    if($(link[i]).children('i').hasClass('fa-check-square-o')){
+           
+               var well_panel=$(el).next("div");
+               var link=$(well_panel).find( "a" );
+               for(var i=0;i<link.length;i++){
+                   if($(link[i]).children('i').hasClass('fa-check-square-o')){
                         $(link[i]).trigger( "click" );
                     }
-               } 
-               well_panel.remove();
-               el.remove();
-      }
-       
-      function active_link_through_checkbox(el){
-          $(el).closest( "a" ).trigger( "click" );
-      }
-        
-      function reset_all_sidebar(){
-           if ( $('#sidebar_grafici').children().length > 0 ) {
-              $('#sidebar_grafici').empty();
-           }
-           plot_console.data = [];
-           plot_console.datasets = []
-           plot_console.plotAccordingToChoices();
-           if(langCode=="it"){
-                startDate.lang('it-cn');
-                endDate.lang('it-cn');
-                $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-           }
-           else{
-              if(langCode=="de"){
-                startDate.lang('de-cn');
-                endDate.lang('de-cn'); 
-                $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-              }
-              else{
-                startDate.lang('en-cn');
-                endDate.lang('en-cn');
-                $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-              }
-            
-            }
-           date_set(moment().subtract('days', 7),moment());
-           if(langCode=="it"){
-                $("#frontends_form #select2-select_frontend-container").html("Seleziona tipologia");
-                $("#select2-form-control_stations-container").html("Seleziona sorgente");
-                $( "select.form-control_frontends" ).val("Seleziona tipologia");
-                $( "select.form-control_stations" ).val("Seleziona sorgente");
-            }
-            else{
-                if(langCode=="de"){
-                    $("#frontends_form #select2-select_frontend-container").html("Typ auswählen"); 
-                    $("#select2-form-control_stations-container").html("Quelle wählen");
-                    $( "select.form-control_frontends" ).val("Typ auswählen");
-                    $( "select.form-control_stations" ).val("Quelle wählen");
-                 
-                }else{
-                    $("#frontends_form #select2-select_frontend-container").html("Select tipology");
-                    $("#select2-form-control_stations-container").html("Select source");
-                    $( "select.form-control_frontends" ).val("Select tipology");
-                    $( "select.form-control_stations" ).val("Select source");
                 }
-
-
-             }
-     } 
-      
-      
-     
-      function changeTipology(){
-                  
-                    var val_select=$( "select.form-control_frontends" ).val();
-                    $.ajax(
-                    {
-                    url : '{{=URL('data','get_stations')}}',
-                    type: 'GET',
-                    data : 'frontend='+val_select+'&tab=grafici',
-                    success: function(data)  
-                    {
-                      if(data=='404 NOT FOUND'){
-                        if(val_select=='Seleziona tipologia'){
-                            alertify.alert("Errore scegli una tipologia");
-                        }else{
-                            if(val_select=='Select tipology'){
-                                 alertify.alert("Error select a tipology");
-                            }else{
-                                alertify.alert("Wählen Sie zuerst Typ");
-                            }
-                  
-                        }
-                      }else{
-                          $( '#stations').html(data);
-                          $('.form-control_stations').select2();
-                          if(langCode=="it"){
-                                $("#select2-form-control_stations-container").html("Seleziona sorgente"); 
-                          }
-                          else{
-                               if(langCode=="de"){
-                                          $("#select2-form-control_stations-container").html("Quelle wählen"); 
-                               }                         
-                               else{
-                                  $("#select2-form-control_stations-container").html("Select source");
-                               }
-                           }
-                          $( '#stations').show();
-                      }
-                    },
-                  });
-               
-          }
-          
-          function changeSource(){
-              var val_select_frontends=$( "select.form-control_frontends" ).val();
-              var val_select_stations=$( "select.form-control_stations" ).val();
-              $.ajax(
-              {
-                url : '{{=URL('data','get_data_types')}}',
-                type: 'POST',
-                data : 'station='+val_select_stations+'&tab=grafici'+'&frontend='+val_select_frontends,
-                success: function(data)  
-                {
-                  if(data=='404 NOT FOUND'){
-                        if(val_select=='Seleziona tipologia'){
-                            alertify.alert("Errore scegli una tipologia");
-                        }else{
-                            if(val_select=='Select tipology'){
-                                 alertify.alert("Error select a tipology");
-                            }else{
-                                alertify.alert("Wählen Sie zuerst Typ");
-                            }
-                  
-                        }
-                      }else{
-                        $('.link_stations').collapse();
-                        $( '#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_frontends+"<i   class='glyphicon glyphicon-remove'></i></span>")
-                        $( '#sidebar_grafici').append(data);
-                        $( '#sidebar_grafici').show();
-                        if(langCode=="it"){
-                            $("#select2-form-control_stations-container").html("Seleziona sorgente");
-
-                       }
-                       else{
-                           if(langCode=="de"){
-                               $("#select2-form-control_stations-container").html("Quelle wählen");
-
-                           }                         
-                           else{
-                              $("#select2-form-control_stations-container").html("Select source");
-
-                           }
-                       }   
-                     }
-                },
-            });
-          
-          }
-           $("#frontends_form").on("click", function () {
-               if(langCode=="it"){
-                    $("#select2-select_frontend-results li:first").html("Seleziona tipologia");
-               }
-               else{
-                   if(langCode=="de"){
-                       $("#select2-select_frontend-results li:first").html("Typ auswählen");
-
-                   }                         
-                   else{
-                          $("#select2-select_frontend-results li:first").html("Select tipology");
-                   }
-               }
-           });
-
-            $("#stations").on("click", function () {
-               if(langCode=="it"){
-                    $("#select2-form-control_stations-results li:first").html("Seleziona sorgente");
-
-               }
-               else{
-                   if(langCode=="de"){
-                       $("#select2-form-control_stations-results li:first").html("Quelle wählen");
-                   }                         
-                   else{
-                          $("#select2-form-control_stations-results li:first").html("Select source");
-                   }
-               }
-           });
-         
+                well_panel.remove();
+                el.remove();
+           
+        }
         
-        
-        
+        function active_link_through_checkbox(el){
+            $(el).closest( "a" ).trigger( "click" );
+        }
+
+        function reset_all_sidebar(){
+            if ( $('#sidebar_grafici').children().length > 0 ) {
+                $('#sidebar_grafici').empty();
+                plot_console.data = [];
+                plot_console.datasets = []
+                $(plot_console).css('visibility', 'hidden');
+                plot_console.plotAccordingToChoices();
+                date_set(moment().subtract('days', 7),moment());
+            }
+            
+         } 
     </script>
-    
-
-    
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

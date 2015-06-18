@@ -19,28 +19,24 @@
      </div>
 
     <div class="row">
-        <div id='tab_select_data' class="col-md-3">
-            <div  id='sidebar_grafici' class='sidebar_grafici'></div>
-            <div class="container-select" id="container-select">
-                <div id='frontends_form' class='frontends_form' >
-                {{=LOAD('data','get_frontends', ajax=False, _id="form_frontend", _class='pull-left', vars={'tab':'grafici'})}}</div>
-                <br/>
-                <div id='stations' target='stations' class='stations' style="text-align:left"></div>
+            <div id='tab_select_data' class="col-md-3">
+                <div  id='sidebar_grafici' class='sidebar_grafici'>
+                </div>
+                <div class="container-select" id="container-select">
+                    <div id='frontends_form' class='frontends_form' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h3></div>
+                    <div id='stations' target='stations' class='stations' style="text-align:left"></div>
+                </div>
+                <div id="container-remove-box" class="container-remove-box">
+                        <a href="#" onclick="reset_all_sidebar()" tkey="remove-boxes">Remove all boxes</a>
+                </div>
             </div>
-            <div id="container-remove-box" class="container-remove-box">
-                <a href="#" onclick="reset_all_sidebar()" tkey="remove-boxes">Rimuovi tutti i box</a>
-            </div>
-
-
-        </div>
-        <div class='col-md-9' id='tab_chart_space'>
-
+            <div id='tab_chart_space' class='col-md-9' >
                 <div  id="grafici_chart" class="grafici_chart" width="370px">
-                     <h2 class="message_select_date" tkey="select-source-param">Seleziona un dato sorgente e un parametro per vedere il relativo grafico</h2>
+                     <h2 class="message_select_date" tkey="select-source-param">Select a tipology, a source, a station to see the relative graph</h2>
                </div>
-        </div>
-
-</div>
+           </div>
+    </div>
+    </div>
 </main>
 
 <script>
@@ -114,16 +110,16 @@
         else{
           if(langCode=="de"){
             startDate.lang('de-cn');
-            endDate.lang('de-cn'); 
+            endDate.lang('de-cn');
             $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
           }
           else{
             startDate.lang('en-cn');
             endDate.lang('en-cn');
             $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
- 
+
           }
-            
+
         }
         plot_console.reload_all(start.unix(), end.unix());
     }

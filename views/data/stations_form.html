@@ -1,4 +1,4 @@
-<select class="form-control_stations" name="station" id="form-control_stations" onchange="changeSource();">
+<select class="form-control_stations" name="station" id="form-control_stations" >
     		<option  tkey="select-source" id="first-option-select-stations">Seleziona sorgente</option>
 		{{for station in stations: }}
 			<option value="{{=station['id']}}">{{=station['name']}}</option>

@@ -18,11 +18,11 @@
     "source-code-licensed" : "Source code licensed under the",
     "published-on" : "published on",
     "contact" : "Contact",
-    "live-update":"Live update",
-    "add-date":"Add Date",
-    "select-typology":"Select tipology",
-    "select-source":"Select source",
-    "select-source-param":"Select a tipology, a source, a station to see the relative graph",
+    "live-update"  : "Live update",
+    "add-date"    : "Add Date",
+    "select-typology" : "Select tipology",
+    "select-source" : "Select source",
+    "select-source-param" : "Select a tipology, a source, a station to see the relative graph",
     "remove-boxes": "Remove all boxes",
     "layer-map":"Layer map"
 }
