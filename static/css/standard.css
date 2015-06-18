@@ -102,7 +102,6 @@ author: Madeincima.it
 
     }
     div .stations{
-        margin-top:60px;
         margin-bottom:40px;
         margin-left:0px;
         padding:0px;
@@ -132,7 +131,7 @@ author: Madeincima.it
     #container-remove-box{text-align:right;margin-right:40px;cursor: pointer;}
     #container-remove-box a{color:#c0c0c0;font-weight: bold;}
     .form-control_frontends,.form-control_stations{width:168px !important;font-family:'titillium_websemibold' !important;color:#93208c !important;padding:0px!important;background-color:#fff;}
-    .frontends_form{margin-bottom:80px}
+    .frontends_form{margin-bottom:40px}
     .grafici_chart{height:370px;}
     .grafici_chart{display: flex;justify-content: center; /* align horizontal */align-items: center;}
     #container-zoom{text-align:right;}
@@ -248,7 +247,6 @@ author: Madeincima.it
    #icon_label:active,#icon_chart:active,#icon_bar:active { background: #93208c !important;color:#fff !important; }
    #icon_label:hover,#icon_chart:hover,#icon_bar:hover { background: #93208c !important;color:#fff !important; }
    #icon_chart_tmp:visited{ background: #93208c !important;color:#fff !important; }
-
    .fa-square-o{background-color: #c0c0c0 !important;color:#c0c0c0 !important}
 
     div .frontends_stations{
@@ -289,33 +287,34 @@ author: Madeincima.it
 		#main-map .map-panel li a.icon{background-repeat:no-repeat;background-position:center left;background-size:30px;}
 
 		#main-map .map-panel li a.icon-bluetooth{background-image:url('../images/icon-bluetooth.png');}
-		#main-map .map-panel li a.icon-traffico{background-image:url('../images/icon-traffico.png');}
-		#main-map .map-panel li a.icon-percorrenza{background-image:url('../images/icon-percorrenza.png');}
-		#main-map .map-panel li a.icon-parcheggi{background-image:url('../images/icon-parcheggi.png');}
-		#main-map .map-panel li a.icon-meteo{background-image:url('../images/icon-meteo.png');}
-		#main-map .map-panel li a.icon-inquinamento{background-image:url('../images/icon-inquinamento.png');}
-		#main-map .map-panel li a.icon-inquinanti{background-image:url('../images/icon-inquinanti.png');}
+		#main-map .map-panel li a.icon-traffico{background-image:url('../images/icon-traffic.png');}
+		#main-map .map-panel li a.icon-percorrenza{background-image:url('../images/icon-journeytime.png');}
+		#main-map .map-panel li a.icon-parcheggi{background-image:url('../images/icon-parking.png');}
+		#main-map .map-panel li a.icon-meteo{background-image:url('../images/icon-weather.png');}
+		#main-map .map-panel li a.icon-inquinamento{background-image:url('../images/icon-station-pollution.png');}
+		#main-map .map-panel li a.icon-inquinanti{background-image:url('../images/icon-pollution-dispersion.png');}
 		#main-map .map-panel li a.icon-pm10{background-image:url('../images/icon-pm10.png');}
 		#main-map .map-panel li a.icon-nox{background-image:url('../images/icon-nox.png');}
 		#main-map .map-panel li a.icon-co2{background-image:url('../images/icon-co2.png');}
-		#main-map .map-panel li a.icon-veicolo-sonda{background-image:url('../images/icon-veicolo-sonda.png');}
+		#main-map .map-panel li a.icon-veicolo-sonda{background-image:url('../images/icon-probevehicle.png');}
 
-		#main-map .map-panel li a.icon-bluetooth.active{background-image:url('../images/icon-bluetooth-attivo.png');color:#315cab;}
-		#main-map .map-panel li a.icon-traffico.active{background-image:url('../images/icon-traffico-attivo.png');color:#d2232a;}
-		#main-map .map-panel li a.icon-percorrenza.active{background-image:url('../images/icon-percorrenza-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-parcheggi.active{background-image:url('../images/icon-parcheggi-attivo.png');color:#009cdd;}
-		#main-map .map-panel li a.icon-meteo.active{background-image:url('../images/icon-meteo-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-inquinamento.active{background-image:url('../images/icon-inquinamento-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-inquinanti.active{background-image:url('../images/icon-inquinanti-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-pm10.active{background-image:url('../images/icon-pm10-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-nox.active{background-image:url('../images/icon-nox-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-co2.active{background-image:url('../images/icon-co2-attivo.png');color:#93208c;}
-		#main-map .map-panel li a.icon-veicolo-sonda.active{background-image:url('../images/icon-veicolo-sonda-attivo.png');color:#93208c;}
+		#main-map .map-panel li a.icon-bluetooth.active{background-image:url('../images/icon-bluetooth-active.png');color:#315cab;}
+		#main-map .map-panel li a.icon-traffico.active{background-image:url('../images/icon-traffic-active.png');color:#d2232a;}
+		#main-map .map-panel li a.icon-percorrenza.active{background-image:url('../images/icon-journeytime-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-parcheggi.active{background-image:url('../images/icon-parking-active.png');color:#009cdd;}
+		#main-map .map-panel li a.icon-meteo.active{background-image:url('../images/icon-weather-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-inquinamento.active{background-image:url('../images/icon-station-pollution-active.png');color:#ffa927;}
+		#main-map .map-panel li a.icon-inquinanti.active{background-image:url('../images/icon-pollution-dispersion-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-pm10.active{background-image:url('../images/icon-pm10-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-nox.active{background-image:url('../images/icon-nox-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-co2.active{background-image:url('../images/icon-co2-active.png');color:#93208c;}
+		#main-map .map-panel li a.icon-veicolo-sonda.active{background-image:url('../images/icon-probevehicle-active.png');color:#93208c;}
 
 		#main-map .map-panel li a.active{font-weight:bold;}
 		#main-map .map-panel #deselect-layers {color:#dadada;border:none;font-weight:bold;font-size: 0.95em;}
 
         .leaflet-popup-close-button{color:black !important;}
+        .leaflet-popup-content{width:450px !important;}
         .circle
         {
           padding: 0;

@@ -55,15 +55,16 @@ function lplot (ph, options) {
     
 	this.plotAccordingToChoices = function () {
 		var tab = this.placeholder.split('_chart')[0];
+        
 
 		if ( jQuery.isEmptyObject(this.data) ) {
-            console.log('jQuery.isEmptyObject(this.data)');
+            console.log("Vuoto");
 			$( tab + ' .label-warning').css('visibility', 'visible');
-			$(this.placeholder).parent().css('visibility', 'hidden');
+			$("#grafici_chart").css('visibility', 'hidden');
 		} else { 
             
 			$( tab + ' .label-warning').css('visibility', 'hidden');
-			$(this.placeholder).parent().css('visibility', 'visible');;
+			$("#grafici_chart").css('visibility', 'visible');;
 		}
 		if (this.options.crosshair) {
 		    this.options.crosshair.mode = this.data.length>1 ? 'x' : null;
@@ -152,7 +153,6 @@ function lplot (ph, options) {
 	        if (this.n_active_operations === 0) {
     	        $(this.placeholder).trigger($.Event('empty',{}));
     	    }
-    	    console.log('empty');
             return;
         }
 	    
