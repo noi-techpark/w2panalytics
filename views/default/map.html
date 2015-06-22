@@ -303,7 +303,7 @@
         }
          var popup = L.popup({maxWidth:270,minWidth:270})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",first_text,second_text,left_link,right_link,"#315cab",street,tipology));
+            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -349,7 +349,7 @@
         }
         var popup = L.popup({maxWidth:270,minWidth:270})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",first_text,second_text,left_link,right_link,"#db4748",street,tipology));
+            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -398,7 +398,7 @@
         }
         var popup = L.popup({maxWidth:270,minWidth:270})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
+            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -558,7 +558,7 @@
         }
         var popup = L.popup({maxWidth:270,minWidth:270})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"g/km/h",first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
+            .setContent(create_popoup(last_value,"g/km/h",street,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
             layer.bindPopup(popup);        
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -593,9 +593,17 @@
     }
 
     function graphTrend(tipology,street){
-         var select_street;
+        if ( $('#sidebar_grafici').children().length > 0 ) {
+              $('#sidebar_grafici').empty();
+                plot_console.data = [];
+                plot_console.datasets = []
+                $(plot_console).css('visibility', 'hidden');
+                date_set(moment().subtract('days', 7),moment());
+        }
+        var select_street;
         $('#select2-select_frontend-container').text(tipology);
         $( "select.form-control_frontends" ).val(tipology);
+         $('#tab a:first').tab('show');
         changeTipology();
         setTimeout(function(){
                $("#select2-form-control_stations-container").text(street);
@@ -623,20 +631,20 @@
         setTimeout(function(){
              $("a[data-station="+street+"]").trigger("click");
         }, 4000);
-        $('#myTab a:first').tab('show');
+      
 
 
     }
     
     function graphStoric(tipology,street){
         if ( $('#sidebar_grafici').children().length > 0 ) {
-                $('#sidebar_grafici').empty();
+              $('#sidebar_grafici').empty();
                 plot_console.data = [];
                 plot_console.datasets = []
                 $(plot_console).css('visibility', 'hidden');
-                plot_console.plotAccordingToChoices();
                 date_set(moment().subtract('days', 7),moment());
         }
+        $('#tab a:first').tab('show');
         var select_street;
         $('#select2-select_frontend-container').text(tipology);
         $( "select.form-control_frontends" ).val(tipology);
@@ -648,8 +656,6 @@
                $("#form-control_stations option").filter(function() {
                    select_street=this.text;
                    select_street=select_street.replace(/\s/g, '');
-                   console.log(street+" "+select_street);
-                   console.log(street==select_street);
                    if(select_street==street){
                        $( "select.form-control_stations" ).val($(this).attr("value"));
                        street=$(this).attr("value");
@@ -664,12 +670,12 @@
          setTimeout(function(){
              $("a[data-station="+street+"]").trigger("click");
         }, 4000);
-        $('#myTab a:first').tab('show');
+        
 
     }
     
-    function create_popoup(last_value,unit_measure,first_text,second_text,left_link,right_link,color,street,tipology){
-        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
+    function create_popoup(last_value,unit_measure,street,first_text,second_text,left_link,right_link,color,street,tipology){
+        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
     }
     
     function create_popoup_weather(label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,color){
