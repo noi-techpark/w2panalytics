@@ -1,6 +1,7 @@
 {
     "forgot-password" : "Hai dimenticato la password?",
     "graphics" : "Grafici",
+    "map-serach":"Tieni premuto il tasto sinistro del mouse o la rotella per navigare nel grafico",
     "map" : "Mappa",
     "map-layers" : "Layer mappa",
     "bluetooth-station" : "Stazioni Bluetooth",

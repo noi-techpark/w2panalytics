@@ -26,11 +26,15 @@
                         <a href="#" class="main-color" onclick="reset_all_sidebar()"  tkey="remove-boxes">Remove all boxes</a>
                 </div>
             </div>
-            <div id='tab_chart_space' class='col-md-9' >
-                <div  id="grafici_chart" class="grafici_chart" width="370px">
-                     <h2 class="message_select_date" tkey="select-source-param">Select a tipology, a source, a station to see the relative graph</h2>
+            <div class='col-md-9'>
+                <div id='tab_chart_space'>
+                    <div  id="grafici_chart" class="grafici_chart" width="370px">
+                        <h2 class="message_select_date" tkey="select-source-param">Select a tipology, a source, a station to see the relative graph</h2>
+                    </div>                            
                </div>
-           </div>
+                <br/>
+                <img src="{{=URL('static','images/info_sign.png')}}" style="float:left"/><h5 id='title-from-frontend' class="message_select_date" style="float:left;display:inline" tkey="map-serach">Use the mouse for navigate on the map, press left button on the graph for moves and the wheel for zooming</h5>
+            </div>
     </div>
     <div class="push"></div>
 </main>

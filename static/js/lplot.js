@@ -1,8 +1,8 @@
 function lplot (ph, options) {
 	this.default_options = { 
 		xaxis: { mode: "time", timezone: false, alignTicksWithAxis:true,monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
-		yaxis: { position: 'left', zoomRange: false, panRange: false, },			
+                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],zoomRange: [0.1, 10],panRange: [-10, 10]},
+		yaxis: { position: 'left', zoomRange: [0.1, 10],panRange: [-10, 10] },			
 		y2axis:{ mode: null},
 		series:{ lines: { show: true, fill: true },
 				 points: { show: true },
@@ -309,7 +309,7 @@ function lplot (ph, options) {
 var options_console = {
     xaxis: {
         mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
-        dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
+        dayNames: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     },
     yaxis: { position: 'left', zoomRange: false, panRange: false,},
@@ -321,7 +321,7 @@ var options_console = {
 
 var options_console_it = {
     xaxis: {mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
-            dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
+            dayNames: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
             monthNames: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
     },
     yaxis: { position: 'left', zoomRange: false, panRange: false,},
@@ -334,13 +334,18 @@ var options_console_it = {
 }
 
 var options_console_de={
-    xaxis: {
-        mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
-        dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
-        monthNames: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+    xaxis: {mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
+            dayNames: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+            monthNames: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
     },
-    yaxis: { position: 'left', zoomRange: false, panRange: false,},addDynamically: true,series:{ lines: { show: true, fill: false },points: { show: true },bars: {show: false}},
-   crosshair: { mode: "x" },
+    yaxis: { position: 'left', zoomRange: false, panRange: false,},
+    addDynamically: true,
+    series:{ lines: { show: true, fill: false },
+             points: { show: true },
+             bars: {show: false},
+    },
+    crosshair: { mode: "x" },
+
          
 }
     
