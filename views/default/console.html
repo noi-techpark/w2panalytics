@@ -1,10 +1,7 @@
 <main id="main" class="main">
-<i class="icon-check-empty lg"></i>
-<div class="container-fluid" id="container-fluid-tab">
+      <i class="icon-check-empty lg"></i>
       <div id="row_icon" class="row">
-          <div id="tab_icon" class="col-md-2">
-         </div>
-          <div class='col-md-9'>
+          <div class='col-md-12 padding-right-zero'>
                 <div id="reportrange">
                   <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                   <span></span> <b class="caret"></b>
@@ -20,14 +17,13 @@
 
     <div class="row">
             <div id='tab_select_data' class="col-md-3">
-                <div  id='sidebar_grafici' class='sidebar_grafici'>
-                </div>
+                <div  id='sidebar_grafici' class='sidebar_grafici'></div>
                 <div class="container-select" id="container-select">
                     <div id='frontends_form' class='frontends_form' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h3></div>
                     <div id='stations' target='stations' class='stations' style="text-align:left"></div>
                 </div>
                 <div id="container-remove-box" class="container-remove-box">
-                        <a href="#" onclick="reset_all_sidebar()" tkey="remove-boxes">Remove all boxes</a>
+                        <a href="#" class="main-color" onclick="reset_all_sidebar()"  tkey="remove-boxes">Remove all boxes</a>
                 </div>
             </div>
             <div id='tab_chart_space' class='col-md-9' >
@@ -36,119 +32,14 @@
                </div>
            </div>
     </div>
-    </div>
+    <div class="push"></div>
 </main>
 
 <script>
-
-
-    function live_update_graph(){
-         if($('#icon_chart_tmp').hasClass('visited')){
-            $('#icon_chart_tmp').remove();
-            $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
-         }
-            $( "#spinner" ).addClass( "fa-spin" );
-            $('#button_live_update').css({'background':'#93208c'}).finish().show();
-            date_set(moment().subtract(2000000, 'milliseconds'),moment());
-            setTimeout(function(){
-                $( "#spinner" ).removeClass( "fa-spin")
-         }, 2000);
-
-     }
-
-    url_get_data = '{{=URL("data", "get_data.json")}}'
-
     var reload_interval;
+    var plot_console;
+    url_get_data = '{{=URL("data", "get_data.json")}}'  
     timezoneJS.timezone.zoneFileBasePath = '{{=URL('vtraffic', 'static/js', 'tz')}}';
-    var options_console = {
-        xaxis: {
-            mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
-            dayNames: ['{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}']
-        },
-        yaxis: { position: 'left', zoomRange: false, panRange: false,},
-        addDynamically: true,
-        series:{ lines: { show: true, fill: false },
-                 points: { show: true },
-                 bars: {show: false},
-        },
-        crosshair: { mode: "x" },
-    }
-
-
-
-
-    var plot_console = new lplot('grafici_chart', options_console);
-    function change_options_bar(){
-        if($('#icon_chart_tmp').hasClass('visited')){
-            $('#icon_chart_tmp').remove();
-            $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
-        }
-        plot_console.options.series.lines.show = false;
-        plot_console.options.series.points.show = false;
-        plot_console.options.series.bars.show = true;
-        plot_console.plotAccordingToChoices();
-     }
-
-     function change_options_line(){
-          plot_console.options.series.lines.show = true;
-          plot_console.options.series.points.show = true;
-          plot_console.options.series.bars.show = false;
-          plot_console.plotAccordingToChoices();
-     }
-
-
-
-
-    date_set = function(start, end) {
-        startDate = start;
-        endDate = end;
-        if(langCode=="it"){
-            startDate.lang('it-cn');
-            endDate.lang('it-cn');
-            $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-        }
-        else{
-          if(langCode=="de"){
-            startDate.lang('de-cn');
-            endDate.lang('de-cn');
-            $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-          }
-          else{
-            startDate.lang('en-cn');
-            endDate.lang('en-cn');
-            $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-
-          }
-
-        }
-        plot_console.reload_all(start.unix(), end.unix());
-    }
-
-    $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-    pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);
-    $("#loading").hide();
-    $('#empty').hide();
-    $('#grafici_chart').on('loaded', function() {
-        //$('#empty').hide();
-        $('#loading').fadeOut();
-        $('body').css("cursor", "auto");
-    });
-
-    $('#grafici_chart').on('empty', function() {
-        $("#loading").hide();
-        $('#empty').fadeIn();
-        $('body').css("cursor", "auto");
-    });
-
-    $('#grafici_chart').on('loading', function() {
-        $('#empty').hide();
-        $('#loading').fadeIn();
-        $('body').css("cursor", "progress");
-    });
-
-    $('#grafici_chart').on('plotted', function() {
-        $('#empty').hide();
-        $("#loading").hide();
-    });
+   
 
 </script>

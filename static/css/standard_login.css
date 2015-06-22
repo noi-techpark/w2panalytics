@@ -78,12 +78,8 @@ author: Madeincima.it
 		.lang span.open{background-position:83% -1.2em}
 		.lang ul{display:none;position:absolute;top:2.3em;left:0;min-width:50px;background:#5c5a65}
 		.lang a{color:#fff;border:0;padding:.4em .45em;display:block}
-
-	.switch-mode{position:absolute;top:50px;right:0px;z-index:500;font-family: 'titillium_websemibold',Arial,sans-serif;z-index:400;}
-		.switch-mode li{display:inline-block;text-align:center;margin:0 0 0 5px;background-color:#5c5a65;width:150px;border-radius: 5px;box-shadow: 1px 1px 1px #000;}
-		.switch-mode li.active{background-color:#93208c;}
-		.switch-mode a{font-size:1.2em;line-height:100%;border-bottom:none;color:#ffffff;text-transform:uppercase;display:block;padding:10px 0;}
-		.switch-mode a:hover{opacity:0.8}
+        
+	.round li a:hover{background-color: #93208c;}
     div.flash {
         font-weight:bold;
         display:none;
@@ -143,73 +139,7 @@ author: Madeincima.it
 		#login-form  form  p#pwd-remember{text-align: center;}
 		#login-form  form  p#pwd-remember a{color:#ffffff;border-bottom:none;font-size: 0.95em;}
 
-	main#main-map{position:relative;background-color:#fcfcfc;z-index:0;width:100%;height:700px;}
-		#main-map .map-container{width:100%;height:100%;background-color:#cccccc;}
-		#main-map .map-container #zoomButtons{width:31px;position:absolute;top:20px;right:20px;z-index:1000;}
-		#main-map .map-container #zoomButtons a{width:31px;float:left;height:29px;text-indent:-9999px;background:#57585a url(../images/ico-zoom.gif) 10px 10px no-repeat;padding-bottom:0;}
-		#main-map .map-container #zoomButtons a#zoomInButton{border-bottom: 1px solid #4e4f51;border-top-left-radius:2px;-webkit-border-top-left-radius:2px;-moz-border-top-left-radius:2px;border-top-right-radius:2px;-webkit-border-top-right-radius:2px;-moz-border-top-right-radius:2px;}
-		#main-map .map-container #zoomButtons a#zoomOutButton {bottom:0;top:auto;border-top: 1px solid #636466;background-position: 10px -22px;border-bottom-left-radius: 2px;-webkit-border-bottom-left-radius:2px;-moz-border-bottom-left-radius:2px;border-bottom-right-radius:2px;-webkit-border-bottom-right-radius:2px;-moz-border-bottom-right-radius:2px;}
-		#main-map .map-container #credits{position:absolute;bottom:0;right:0;font-size:0.8em;line-height:100%;background-color:rgba(255,255,255,0.8);padding:5px 10px;border-radius:2px 0 0 0;z-index:1000;}
-
-		#main-map .map-panel{width:250px;position:absolute;top:0;left:0;bottom:0;background-color:#fcfcfc;padding:30px 35px;z-index:1000;border-bottom:1px solid #eeeeee;}
-		#main-map .map-panel h3{color:#93208c;font-size:1.5em;font-weight:normal;margin-bottom:15px;}
-		#main-map .map-panel ul{margin:5px 0;}
-		#main-map .map-panel li{border-bottom:1px solid #eeeeee;}
-		#main-map .map-panel li:first-of-type{border-top:1px solid #eeeeee;}
-		#main-map .map-panel li a{display:block;color:#58595B;padding:12px 0 12px 40px;border:none;}
-		#main-map .map-panel li a:hover{opacity:0.8;}
-		#main-map .map-panel li a.icon{background-repeat:no-repeat;background-position:center left;background-size:30px;}
-
-		#main-map .map-panel li a.icon-bluetooth{background-image:url('../images/icon-bluetooth.png');}
-		#main-map .map-panel li a.icon-traffico{background-image:url('../images/icon-traffico.png');}
-		#main-map .map-panel li a.icon-percorrenza{background-image:url('../images/icon-percorrenza.png');}
-		#main-map .map-panel li a.icon-parcheggi{background-image:url('../images/icon-parcheggi.png');}
-		#main-map .map-panel li a.icon-meteo{background-image:url('../images/icon-meteo.png');}
-		#main-map .map-panel li a.icon-inquinamento{background-image:url('../images/icon-inquinamento.png');}
-		#main-map .map-panel li a.icon-inquinanti{background-image:url('../images/icon-inquinanti.png');}
-		#main-map .map-panel li a.icon-pm10{background-image:url('../images/icon-pm10.png');}
-		#main-map .map-panel li a.icon-nox{background-image:url('../images/icon-nox.png');}
-		#main-map .map-panel li a.icon-co2{background-image:url('../images/icon-co2.png');}
-		#main-map .map-panel li a.icon-veicolo-sonda{background-image:url('../images/icon-veicolo-sonda.png');}
-
-		#main-map .map-panel li a.icon-bluetooth.active{background-image:url('../images/icon-bluetooth-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-traffico.active{background-image:url('../images/icon-traffico-attivo.png');color:#d2232a;}
-		#main-map .map-panel li a.icon-percorrenza.active{background-image:url('../images/icon-percorrenza-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-parcheggi.active{background-image:url('../images/icon-parcheggi-attivo.png');color:#009cdd;}
-		#main-map .map-panel li a.icon-meteo.active{background-image:url('../images/icon-meteo-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-inquinamento.active{background-image:url('../images/icon-inquinamento-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-inquinanti.active{background-image:url('../images/icon-inquinanti-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-pm10.active{background-image:url('../images/icon-pm10-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-nox.active{background-image:url('../images/icon-nox-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-co2.active{background-image:url('../images/icon-co2-attivo.png');color:#ffa927;}
-		#main-map .map-panel li a.icon-veicolo-sonda.active{background-image:url('../images/icon-veicolo-sonda-attivo.png');color:#e06e0c;}
-
-		#main-map .map-panel li a.active{font-weight:bold;}
-		#main-map .map-panel #deselect-layers {color:#dadada;border:none;font-weight:bold;font-size: 0.95em;}
-
-    main#main-graph{padding:20px 35px;}
-        #main-graph button,
-        #main-graph select{font-family:'titillium_websemibold';color:#93208c;font-size:1em;border:1px solid #efefef;background-color:#ffffff;border-radius:4px;line-height:100%;padding:8px;box-shadow:1px 1px 4px #ccc;cursor:pointer;margin-left:15px;}
-        #main-graph button.disabled{color:#b5b5b5;background-color:#f5f5f5;}
-        #main-graph button img{vertical-align:middle;height:1em;}
-        #main-graph .btn-group{display:inline;margin-left:15px;}
-        #main-graph .btn-group button{border-right:0;border-radius:0;margin-left:0px;}
-        #main-graph .btn-group button:first-of-type{border-radius:4px 0 0 4px;}
-        #main-graph .btn-group button:last-of-type{border-right:1px solid #efefef;border-radius:0 4px 4px 0;}
-        #main-graph select{height:33px;padding:0;font-size: 1.1em;}
-
-        #main-graph nav{padding:10px 0 20px;text-align:right;}
-
-        #main-graph .graph-container,
-        #main-graph .graph-panel{padding:25px;border:2px dashed #d5d5d5;background-color:rgba(0,0,0,0.03);}
-        #main-graph h3{font-family:'titillium_webregular';font-size:1.5em;color:#bfbfbf;font-weight:normal;line-height:1;}
-
-        #main-graph .graph-panel{float:left;width:300px;}
-        #main-graph .graph-panel h3{line-height:1.5em;margin-bottom:15px;}
-        #main-graph .graph-panel select{margin:0;width:100%;height:40px;}
-
-        #main-graph .graph-container{float:right;width:70%;min-height:400px;}
-        #main-graph .graph-container h3{font-size:1.6em;line-height:1.3;text-align:center;margin:200px 0;}
+	
 
     
          #update{display:block;margin:40px auto 20px;padding:15px 40px;background-color:#92278f;border:none;border-radius:5px;color:#ffffff;text-transform:uppercase;font-size:1.25em;font-family:'titillium_websemibold';line-height: 100%;cursor:pointer;}

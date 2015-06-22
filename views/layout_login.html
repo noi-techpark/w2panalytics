@@ -74,6 +74,13 @@
         </footer>
     {{end}}
     <!-- The javascript =============================== -->
+    <script>   
+        $(function() {             
+            $( "#round-first" ).click(function() {
+                setTimeout(function(){ if($(".round li").is(":visible")){$("#round-first").trigger( "click" );}}, 8000);
+            });                
+        });
+     </script> 
     <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
     <script src="{{=URL('static','js/web2py-bootstrap3.js')}}"></script>
     {{block page_js}}{{end page_js}}
@@ -88,7 +95,7 @@
     {{pass}}
     <!-- Share ============================y============ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="{{=URL('static','js/jquery-multilang/lang.js')}}"></script>
+    <script src="{{=URL('static','js/jquery-multilang/lang_login.js')}}"></script>
     <script src="{{=URL('static','js/utility.js')}}"></script>
   </body>
 </html>

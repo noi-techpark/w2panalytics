@@ -28,10 +28,29 @@ function setTranslation() {
         $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
 		res= langCode;
     }else{
-+        $.getJSON(url+'static/js/jquery-multilang/lang/it.json', translate);
-		res= 'it';
+        var browserLang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage) ;
+        if(browserLang=="it-IT" || browserLang=="it"){
+              $.getJSON(url+'static/js/jquery-multilang/lang/it.json', translate);
+              res= 'it'; 
+              $("#round-first").text("IT");
+              $("#round-second").text("DE");
+              $("#round-third").text("EN");
+        }else{
+            if(browserLang=="de-DE" || browserLang=="de" ){
+                $.getJSON(url+'static/js/jquery-multilang/lang/de.json', translate);
+                res= 'de';
+                $("#round-first").text("DE");
+                $("#round-second").text("IT");
+                $("#round-third").text("EN");
+            }else{
+                $.getJSON(url+'static/js/jquery-multilang/lang/en.json', translate);
+                res= 'en';
+                $("#round-first").text("EN");
+                $("#round-second").text("IT");
+                $("#round-third").text("DE")
+            }
+        }
     }
-    
     var language=langCode;
     if(firstTime==false){
         setTimeout(function(){
@@ -129,7 +148,7 @@ function adapt_language_calendar(langCode){
         startDate.lang('it-cn');
         endDate.lang('it-cn');
         $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-        pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);
+        pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);       
     }
     else{
         if(langCode=="de"){
@@ -144,4 +163,21 @@ function adapt_language_calendar(langCode){
             pickler = $('#reportrange').daterangepicker(datapickler_option_eng, date_set);
         }
     }        
+}
+
+function change_language_plot(language){
+   if($(language).text()=="IT"){
+       plot_console.options.xaxis.monthNames=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+   }
+   else{
+          if($(language).text()=="DE"){
+              plot_console.options.xaxis.monthNames=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez']
+          }
+          else{
+              plot_console.options.xaxis.monthNames=["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+          }  
+   }
+
+   plot_console.reload_all();
+      
 }

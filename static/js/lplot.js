@@ -1,6 +1,7 @@
 function lplot (ph, options) {
 	this.default_options = { 
-		xaxis: { mode: "time", timezone: false, alignTicksWithAxis:true },
+		xaxis: { mode: "time", timezone: false, alignTicksWithAxis:true,monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
 		yaxis: { position: 'left', zoomRange: false, panRange: false, },			
 		y2axis:{ mode: null},
 		series:{ lines: { show: true, fill: true },
@@ -55,21 +56,16 @@ function lplot (ph, options) {
     
 	this.plotAccordingToChoices = function () {
 		var tab = this.placeholder.split('_chart')[0];
-        
-
 		if ( jQuery.isEmptyObject(this.data) ) {
-            console.log("Vuoto");
 			$( tab + ' .label-warning').css('visibility', 'visible');
 			$("#grafici_chart").css('visibility', 'hidden');
-		} else { 
-            
+		} else {          
 			$( tab + ' .label-warning').css('visibility', 'hidden');
 			$("#grafici_chart").css('visibility', 'visible');;
 		}
 		if (this.options.crosshair) {
 		    this.options.crosshair.mode = this.data.length>1 ? 'x' : null;
 	    }
-
 		if ( this.data.length == $(this.datasets).length ) {
 			$("#all").attr('checked', 'checked');
 		} 
@@ -110,13 +106,10 @@ function lplot (ph, options) {
 		var tab = this.placeholder.split('_chart')[0];
 		var data_placeholder = $(tab + ' .data_list');
 		var series = json['series'];
-
-
 		if (this.options.addDynamically === false) {
 			this.data = [];		// Reset data
 			this.datasets = [];	
 		}
-
 		var n = Object.keys(this.datasets).length;
 		for (var k in series) {
 			current = series[k];
@@ -135,8 +128,7 @@ function lplot (ph, options) {
 			$.merge(this.datasets, series);
 		}  else {
 			this.datasets = series;
-			$(data_placeholder).empty();
-			
+			$(data_placeholder).empty();			
 			for (var i in this.datasets) {
 				current = this.datasets[i];
 				$(data_placeholder).append( $("<li><a id='" + current.id + "' title='" + current.label + "' href='#' class=''><span class='legend_box_color'> </span>" + current.label + "</a></li>") );
@@ -154,13 +146,11 @@ function lplot (ph, options) {
     	        $(this.placeholder).trigger($.Event('empty',{}));
     	    }
             return;
-        }
-	    
+        }	    
 		this.plotAccordingToChoices();
 	};
 
-	this.loadData = function(url) {
-        
+	this.loadData = function(url) {       
 	    var that = this;
 	    if ((typeof startDate !== "undefined") && (typeof endDate !== "undefined")) {
 	        params = {
@@ -209,7 +199,6 @@ function lplot (ph, options) {
 	};
 	
 	this.reload_all = function(x_min, x_max) {
-        console.log('sono entrato in reload all');
 	    if (x_min || x_max) {
 	        this.plot = undefined;
             this.pre_x_min = x_min;
@@ -245,9 +234,7 @@ function lplot (ph, options) {
 	this.options = $.extend(this.default_options, options);
 	this.placeholder = ("#" + ph);
 	var tab = this.placeholder.split('_chart')[0];
-
 	$(tab).on('click', '.data_list a', $.proxy(function(event) {
-        
     	var element = event.target;
 		var key = $(element).attr("id");	
 		$(element).toggleClass('muted');	
@@ -309,7 +296,6 @@ function lplot (ph, options) {
 	        this.plotAccordingToChoices();	
         }, this));
     };
-    console.log(this.register_handlers)
 
 	this.init = function() {
 	    this.register_handlers();
@@ -317,3 +303,154 @@ function lplot (ph, options) {
     };
 	this.init();
 }
+    
+
+
+var options_console = {
+    xaxis: {
+        mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
+        dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
+        monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    },
+    yaxis: { position: 'left', zoomRange: false, panRange: false,},
+    addDynamically: true,
+    series:{ lines: { show: true, fill: false },
+    points: { show: true },bars: {show: false}},
+    crosshair: { mode: "x" },
+}
+
+var options_console_it = {
+    xaxis: {mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
+            dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
+            monthNames: ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'],
+    },
+    yaxis: { position: 'left', zoomRange: false, panRange: false,},
+    addDynamically: true,
+    series:{ lines: { show: true, fill: false },
+             points: { show: true },
+             bars: {show: false},
+    },
+    crosshair: { mode: "x" },
+}
+
+var options_console_de={
+    xaxis: {
+        mode: "time", timezone: "Europe/Rome", alignTicksWithAxis:true,
+        dayNames: ["{{=T('Sun')}}', '{{=T('Mon')}}', '{{=T('Tue')}}', '{{=T('Wen')}}', '{{=T('Thu')}}', '{{=T('Fri')}}', '{{=T('Sat')}}"],
+        monthNames: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
+    },
+    yaxis: { position: 'left', zoomRange: false, panRange: false,},addDynamically: true,series:{ lines: { show: true, fill: false },points: { show: true },bars: {show: false}},
+   crosshair: { mode: "x" },
+         
+}
+    
+function set_param_plot_and_language(){
+    setTimeout(function(){ 
+    if(langCode=="it"){
+        plot_console = new lplot('grafici_chart', options_console_it);
+    }else{
+        if(langCode=="de"){
+            plot_console = new lplot('grafici_chart', options_console_de);
+        }else{
+            plot_console = new lplot('grafici_chart', options_console);                 
+        }
+    }  }, 2000);   
+}
+
+function live_update_graph(){
+     if ( $('#sidebar_grafici').children().length == 0 ) {
+        if(langCode=="it"){
+            alert("Seleziona prima una Tiplogia e una Stazione");
+        }else{
+            if(langCode=="de"){
+                alert("Wählen Sie zuerst eine Tiplogy und einen Quelle");
+            }else{
+                 alert("Select a Tiplogy and a Station first");                
+            }
+        } 
+    }else{
+        if($('#icon_chart_tmp').hasClass('visited')){
+            $('#icon_chart_tmp').remove();
+            $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
+        }
+        $( "#spinner" ).addClass( "fa-spin" );
+        $('#button_live_update').css({'background':'#93208c'}).finish().show();
+        date_set(moment().subtract(2000000, 'milliseconds'),moment());
+        setTimeout(function(){
+            $( "#spinner" ).removeClass( "fa-spin")
+         }, 2000);
+    }
+}
+
+function change_options_bar(){
+    if ( $('#sidebar_grafici').children().length == 0 ) {
+        if(langCode=="it"){
+            alert("Seleziona prima una tiplogia e una stazione");
+        }else{
+            if(langCode=="de"){
+                alert("Wählen Sie ein tiplogy und einen Sender zuerst");
+            }else{
+                 alert("Select a tiplogy and a station first");                
+            }
+        } 
+    }else{
+        if($('#icon_chart_tmp').hasClass('visited')){
+            $('#icon_chart_tmp').remove();
+            $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
+        }
+        plot_console.options.series.lines.show = false;
+        plot_console.options.series.points.show = false;
+        plot_console.options.series.bars.show = true;
+        plot_console.plotAccordingToChoices();
+    }
+}
+
+function change_options_line(){
+    if ( $('#sidebar_grafici').children().length == 0 ) {
+        if(langCode=="it"){
+            alert("Seleziona prima una tiplogia e una stazione");
+        }else{
+            if(langCode=="de"){
+                alert("Wählen Sie ein tiplogy und einen Sender zuerst");
+            }else{
+                 alert("Select a tiplogy and a station first");                
+            }
+        } 
+    }else{
+        plot_console.options.series.lines.show = true;
+        plot_console.options.series.points.show = true;
+        plot_console.options.series.bars.show = false;
+        plot_console.plotAccordingToChoices();
+    }
+}
+
+set_param_plot_and_language();
+
+
+
+
+date_set = function(start, end) {
+                startDate = start;
+                endDate = end;
+                if(langCode=="it"){
+                    startDate.lang('it-cn');
+                    endDate.lang('it-cn');
+                    $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+                }
+                else{
+                  if(langCode=="de"){
+                    startDate.lang('de-cn');
+                    endDate.lang('de-cn');
+                    $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+                  }
+                  else{
+                    startDate.lang('en-cn');
+                    endDate.lang('en-cn');
+                    $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+                  }
+                 }
+            plot_console.reload_all(start.unix(), end.unix());
+}
+
+$('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
+pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);

@@ -12,9 +12,7 @@
   <meta charset="utf-8" />
 
   <meta name="application-name" content="{{=request.application}}" />
-     <script src="{{=URL('static','js/alertify.js')}}"></script>
-     <script src="{{=URL('static','css/alertify.core.css')}}"></script>
-     <script src="{{=URL('static','css/alertify.default.css')}}"></script>
+
      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   {{include 'web2py_ajax.html'}}
@@ -36,44 +34,47 @@
 <body>
 
 
-    <header class="header" id="header">
-            <div class="aux">
-                <h1 class="logo" id="logo"><a href="#"><img src="{{=URL('static','images/logo-bzanalytics.png')}}" alt="Logo BZ Analytics" /> <span class="alt">BZ Analytics</span></a></h1>
-                <div class="lang round">
-                    <span class="round" id="round-first">IT</span>
-                    <ul class="round">
-                        <li><a href="#" id="round-second">EN</a></li>
-                        <li><a href="#" id="round-third">DE</a></li>
-                    </ul>
-                </div>
-                <div class="switch-mode">
-                           <ul class="nav nav-tabs" id="myTab">
-                                      <li id="nav_grafici" class="active"><a  class="nav_link" href="#grafici" tkey="graphics" data-toggle="tab">Grafici</a></li>
-                                      <li id="nav_mappa"><a  class="nav_link" href="#mappa" data-toggle="tab" tkey="map">Mappa</a></li>
-                           </ul>
+      <header class="header" id="header">
+          <div class="container-fluid" id="container-header">
+            <div class="row-fluid">
+                  <div class="col-md-6">
+                      <h1 class="logo" id="logo" style="float:left"><a href="#"><img src="{{=URL('static','images/logo-bzanalytics.png')}}" alt="Logo BZ Analytics" /></a></h1>
+                   </div>
+                   <div class="col-md-6">
+                        <div class="lang round" style="float:right">
+                            <span class="round" id="round-first">IT</span>
+                                <ul class="round">
+                                    <li><a onclick="change_language_plot(this)" href="#" id="round-second">EN</a></li>
+                                    <li><a onclick="change_language_plot(this)" href="#" id="round-third">DE</a></li>
+                                </ul>
+                        </div>
+                        <div class="switch-mode" style="float:right">
+                            <ul class="nav nav-tabs" id="tab">
+                                <li id="nav_grafici" class="active"><a  class="nav_link" href="#grafici" tkey="graphics" data-toggle="tab">Grafici</a></li>
+                                <li id="nav_mappa"><a  class="nav_link" href="#mappa" data-toggle="tab" tkey="map">Mappa</a></li>
+                            <ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+     </header>
+    {{include}}
+    {{block footer}}
+    <footer id="footer" class="footer">
+            <div class="col-md-5 height-footer">
+                <div class="text">
+                    <p class="centered"> <span tkey="source-code-licensed">Codice licenziato sotto</span> <a class="main-color" href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a class="main-color" href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br/>Powered by <a class="main-color" href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a class="main-color" href="http://www.madeincima.it" target="_blank">Madeincima</a><br/><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
                 </div>
             </div>
-        </header>
-
-        {{include}}
-    {{block footer}}
-    <footer id="footer-2" class="footer-2">
-    <div class="aux">
-        <div class="aux2">
-        <ul>
-            <li class="logo-1"><a href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg"></a></li>
-            <li class="integreen"><a href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg"></a></li>
-            <li class="logo-1"><a href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano"></a></li>
-            <li class="logo-1"><a href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png"></a></li>
-            <li class="logo-1"><a href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg"></a></li>
-        </ul>
-        </div>
-        <div class="text">
-		                       <p><span tkey="source-code-licensed">Codice licenziato sotto</span> <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br>Powered by <a href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a href="http://www.madeincima.it" target="_blank">Madeincima</a></p>
-                    <p><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
-
-    	</div>
-    </div>
+            <div class="col-md-7 height-footer">
+                <ul class="centered">
+                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" width="100px" height="50px"></a></li>
+                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg" width="100px" height="50px"></a></li>
+                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano" width="100px" height="50px"></a></li>
+                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png" width="100px" height="50px"></a></li>
+                    <li style="display:inline"><a  style="padding: .2em 2em;" href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg" width="100px" height="50px"></a></li>
+                </ul>
+           </div>
     </footer>
     {{end}}
     {{block page_js}}{{end page_js}}
@@ -89,17 +90,20 @@
     <script src="{{=URL('static','js/utility.js')}}"></script>
     <script src="{{=URL('static','js/d3.v3.min.js')}}"></script>
     <script src="{{=URL('static','js/d3.punchcard.js')}}"></script>
-   
+
     <script>
-        $(function() {
+        $(function() {           
                 var $select_tipology;
                 var $select_source;
                 $( '#sidebar_grafici').hide();
                 setTimeout(function(){
-                    generate_select_frontends();       
+                    generate_select_frontends();
                 }, 1000);
-        });   
-         
+                $( "#round-first" ).click(function() {
+                    setTimeout(function(){ if($(".round li").is(":visible")){$("#round-first").trigger( "click" );}}, 8000);
+                });                
+        });
+
         function generate_select_frontends(){
             $.ajax({
                         url :"{{=URL('data','get_frontends')}}",
@@ -108,13 +112,14 @@
                             $('#frontends_form').append(data);
                             adapt_language_tipology(langCode);
                             $('.form-control_frontends').select2();
-                            $select_tipology=$("#select_frontend"); 
+                            $select_tipology=$("#select_frontend");
                             $select_tipology.on("change",function (e) {changeTipology()});
                             $('#frontends_form').show();
                         },
-                   
-              });            
+
+              });
         }
+        
         function changeTipology(){
             var val_select_tipology=$("#select2-select_frontend-container").text();
             $.ajax({
@@ -122,19 +127,33 @@
                 type: 'GET',
                 data : 'frontend='+ val_select_tipology+'&tab=grafici',
                 success: function(data){
-                         $( '#stations').html(data);
-                         adapt_language_select_source(langCode);
-                         $('.form-control_stations').select2();
-                         $select_source=$("#form-control_stations");
-                         changeSource();
-                         $( '#stations').show();
-                      
+                        if(data=='404 NOT FOUND'){
+                               if(val_select_tipology=='Seleziona tipologia'){
+                                   alert("Errore scegli una tipologia");
+                               }
+                               else{
+                                   if(val_select_tipology=='Select tipology'){
+                                       alert("Error select a tipology");
+                                   }
+                                   else{
+                                       alert("Wählen Sie zuerst Typ");
+                                   }
+                               }
+                         }else{
+                             $( '#stations').html(data);
+                             adapt_language_select_source(langCode);
+                             $('.form-control_stations').select2();
+                             $select_source=$("#form-control_stations");
+                             changeSource();
+                             $( '#stations').show();
+                         }
+
                },error: function(req, err){alert('Error server' + err); }
             });
        }
-       
+
        function changeSource(){
-           $select_source.on("change", function () {  
+           $select_source.on("change", function () {
                var val_select_tipology=$( "#select2-select_frontend-container" ).text();
                var val_select_source=$( "select.form-control_stations" ).val();
                    $.ajax({
@@ -144,14 +163,14 @@
                        success: function(data){
                            if(data=='404 NOT FOUND'){
                                if(val_select_tipology=='Seleziona tipologia'){
-                                   alertify.alert("Errore scegli una tipologia");
+                                   alert("Errore scegli una tipologia");
                                }
                                else{
                                    if(val_select_tipology=='Select tipology'){
-                                       alertify.alert("Error select a tipology");
+                                       alert("Error select a tipology");
                                    }
                                    else{
-                                       alertify.alert("Wählen Sie zuerst Typ");
+                                       alert("Wählen Sie zuerst Typ");
                                    }
                                }
                             }
@@ -166,9 +185,9 @@
                     });
                 });
        }
-        
+
        function reset_single_sidebar(el){
-           
+
                var well_panel=$(el).next("div");
                var link=$(well_panel).find( "a" );
                for(var i=0;i<link.length;i++){
@@ -178,9 +197,9 @@
                 }
                 well_panel.remove();
                 el.remove();
-           
+
         }
-        
+
         function active_link_through_checkbox(el){
             $(el).closest( "a" ).trigger( "click" );
         }
@@ -194,8 +213,8 @@
                 plot_console.plotAccordingToChoices();
                 date_set(moment().subtract('days', 7),moment());
             }
-            
-         } 
+
+         }
     </script>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
