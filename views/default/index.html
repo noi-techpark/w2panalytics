@@ -1,15 +1,36 @@
 {{extend 'layout.html'}}
+<div role="tabpanel">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#grafici" role="tab" data-toggle="tab">Grafici</a></li>
+        <li role="presentation" class="" ><a href="#mappa" aria-controls="mappa" role="tab" data-toggle="tab">Mappa</a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="container-fluid box">
+    <div class="tab-content row">
+        <div role="tabpanel" class="tab-pane active" id="grafici">
+        {{include 'default/console.html'}}
+        </div>
+        <div role="tabpanel" class="tab-pane container-fluid" id="mappa">
+        {{include 'default/map.html'}}
+        </div>      
+    </div>
+    </div>
+</div>
+<script>
+    $.web2py.ajax_init('');
+    // Avoid to insert the same station two times
+    $(document).on('click', '.tab-pane .form-inline .btn-success', function(e){
+        form = $(this).parents('form')[0];
+        tab_id  = $($(this).parents('.tab-pane')[0]).attr('id');
+        val = $('select', form).find(":selected").val();
+        obj = $('#' + tab_id + '_list_' +val);
+        if ((! val) || (obj.length) ){
+            e.preventDefault()
+            e.stopImmediatePropagation();
+            fix_dynamic_accordion('#sidebar_console');
+            obj.addClass('in');
+        }
+    });
 
-
-    <div id='content' class="tab-content">
-          <div class="tab-pane fade in active" id="grafici">
-            <ul>             
-                    {{include 'default/console.html'}}
-            </ul>
-          </div>
-          <div class="tab-pane fade" id="mappa" style="background:white">
-                <ul>
-                    {{include 'default/map.html'}}
-              </ul>
-         </div>
- </div>
+</script>

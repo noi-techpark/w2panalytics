@@ -133,7 +133,6 @@ def get_geojson():
     
     features= [{"type": "Feature",
                 "properties": {
-                    "id":s['id'],
                     "popupContent": "%s %s" % (s['name'], s['last_value']),
                     "openPopup": False,
                     "last_value": s['last_value'],
@@ -170,3 +169,4 @@ def __get_last_value(frontend, _id,  _type, _period):
 
     obj=data[index]
     return int(obj['value'])
+    
