@@ -1,4 +1,4 @@
-{{extend 'layout_login.html'}}
+{{extend 'layout.html'}}
 
 <h2>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
 <div id="web2py_user_form">
@@ -22,3 +22,4 @@ jQuery("#web2py_user_form input:visible:enabled:first").focus();
     web2py_validate_entropy(jQuery('#no_table_new_password'),100);
 {{pass}}
 //--></script>
+

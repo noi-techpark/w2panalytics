@@ -99,120 +99,34 @@ function fix_dynamic_accordion(ele) {
 	
 })(jQuery);
 
-
 var startDate = moment().subtract('days', 7);
 var endDate = moment();
-var date_set;
-var datapickler_option_eng = {
+var datapickler_option = {
+    startDate: startDate,
+    endDate: endDate,
+    minDate: '01/01/2012',
+    maxDate: '12/31/2015',
+    dateLimit: { months: 1 },
+    showDropdowns: true,
+    showWeekNumbers: true,
+    timePicker: true,
+    timePickerIncrement: 1,
+    timePicker12Hour: true,
+    ranges: {
+        'Last 2 hours': [moment().subtract('hours', 2), moment().add('days', 1)],
+        'Today': [moment({hour: 00, minute: 00}), moment()],
+        'Yesterday': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
+        'Last 7 Days': [moment().subtract('days', 6), moment().add('days', 1)],
+        'Last 30 Days': [moment().subtract('days', 29), moment().add('days', 1)],
+        'This Month': [moment().startOf('month'), moment().endOf('month')],
+        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+    },
+    opens: 'left',
+    buttonClasses: ['btn btn-default'],
+    applyClass: 'btn-small btn-primary',
+    cancelClass: 'btn-small',
     format: 'MM/DD/YYYY',
-        startDate: startDate,
-        endDate: endDate,
-        minDate: '01/01/2012',
-        maxDate: '12/31/2015',
-        dateLimit: { months: 1 },
-        showDropdowns: true,
-        showWeekNumbers: true,
-        timePicker: true,
-        timePickerIncrement: 1,
-        timePicker12Hour: true,
-        ranges: {
-            'Last 2 hours': [moment().subtract('hours', 2), moment().add('days', 1)],
-            'Today': [moment({hour: 00, minute: 00}), moment()],
-            'Yesterday': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
-            'Last 7 Days': [moment().subtract('days', 6), moment().add('days', 1)],
-            'Last 30 Days': [moment().subtract('days', 29), moment().add('days', 1)],
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-        },
-        opens: 'left',
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-primary',
-        cancelClass: 'btn-default',
-        separator: ' to ',
-        locale: {
-            applyLabel: 'Submit',
-            cancelLabel: 'Cancel',
-            fromLabel: 'From',
-            toLabel: 'To',
-            customRangeLabel: 'Custom',
-            daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-            monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            firstDay: 1
-        }
+    separator: ' to ',
 };
 
-var datapickler_option_it = {
-        format: 'MM/DD/YYYY',
-        startDate: startDate,
-        endDate: endDate,
-        minDate: '01/01/2012',
-        maxDate: '12/31/2015',
-        dateLimit: { months: 1 },
-        showDropdowns: true,
-        showWeekNumbers: true,
-        timePicker: true,
-        timePickerIncrement: 1,
-        timePicker12Hour: true,
-        ranges: {
-            'Ultime 2 ore': [moment().subtract('hours', 2), moment().add('days', 1)],
-            'Oggi': [moment({hour: 00, minute: 00}), moment()],
-            'Ieri': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
-            'Ultimi 7 giorni': [moment().subtract('days', 6), moment().add('days', 1)],
-            'Ultimi 30 giorni': [moment().subtract('days', 29), moment().add('days', 1)],
-            'Questo mese': [moment().startOf('month'), moment().endOf('month')],
-            'Scorso mese': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-        },
-        opens: 'left',
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-primary',
-        cancelClass: 'btn-default',
-        separator: ' to ',
-        locale: {
-            applyLabel: 'Applica',
-            cancelLabel: 'Annulla',
-            fromLabel: 'Da',
-            toLabel: 'A',
-            customRangeLabel: 'Personalizza',
-            daysOfWeek: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
-            monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
-            firstDay: 1
-        }
-};
 
-var datapickler_option_de = {
-        format: 'MM/DD/YYYY',
-        startDate: startDate,
-        endDate: endDate,
-        minDate: '01/01/2012',
-        maxDate: '12/31/2015',
-        dateLimit: { months: 1 },
-        showDropdowns: true,
-        showWeekNumbers: true,
-        timePicker: true,
-        timePickerIncrement: 1,
-        timePicker12Hour: true,
-        ranges: {
-            'Letzte 2 Stunden': [moment().subtract('hours', 2), moment().add('days', 1)],
-            'Heute': [moment({hour: 00, minute: 00}), moment()],
-            'Gestern': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
-            'Letzte 7 Tage': [moment().subtract('days', 6), moment().add('days', 1)],
-            'Letzte 30 Tage': [moment().subtract('days', 29), moment().add('days', 1)],
-            'Diesen Monat': [moment().startOf('month'), moment().endOf('month')],
-            'Letzter Monat': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-        },
-        opens: 'left',
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-primary',
-        cancelClass: 'btn-default',
-        separator: ' to ',
-        locale: {
-            applyLabel: 'Übernehmen',
-            cancelLabel: 'Abbrechen',
-            fromLabel: 'Von',
-            toLabel: 'Bis',
-            customRangeLabel: 'Anpassen',
-            daysOfWeek: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-            monthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
-            firstDay: 1
-        }
-};
