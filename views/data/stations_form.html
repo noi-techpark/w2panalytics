@@ -1,20 +1,6 @@
-<div id="form_stations">
-<form class="form-inline pull-left form-station" action="{{=URL('data', 'get_data_types')}}">
-<div class="form-group">
-    <div class="input-group">
-    <div class="input-group-addon">Stazione</div>
-    <select class="form-control" name="station" id="select_frontend">
-    		<option value=""></option>
+<select class="form-control_stations" name="station" id="form-control_stations" >
+    		<option  tkey="select-source" id="first-option-select-stations">Seleziona sorgente</option>
 		{{for station in stations: }}
 			<option value="{{=station['id']}}">{{=station['name']}}</option>
 		{{pass}}
-	</select>
-	{{if request.vars.tab:}}
-	<input type="hidden" name="tab" value="{{=request.vars.tab}}">
-    {{pass}}
-	</div>
-    <input type='hidden' name='frontend' value='{{=frontend}}'>
-    <input  type="submit" class="update btn btn-success" value="Seleziona" />
-</div>
-</form>
-</div>
+</select>
