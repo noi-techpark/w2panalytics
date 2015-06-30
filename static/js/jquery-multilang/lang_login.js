@@ -16,8 +16,7 @@ $( document ).ready(function() {
 
 function setTranslation() {
 	var res= false;
-    var pathArray = window.location.pathname.split( '/' );
-    var url = "http://"+window.location.host + "/"+pathArray[1]+ "/" ;
+    var url = "http://"+window.location.host+"/";
     var cindex= getCookie("lang");
     cindex=cindex.toLowerCase();
     if(cindex) {
