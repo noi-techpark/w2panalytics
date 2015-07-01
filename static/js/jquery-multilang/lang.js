@@ -16,8 +16,7 @@ $( document ).ready(function() {
 
 function setTranslation() {
 	var res= false;
-    var pathArray = window.location.pathname.split( '/' );
-    var url = "http://"+window.location.host + "/"+pathArray[1]+ "/" ;
+    var url = "http://"+window.location.host+"/";
     var cindex= getCookie("lang");
     cindex=cindex.toLowerCase();
     if(cindex) {
@@ -30,13 +29,16 @@ function setTranslation() {
          if(browserLang=="it-IT" || browserLang=="it"){    
               langCode= 'it';
               setCookie("lang",langCode,60);
+              res= langCode;
         }else{
             if(browserLang=="de-DE" || browserLang=="de" ){
                 langCode= 'de';
                 setCookie("lang",langCode,60);
+                res= langCode;
             }else{
                 langCode= 'en';
                 setCookie("lang",langCode,60);
+                res= langCode;
             }
         }
     }
