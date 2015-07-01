@@ -29,13 +29,16 @@ function setTranslation() {
          if(browserLang=="it-IT" || browserLang=="it"){    
               langCode= 'it';
               setCookie("lang",langCode,60);
+              res= langCode;
         }else{
             if(browserLang=="de-DE" || browserLang=="de" ){
                 langCode= 'de';
                 setCookie("lang",langCode,60);
+                res= langCode;
             }else{
                 langCode= 'en';
                 setCookie("lang",langCode,60);
+                res= langCode;
             }
         }
     }
