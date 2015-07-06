@@ -17,6 +17,10 @@ $( document ).ready(function() {
 function setTranslation() {
 	var res= false;
     var url = "http://"+window.location.host+"/";
+    var pathname= window.location.pathname.split( '/' );
+    if(pathname[1]!="default"){
+        url=url+pathname[1]+"/";
+    }
     var cindex= getCookie("lang");
     cindex=cindex.toLowerCase();
     if(cindex) {
@@ -29,15 +33,18 @@ function setTranslation() {
          if(browserLang=="it-IT" || browserLang=="it"){    
               langCode= 'it';
               setCookie("lang",langCode,60);
+              $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
               res= langCode;
         }else{
             if(browserLang=="de-DE" || browserLang=="de" ){
                 langCode= 'de';
                 setCookie("lang",langCode,60);
+                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
                 res= langCode;
             }else{
                 langCode= 'en';
                 setCookie("lang",langCode,60);
+                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
                 res= langCode;
             }
         }

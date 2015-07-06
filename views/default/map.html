@@ -1,15 +1,15 @@
 <main id="main-map">
     <main id="main-map">
     <div class="row-fluid">
-        <div class='col-md-2' id="#sidebar">   
+        <div class='col-md-2' id="#sidebar">
              <div class="map-panel">
-                    <h3 tkey="layer-map" class="main-color">Map layers</h3>                   
+                    <h3 tkey="layer-map" class="main-color">Map layers</h3>
                     <ul>
-                        <li><a href="#" data-type="bluetooth" class="icon icon-bluetooth" id="icon-bluetooth" onclick="load_geojson_bluetooth()"><span tkey="bluetooth-station">Bluetooth station</span></a></li>
+                        <li><a href="#" data-bluetooth="bluetooth" class="icon icon-bluetooth" id="icon-bluetooth" onclick="load_geojson_bluetooth()"><span tkey="bluetooth-station">Bluetooth station</span></a></li>
                         <li><a href="#" data-type="traffic" class="icon icon-traffico" id="icon-traffic" onclick="load_geojson_traffic()"><span tkey="traffic-station">Traffic station</span></a></li>
                         <li><a href="#" data-type="journey-time"  class="icon icon-percorrenza" id="icon-percorrenza" onclick="load_tileLayer_l_congestion()"><span tkey="journey-time">Journey time</span></a></li>
                         <li><a href="#" data-type="parking" class="icon icon-parcheggi" id="icon-parcheggi" onclick="load_geojson_parking()"><span tkey="parking">Parking</span></a></li>
-                        <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</a></li>
+                        <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</span></a></li>
                         <li><a href="#" data-type="environment" class="icon icon-inquinamento" id="icon-inquinamento" onclick="load_geojson_env()"><span tkey="stations-pollution">Stations pollution</span></a></li>
                         <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
                         <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-emissions">PM10 emissions</span></a></li>
@@ -20,17 +20,17 @@
                     <a href="#" id="deselect-layers" tkey="uncheck-all" onclick="reset_map()">Deseleziona tutti</a>
             </div>
         </div>
-        <div class='col-md-10' style="padding:0">    
+        <div class='col-md-10' style="padding:0">
             <div id="map" style="width:100%;"></div>
         </div>
     </div>
-        
+
 
 </main>
-    
-    
-    
-    
+
+
+
+
 <script>
     var map = L.map('map').setView([46.493, 11.34], 14);
     var popup_selected;
@@ -38,15 +38,15 @@
     var geojsonLayerBluetooth;
     var geojsonLayerEnv;
     var geojsonLayerParking;
-    var geojsonMeteo;
-    var geojsonTraffic;
-    
+    var geojsonLayerMeteo;
+    var geojsonLayerTraffic;
+
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-    
+
     $('div.leaflet-top').removeClass('leaflet-left').addClass('leaflet-right');
-    
+
     var l_pm10 = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
         layers: 'edi:pollution_pm10',
         transparent: true,
@@ -74,142 +74,337 @@
         attribution: "",
         format: 'image/png',
     });
-     
- 
+
+
 
 
     $(document).on('shown.bs.tab','body a[data-toggle="tab"]', function() {
         map.invalidateSize(false);
     });
-    
+
     function load_geojson_bluetooth() {
+        var text_tiplogy=$("#icon-bluetooth").text();
+        $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span><i data='spinner-bluetooth' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
                if($("#icon-bluetooth").hasClass( "active" )==true){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':1800})}}';
-                    $.getJSON(url_request, function( data ) {
-                    geojsonLayerBluetooth=L.geoJson(data, {
-                        pointToLayer: function (feature, latlng) {
-                            var v = feature.properties.last_value;
-                            var markerIcon = new L.Icon.Default({
-                                iconUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                                iconRetinaUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                            });
+                    $.ajax({
+                       url: url_request,
+                       dataType: 'json',
+                       success: function( data ) {
+                          geojsonLayerBluetooth=L.geoJson(data, {
+                            pointToLayer: function (feature, latlng) {
+                                var max_last_value;
+                                var length=data['features'].length
+                                for(var i=0;i<length;i++){
+                                    if(i==0){
+                                        max_last_value= data['features'][i]['properties']['last_value'];
+                                    }else{
+                                        if(max_last_value<data['features'][i]['properties']['last_value']){
+                                            max_last_value=data['features'][i]['properties']['last_value']
+                                        }
+                                    }
+                                }
+                                var v = feature.properties.last_value;
+                                if(v==-1){
+                                     v=0;
+                                }
+                                if(max_last_value==-1){
+                                       max_last_value=0;
+                                }
+                                var markerIcon;
+                                if(v/max_last_value>=0.70){
+                                        markerIcon = new L.Icon.Default({
+                                            iconUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
+                                            iconRetinaUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
+                                        });
+                                }
+                                else{
+                                    markerIcon = new L.Icon.Default({
+                                            iconUrl: '{{=URL('static','images/bluetooth-icon-trasparence.png')}}',
+                                        iconRetinaUrl: '{{=URL('static','images/bluetooth-icon-trasparence.png')}}',
+                                    });
+                                }
+                                return L.marker(latlng, {icon: markerIcon});
+                            },
+                            onEachFeature: onEachFeatureBluetooth
+                        }).addTo(map);
+                      },
+                      error: function( data ) {
+                         $("#icon-bluetooth").removeClass("active");
+                         if(langCode=="de"){
+                              alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+                         }else{
+                             if(langCode=="it"){
+                                 alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+                             }else{
+                                alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+                             }
 
-                            return L.marker(latlng, {icon: markerIcon});
-                        },
-                        onEachFeature: onEachFeatureBluetooth
-                    }).addTo(map);
-                // Add the new layer to the layerControl
-                    });
-            }else{
-                map.removeLayer(geojsonLayerBluetooth);
-            }
-        }, 1000);
+                         }
+                       }
+                   });
+                }else{
+                    map.removeLayer(geojsonLayerBluetooth);
+                }
+                $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
+            }, 1000);
     }
-  
+
     function load_geojson_traffic() {
+        var text_tiplogy=$("#icon-traffic").text();
+        $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span><i data='spinner-traffic' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
                if($("#icon-traffic").hasClass( "active" )==true){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Traffic', 'type':'Traffic Count record', 'period':1800})}}';
-                   $.getJSON(url_request, function( data ) {
-                    geojsonTraffic=L.geoJson(data, {
+                   $.ajax({
+                       url: url_request,
+                       dataType: 'json',
+                       success: function( data ) {
+                          geojsonLayerTraffic=L.geoJson(data, {
                             pointToLayer: function (feature, latlng) {
-                            var v = feature.properties.last_value;
-                            var markerIcon = new L.Icon.Default({
-                                iconUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                                iconRetinaUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                            });
+                                var max_last_value;
+                                var length=data['features'].length
+                                for(var i=0;i<length;i++){
+                                    if(i==0){
+                                        max_last_value= data['features'][i]['properties']['last_value'];
+                                    }else{
+                                        if(max_last_value<data['features'][i]['properties']['last_value']){
+                                            max_last_value=data['features'][i]['properties']['last_value']
+                                        }
+                                    }
+                                }
+                                var v = feature.properties.last_value;
+                                if(v==-1){
+                                     v=0;
+                                }
+                                if(max_last_value==-1){
+                                       max_last_value=0;
+                                }
+                                var markerIcon;
+                                if(v/max_last_value>=0.70){
+                                    markerIcon= new L.Icon.Default({
+                                        iconUrl: '{{=URL('static','images/traffic-icon.png')}}',
+                                        iconRetinaUrl: '{{=URL('static','images/traffic-icon.png')}}',
+                                    });
+                                }else{
+                                    markerIcon= new L.Icon.Default({
+                                        iconUrl: '{{=URL('static','images/traffic-icon-trasparence.png')}}',
+                                        iconRetinaUrl: '{{=URL('static','images/traffic-icon-trasparence.png')}}',
+                                    });
+                                }
 
                             return L.marker(latlng, {icon: markerIcon});
                         },
                         onEachFeature: onEachFeatureTraffic
-                    }).addTo(map);
-                // Add the new layer to the layerControl
-                    });
-            }else{
-                map.removeLayer(geojsonTraffic);
-            }
-        }, 1000);
+                      }).addTo(map);
+                   },
+                   error: function( data ) {
+                       $("#icon-traffic").removeClass("active");
+                       if(langCode=="de"){
+                           alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+                       }else{
+                           if(langCode=="it"){
+                               alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+                           }else{
+                               alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+                           }
+                       }
+                   }
+               });
+             }else{
+                map.removeLayer(geojsonLayerTraffic);
+             }
+             $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
+           }, 1000);
     }
-    
+
     function load_geojson_parking() {
+        var text_tiplogy=$("#icon-parcheggi").text();
+        $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span><i data='spinner-parking' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'Parking Count record', 'period':1800})}}';
                    if($("#icon-parcheggi").hasClass( "active" )==true){
-                       $.getJSON(url_request, function( data ) {
-                           geojsonLayerParking=L.geoJson(data, {
-                               pointToLayer: function (feature, latlng) {
-                                   var v = feature.properties.last_value;
-                                   var markerIcon = new L.Icon.Default({
-                                       iconUrl: '{{=URL('static','images/parking-icon.png')}}',
-                                       iconRetinaUrl: '{{=URL('static','images/parking-icon.png')}}',
-                                   });
-
+                       $.ajax({
+                           url: url_request,
+                           dataType: 'json',
+                           success: function( data ) {
+                               geojsonLayerParking=L.geoJson(data, {
+                                   pointToLayer: function (feature, latlng) {
+                                       var max_last_value;
+                                       var length=data['features'].length
+                                       for(var i=0;i<length;i++){
+                                           if(i==0){
+                                               max_last_value= data['features'][i]['properties']['last_value'];
+                                           }else{
+                                               if(max_last_value<data['features'][i]['properties']['last_value']){
+                                                   max_last_value=data['features'][i]['properties']['last_value']
+                                                }
+                                            }
+                                        }
+                                        var v = feature.properties.last_value;
+                                        if(v==-1){
+                                            v=0;
+                                        }
+                                        if(max_last_value==-1){
+                                           max_last_value=0;
+                                        }
+                                        var markerIcon;
+                                        if(v/max_last_value>=0.70){
+                                           markerIcon= new L.Icon.Default({
+                                               iconUrl: '{{=URL('static','images/parking-icon.png')}}',
+                                               iconRetinaUrl: '{{=URL('static','images/parking-icon.png')}}',
+                                           });
+                                        }else{
+                                            markerIcon= new L.Icon.Default({
+                                               iconUrl: '{{=URL('static','images/parking-icon-trasparence.png')}}',
+                                               iconRetinaUrl: '{{=URL('static','images/parking-icon-trasparence.png')}}',
+                                            });
+                                        }
                                    return L.marker(latlng, {icon: markerIcon});
                                },
                                onEachFeature: onEachFeatureParking
                             }).addTo(map);
-                // Add the new layer to the layerControl
-                        });
-                   }else{
-                       map.removeLayer(geojsonLayerParking);
-                   }
+                       },
+                       error: function( data ) {
+                          $("#icon-parcheggi").removeClass("active");
+                          if(langCode=="de"){
+                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+                          }else{
+                              if(langCode=="it"){
+                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+                              }else{
+                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+                              }
+
+                          }
+
+                        }
+                    });
+                }else{
+                    map.removeLayer(geojsonLayerParking);
+                }
+                $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
             }, 1000);
     }
-    
+
       function load_geojson_env() {
+        var text_tiplogy=$("#icon-inquinamento").text();
+        $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span><i data='spinner-inquinamento' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
             if($("#icon-inquinamento").hasClass( "active" )==true){
-                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'NO2 Count record', 'period':1800})}}';
-                    $.getJSON(url_request, function( data ) {
-                        geojsonLayerEnv = L.geoJson(data, {
+                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'Environment Count record', 'period':1800})}}';
+                     $.ajax({
+                       url: url_request,
+                       dataType: 'json',
+                       success: function( data ) {
+                          geojsonLayerEnv=L.geoJson(data, {
                             pointToLayer: function (feature, latlng) {
+                                var max_last_value;
+                                var length=data['features'].length
+                                for(var i=0;i<length;i++){
+                                    if(i==0){
+                                        max_last_value= data['features'][i]['properties']['last_value'];
+                                    }else{
+                                        if(max_last_value<data['features'][i]['properties']['last_value']){
+                                            max_last_value=data['features'][i]['properties']['last_value']
+                                        }
+                                    }
+                                }
                                 var v = feature.properties.last_value;
-                                var markerIcon = new L.Icon.Default({
-                                    iconUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
-                                    iconRetinaUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
-                                });
-                                return L.marker(latlng, {icon: markerIcon});
+                                if(v==-1){
+                                     v=0;
+                                }
+                                if(max_last_value==-1){
+                                       max_last_value=0;
+                                }
+                                var markerIcon;
+                                 if(v/max_last_value>=0.70){
+                                       markerIcon= new L.Icon.Default({
+                                           iconUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
+                                           iconRetinaUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
+                                       });
+                                   }else{
+                                       markerIcon= new L.Icon.Default({
+                                           iconUrl: '{{=URL('static','images/inquinamento-icon-trasparence.png')}}',
+                                           iconRetinaUrl: '{{=URL('static','images/inquinamento-icon-trasparence.png')}}',
+                                       });
+                                   }
+                                   return L.marker(latlng, {icon: markerIcon});
                             },
                         onEachFeature: onEachFeatureEnv
                         }).addTo(map);
-            // Add the new layer to the layerControl
-                     });
+                       },
+                       error: function( data ) {
+                          $("#icon-inquinamento").removeClass("active");
+                          if(langCode=="de"){
+                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+                          }else{
+                              if(langCode=="it"){
+                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+                              }else{
+                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+                              }
+
+                          }
+                        }
+                    });
             }
+
             else{
                 map.removeLayer(geojsonLayerEnv);
             }
+           $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
         }, 1000);
     }
-    
+
     function load_geojson_weather() {
+        var text_tiplogy=$("#icon-meteo").text();
+        $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span><i data='spinner-weather' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Meteo', 'type':'Meteo Count record', 'period':1800})}}';
                    if($("#icon-meteo").hasClass( "active" )==true){
-                       $.getJSON(url_request, function( data ) {
-                           geojsonMeteo=L.geoJson(data, {
-                               pointToLayer: function (feature, latlng) {
-                                   var v = feature.properties.last_value;
-                                   var markerIcon = new L.Icon.Default({
-                                       iconUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                       iconRetinaUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                   });
+                       $.ajax({
+                       url: url_request,
+                       dataType: 'json',
+                       success: function( data ) {
+                          geojsonLayerMeteo=L.geoJson(data, {
+                            pointToLayer: function (feature, latlng) {
+                                var v = feature.properties.last_value;
+                                var markerIcon;
+                                markerIcon= new L.Icon.Default({
+                                           iconUrl: '{{=URL('static','images/meteo-icon.png')}}',
+                                           iconRetinaUrl: '{{=URL('static','images/meteo-icon.png')}}',
+                                });
+                                return L.marker(latlng, {icon: markerIcon});
+                            },
+                                onEachFeature: onEachFeatureWeather
+                          }).addTo(map);
+                       },
+                       error: function( data ) {
+                          $("#icon-meteo").removeClass("active");
+                          if(langCode=="de"){
+                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+                          }else{
+                              if(langCode=="it"){
+                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+                              }else{
+                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+                              }
 
-                                   return L.marker(latlng, {icon: markerIcon});
-                               },
-                               onEachFeature: onEachFeatureWeather
-                            }).addTo(map);
-                // Add the new layer to the layerControl
-                        });
+                          }
+                        }
+                    });
                    }else{
-                       map.removeLayer(geojsonMeteo);
+                       map.removeLayer(geojsonLayerMeteo);
                    }
+                   $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span>");
             }, 1000);
     }
 
-    
 
-  
+
+
 
     function load_tileLayer_pm10() {
         setTimeout(function(){
@@ -263,7 +458,7 @@
     map.on("popupclose", function() {
         popup_open = undefined;
     });
-    
+
     function onEachFeatureBluetooth (feature, layer) {
         var popupContent;
         if (feature.properties && feature.properties.popupContent) {
@@ -274,8 +469,8 @@
         var left_link;
         var right_link;
         var tipology="Bluetooth";
+        var text_tipology="Bluetooth";
         var street=adapt_string_for_view(popupContent,tipology);
-        var tipology="Bluetooth";
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
@@ -302,15 +497,15 @@
          }
 
         }
-         var popup = L.popup({maxWidth:270,minWidth:270})
+         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
+            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
         }
     }
-    
+
     function onEachFeatureTraffic(feature, layer) {
         var popupContent;
         if (feature.properties && feature.properties.popupContent) {
@@ -321,6 +516,16 @@
         var left_link;
         var right_link;
         var tipology="Traffic";
+        var text_tipology;
+        if(langCode=="de"){
+            text_tipology="Verkehr";
+        }else{
+            if(langCode=="it"){
+                text_tipology="Traffico";
+            }else{
+              text_tipology="Traffic";
+            }
+        }
         var street=adapt_string_for_view(popupContent,tipology);
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
@@ -348,16 +553,16 @@
          }
 
         }
-        var popup = L.popup({maxWidth:270,minWidth:270})
+        var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
+            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
         }
 
     }
-    
+
     function onEachFeatureParking(feature, layer) {
         var popupContent;
         if (feature.properties && feature.properties.popupContent) {
@@ -370,6 +575,16 @@
         var right_link;
         var street=popupContent;
         var tipology="Parking";
+        var text_tipology;
+        if(langCode=="de"){
+            text_tipology="Parkplatz";
+        }else{
+            if(langCode=="it"){
+                text_tipology="Parcheggio";
+            }else{
+              text_tipology="Parking";
+            }
+        }
         var street=adapt_string_for_view(popupContent,tipology);
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
@@ -397,9 +612,9 @@
          }
 
         }
-        var popup = L.popup({maxWidth:270,minWidth:270})
+        var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
+            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -507,7 +722,7 @@
                     var popup = L.popup({maxWidth:450,minWidth:450})
                         .setLatLng(coordinate_lat,coordinate_long)
                        .setContent(create_popoup_weather(label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,"#93208c"));
-                    layer.bindPopup(popup); 
+                    layer.bindPopup(popup);
                      if (feature.properties && feature.properties.openPopup) {
                         popup_selected = popup;
                     }
@@ -516,7 +731,7 @@
 
     }
 
-   
+
 
 
     function onEachFeatureEnv (feature, layer) {
@@ -530,6 +745,16 @@
         var left_link;
         var right_link;
         var tipology="Environment";
+        var text_tipology;
+        if(langCode=="de"){
+            text_tipology="Stationen Verschmutzung";
+        }else{
+            if(langCode=="it"){
+                text_tipology="Stazioni inquinamento";
+            }else{
+              text_tipology="Stations pollution";
+            }
+        }
         var street=adapt_string_for_view(popupContent,tipology);
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
@@ -557,10 +782,10 @@
          }
 
         }
-        var popup = L.popup({maxWidth:270,minWidth:270})
+        var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"g/km/h",street,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
-            layer.bindPopup(popup);        
+            .setContent(create_popoup(last_value,"µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
+            layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
         }
@@ -609,12 +834,9 @@
         setTimeout(function(){
                $("#select2-form-control_stations-container").text(street);
                street=street.replace(/\s/g, '');
-               console.log("guarda street");
                $("#form-control_stations option").filter(function() {
                    select_street=this.text;
                    select_street=select_street.replace(/\s/g, '');
-                   console.log(street+" "+select_street);
-                   console.log(street==select_street);
                    if(select_street==street){
                        $( "select.form-control_stations" ).val($(this).attr("value"));
                        street=$(this).attr("value");
@@ -622,7 +844,7 @@
                });
 
 
-        }, 2000);
+        }, 1000);
         setTimeout(function(){
                 recover_stations(tipology,street);
         }, 2000);
@@ -631,12 +853,12 @@
         }, 2000);
         setTimeout(function(){
              $("a[data-station="+street+"]").trigger("click");
-        }, 4000);
-      
+        }, 3000);
+
 
 
     }
-    
+
     function graphStoric(tipology,street){
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
@@ -653,7 +875,6 @@
         setTimeout(function(){
                $("#select2-form-control_stations-container").text(street);
                street=street.replace(/\s/g, '');
-               console.log("guarda street");
                $("#form-control_stations option").filter(function() {
                    select_street=this.text;
                    select_street=select_street.replace(/\s/g, '');
@@ -664,27 +885,32 @@
                });
 
 
-        }, 2000);
-        setTimeout(function(){           
+        }, 1000);
+        setTimeout(function(){
                 recover_stations(tipology,street);
         }, 2000);
          setTimeout(function(){
              $("a[data-station="+street+"]").trigger("click");
-        }, 4000);
-        
+        }, 3000);
+
 
     }
-    
-    function create_popoup(last_value,unit_measure,street,first_text,second_text,left_link,right_link,color,street,tipology){
-        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
+
+    function create_popoup(last_value,unit_measure,street,text_tipology,first_text,second_text,left_link,right_link,color,street,tipology){
+        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
     }
-    
+
     function create_popoup_weather(label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,color){
-        return "<div class='row' style='padding-top:10px;'><div class='col-md-7'><h1 style='font-weight: bold;font-size: 30px;'>"+street+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+precipitation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_direction+":</h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_direction+"</h1></td></tr></table></div><div class='col-md-5'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='../static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+precipitation+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_humidity+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+humidity+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
-        
+        var url = "http://"+window.location.host+"/";
+        var pathname= window.location.pathname.split( '/' );
+        if(pathname[1]!="default"){
+            url=url+pathname[1]+"/";
+        }
+        return "<div class='row' style='padding-top:10px;'><div class='col-md-7'><h1 style='font-weight: bold;font-size: 30px;'>"+street+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+precipitation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_direction+":</h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_direction+"</h1></td></tr></table></div><div class='col-md-5'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url+"static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+precipitation+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_humidity+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+humidity+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
+
     }
-    
-    
+
+
     function recover_stations(tipology,street){
         $.ajax({
             url : '{{=URL('data','get_data_types')}}',
@@ -696,19 +922,21 @@
                 $( '#sidebar_grafici').append(data);
                 $('#sidebar_grafici').show();
                 changeTipology();
-                            
+
             },error: function(req, err){alert('Error server' + err); }
         });
-        
+
     }
-    
+
     function adapt_string_for_view(street,typology){
                 if(typology=="Parking" || typology=="Environment" ){
                     return street.slice(0,street.length-2);
                 }
-                else{                      
+                else{
                     return street.replace(/[0-9,-]/g, '').slice(0,street.length-1);
-                }            
+                }
     }
-      
+
+
+
 </script>

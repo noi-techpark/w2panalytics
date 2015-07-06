@@ -23,7 +23,7 @@
     "add-date":"Aggiungi dati",
     "select-typology" : "Seleziona tipologia",
     "select-source" : "Seleziona sorgente",
-    "select-source-param" : "Seleziona un dato sorgente e un parametro per vedere il relativo grafico",
+    "select-source-param" : "Seleziona una tipologia, una sorgente e scegli una stazione per per vedere il relativo grafico",
     "remove-boxes": "Rimuovi tutti i box",
     "layer-map":"Layer mappa"
 }

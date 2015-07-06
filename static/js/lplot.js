@@ -175,6 +175,30 @@ function lplot (ph, options) {
 		        that.onDataReceived(json, url)
 		    },
 		    error: function() {
+                if ($( "#container-alert" ).length==false) {
+                    if(langCode=="de"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
+                    }else{
+                        if(langCode=="it"){
+                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");       
+                        }else{
+                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
+                        }
+                    }
+                }else{
+                    $( ".close" ).trigger( "click" );
+                    setTimeout(function(){ 
+                        if(langCode=="de"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
+                    }else{
+                        if(langCode=="it"){
+                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");       
+                        }else{
+                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
+                        }
+                    } }, 1000);                 
+                }
+                
 		        that.n_active_operations = that.n_active_operations - 1;
 		        if (that.n_active_operations === 0) {
                     $(that.placeholder).trigger($.Event('loaded',{}));
@@ -364,15 +388,31 @@ function set_param_plot_and_language(){
 
 function live_update_graph(){
      if ( $('#sidebar_grafici').children().length == 0 ) {
-        if(langCode=="it"){
-            alert("Seleziona prima una Tiplogia e una Stazione");
-        }else{
+        if ($( "#container-alert" ).length==false) {
             if(langCode=="de"){
-                alert("Wählen Sie zuerst eine Tiplogy und einen Quelle");
+               $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
             }else{
-                 alert("Select a Tiplogy and a Station first");                
-            }
-        } 
+                if(langCode=="it"){
+                     $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                }else{
+                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+               }
+           }
+        }
+        else{
+            $( ".close" ).trigger( "click" );
+            setTimeout(function(){
+                if(langCode=="de"){
+                    $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+                }else{
+                    if(langCode=="it"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                    }else{
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+                   }
+               } 
+            }, 1000);  
+        }
     }else{
         if($('#icon_chart_tmp').hasClass('visited')){
             $('#icon_chart_tmp').remove();
@@ -388,16 +428,32 @@ function live_update_graph(){
 }
 
 function change_options_bar(){
-    if ( $('#sidebar_grafici').children().length == 0 ) {
-        if(langCode=="it"){
-            alert("Seleziona prima una tiplogia e una stazione");
-        }else{
+    if ( $('#sidebar_grafici').children().length == 0 ){
+        if ($( "#container-alert" ).length==false) {
             if(langCode=="de"){
-                alert("Wählen Sie ein tiplogy und einen Sender zuerst");
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
             }else{
-                 alert("Select a tiplogy and a station first");                
-            }
-        } 
+                if(langCode=="it"){
+                     $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                }else{
+                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+               }
+           }
+        }
+        else{
+            $( ".close" ).trigger( "click" );
+            setTimeout(function(){
+                if(langCode=="de"){
+                    $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+                }else{
+                    if(langCode=="it"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                    }else{
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+                   }
+               } 
+            }, 1000);  
+        }
     }else{
         if($('#icon_chart_tmp').hasClass('visited')){
             $('#icon_chart_tmp').remove();
@@ -411,16 +467,31 @@ function change_options_bar(){
 }
 
 function change_options_line(){
-    if ( $('#sidebar_grafici').children().length == 0 ) {
-        if(langCode=="it"){
-            alert("Seleziona prima una tiplogia e una stazione");
-        }else{
+    if ( $('#sidebar_grafici').children().length == 0 ){
+        if ($( "#container-alert" ).length==false) {
             if(langCode=="de"){
-                alert("Wählen Sie ein tiplogy und einen Sender zuerst");
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
             }else{
-                 alert("Select a tiplogy and a station first");                
-            }
-        } 
+                if(langCode=="it"){
+                     $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                }else{
+                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+               }
+           }
+        }else{
+            $( ".close" ).trigger( "click" );
+            setTimeout(function(){                 
+                if(langCode=="de"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+                }else{
+                    if(langCode=="it"){
+                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");       
+                    }else{
+                       $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+                   }
+               } 
+            }, 1000);  
+        }
     }else{
         plot_console.options.series.lines.show = true;
         plot_console.options.series.points.show = true;

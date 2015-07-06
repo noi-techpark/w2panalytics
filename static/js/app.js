@@ -57,6 +57,7 @@ function onEachFeature (feature, layer) {
 
     layer.bindPopup(popupContent);
 }
+
 function get_data(a_obj, obj) {
     console.log(a_obj);
     var params = {
