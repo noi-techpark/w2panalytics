@@ -387,7 +387,7 @@ function set_param_plot_and_language(){
 }
 
 function live_update_graph(){
-     if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible") ){
+     if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
         if(langCode=="it"){
             alert("Seleziona prima una Tiplogia, una Stazione e una sorgente");
         }else{
@@ -412,7 +412,7 @@ function live_update_graph(){
 }
 
 function change_options_bar(){
-    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible") ){
+    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
         if ($( "#container-alert" ).length==false) {
             if(langCode=="de"){
                         $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
@@ -451,7 +451,7 @@ function change_options_bar(){
 }
 
 function change_options_line(){
-    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible") ){
+    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
         if ($( "#container-alert" ).length==false) {
             if(langCode=="de"){
                         $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");

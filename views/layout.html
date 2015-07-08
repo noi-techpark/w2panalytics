@@ -191,13 +191,20 @@
                if($(el).children().length==1){
                    $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
                    setTimeout(function(){ 
-                       var link=$(well_panel).find( "a" );
-                       var length=link.length;
-                       for(var i=0;i<link.length;i++){
-                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                               $(link[i]).trigger( "click" );
+                       var links=$(well_panel).find( "a" );
+                       var length=links.length;
+                       for(var i=0;i<links.length;i++){
+                           if($(links[i]).children('i').hasClass('fa-check-square-o')){
+                                var link=links[i];
+                                var key=$(link).attr("id");
+                                var current = plot_console.getObj(key);
+                                var index = jQuery.inArray(current, plot_console.data)
+                                if ( index > -1 ) {
+                                    plot_console.data.splice(index, 1);
+                                } 
                            }
                        }
+                       plot_console.plotAccordingToChoices();
                        $("#spinner-remove-single-sidebar").remove()
                        well_panel.remove();
                        el.remove(); 
