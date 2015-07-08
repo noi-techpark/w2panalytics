@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
+<html class="no-js" dir="ltr" lang="{{=T.accepted_language or 'en'}}">
+
   <head>
     <meta charset="utf-8">
     <!-- www.phpied.com/conditional-comments-block-downloads/ -->
@@ -13,13 +14,14 @@
           initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
           user-scalable = yes allows the user to zoom in -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{=response.title or request.application}}</title>
+    <title>BZAnalytics</title>
     <!-- http://dev.w3.org/html5/markup/meta.name.html -->
     <meta name="application-name" content="{{=request.application}}">
     <!-- Speaking of Google, don't forget to set your site up:
          http://google.com/webmasters -->
     <meta name="google-site-verification" content="">
     <!-- include stylesheets -->
+
     <link  href="{{=URL('static','css/standard_login.css')}}" rel="stylesheet" type="text/css" />
 
     <!-- All JavaScript at the bottom, except for Modernizr which enables
@@ -46,12 +48,12 @@
     <!-- Main ========================================= -->
     <!-- Begin page content -->
     <div class="flash alert alert-dismissable">{{=response.flash or ''}}</div>
-    <main id="login">         
+    <main id="login">
         {{block center}}
         {{include}}
         {{end}}
      </main>
-    {{block footer}} <!-- this is default footer -->      
+    {{block footer}} <!-- this is default footer -->
    <footer id="footer-2" class="footer-2">
             <div class="aux">
                 <div class="aux2">
@@ -71,13 +73,13 @@
         </footer>
     {{end}}
     <!-- The javascript =============================== -->
-    <script>   
-        $(function() {             
+    <script>
+        $(function() {
             $( "#round-first" ).click(function() {
                 setTimeout(function(){ if($(".round li").is(":visible")){$("#round-first").trigger( "click" );}}, 12000);
-            });                
+            });
         });
-     </script> 
+     </script>
     <script src="{{=URL('static','js/bootstrap.min.js')}}"></script>
     {{block page_js}}{{end page_js}}
     {{if response.google_analytics_id:}}
@@ -88,7 +90,7 @@
       'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'}
       });
     </script>
-   
+
     {{pass}}
     <!-- Share ============================y============ -->
     <script src="{{=URL('static','js/jquery-multilang/lang_login.js')}}"></script>
