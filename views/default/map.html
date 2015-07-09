@@ -473,6 +473,7 @@
         var street=adapt_string_for_view(popupContent,tipology);
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
+        var id_station=feature['properties']['id'];
         var last_value=feature['properties']['last_value'];
         if(last_value==-1){
                last_value=0;
@@ -499,7 +500,7 @@
         }
          var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -530,6 +531,7 @@
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
+        var id_station=feature['properties']['id'];
         if(last_value==-1){
                last_value=0;
         }
@@ -555,7 +557,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -589,6 +591,7 @@
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
+        var id_station=feature['properties']['id'];
         if(last_value==-1){
                last_value=0;
         }
@@ -614,7 +617,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -629,6 +632,7 @@
         var tipology="Meteo";
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
+        var id_station=feature['properties']['id'];
         if (feature.properties && feature.properties.popupContent) {
             popupContent = feature.properties.popupContent;
         }
@@ -721,7 +725,7 @@
                     }
                     var popup = L.popup({maxWidth:450,minWidth:450})
                         .setLatLng(coordinate_lat,coordinate_long)
-                       .setContent(create_popoup_weather(label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,"#93208c"));
+                       .setContent(create_popoup_weather(id_station,label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,"#93208c"));
                     layer.bindPopup(popup);
                      if (feature.properties && feature.properties.openPopup) {
                         popup_selected = popup;
@@ -759,6 +763,7 @@
         var coordinate_lat=feature['geometry']['coordinates'][0];
         var coordinate_long=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
+        var id_station=feature['properties']['id'];
         if(last_value==-1){
                last_value=0;
         }
@@ -784,7 +789,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(last_value,"µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
             layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -818,7 +823,7 @@
         }
     }
 
-    function graphTrend(tipology,street){
+    function graphTrend(tipology,street,id_station){
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -852,14 +857,14 @@
                date_set(moment().subtract(1,'hours'),moment());
         }, 2000);
         setTimeout(function(){
-             $("a[data-station="+street+"]").trigger("click");
+             $("a[data-station="+id_station+"]").trigger("click");
         }, 3000);
 
 
 
     }
 
-    function graphStoric(tipology,street){
+    function graphStoric(tipology,street,id_station){
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -890,23 +895,23 @@
                 recover_stations(tipology,street);
         }, 2000);
          setTimeout(function(){
-             $("a[data-station="+street+"]").trigger("click");
+             $("a[data-station="+id_station+"]").trigger("click");
         }, 3000);
 
 
     }
 
-    function create_popoup(last_value,unit_measure,street,text_tipology,first_text,second_text,left_link,right_link,color,street,tipology){
-        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
+    function create_popoup(id_station,last_value,unit_measure,street,text_tipology,first_text,second_text,left_link,right_link,color,street,tipology){
+        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
     }
 
-    function create_popoup_weather(label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,color){
+    function create_popoup_weather(id_station,label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,color){
         var url = "http://"+window.location.host+"/";
         var pathname= window.location.pathname.split( '/' );
         if(pathname[1]!="default"){
             url=url+pathname[1]+"/";
         }
-        return "<div class='row' style='padding-top:10px;'><div class='col-md-7'><h1 style='font-weight: bold;font-size: 30px;'>"+street+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+precipitation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_direction+":</h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_direction+"</h1></td></tr></table></div><div class='col-md-5'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url+"static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+precipitation+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_humidity+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+humidity+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
+        return "<div class='row' style='padding-top:10px;'><div class='col-md-7'><h1 style='font-weight: bold;font-size: 30px;'>"+street+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+precipitation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_direction+":</h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_direction+"</h1></td></tr></table></div><div class='col-md-5'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url+"static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+precipitation+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_humidity+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+humidity+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
 
     }
 

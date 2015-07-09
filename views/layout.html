@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html class="no-js" dir="ltr" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
 <head>
   <title>BZAnalytics</title>
 
@@ -90,62 +89,9 @@
     <script src="{{=URL('static','js/utility.js')}}"></script>
     <script src="{{=URL('static','js/d3.v3.min.js')}}"></script>
     <script src="{{=URL('static','js/d3.punchcard.js')}}"></script>
+
     <script>
-        var waitingDialog = (function ($) {
-
-    // Creating modal dialog's DOM
-        var $dialog = $(
-            '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
-            '<div class="modal-dialog modal-m">' +
-            '<div class="modal-content">' +
-			'<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
-			'<div class="modal-body">' +
-				'<div class="progress progress-striped active" style="important;margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
-			'</div>' +'</div></div></div>');
-
-            return {
-            /**
-             * Opens our dialog
-             * @param message Custom message
-             * @param options Custom options:
-             * 				  options.dialogSize - bootstrap postfix for dialog size, e.g. "sm", "m";
-             * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
-             */
-            show: function (message, options) {
-                // Assigning defaults
-                var settings = $.extend({
-                    dialogSize: 'm',
-                    progressType: ''
-                }, options);
-                if (typeof message === 'undefined') {
-                    message = 'Loading';
-                }
-                if (typeof options === 'undefined') {
-                    options = {};
-                }
-                // Configuring dialog
-                $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
-                $dialog.find('.progress-bar').attr('class', 'progress-bar');
-                if (settings.progressType) {
-                    $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
-                }
-                $dialog.find('h3').text(message);
-                // Opening dialog
-                $dialog.modal();
-            },
-            /**
-             * Closes dialog
-             */
-            hide: function () {
-                $dialog.modal('hide');
-            }
-        }
-
-})(jQuery);
-        
-    </script>
-    <script>
-        $(function() {           
+        $(function() {
                 var $select_tipology;
                 var $select_source;
                 $( '#sidebar_grafici').hide();
@@ -154,7 +100,7 @@
                 }, 1000);
                 $( "#round-first" ).click(function() {
                     setTimeout(function(){ if($(".round li").is(":visible")){$("#round-first").trigger( "click" );}}, 8000);
-                });                
+                });
         });
 
         function generate_select_frontends(){
@@ -172,7 +118,7 @@
 
               });
         }
-        
+
         function changeTipology(){
             var val_select_tipology=$("#select2-select_frontend-container").text();
             $.ajax({
@@ -242,62 +188,50 @@
        function reset_single_sidebar(el){
                var count=0;
                var well_panel=$(el).next("div");
-               var link=$(well_panel).find( "a" );
-               var length=link.length;         
-               if(length>5){
-                   for(var i=0;i<link.length;i++){
-                       
-                       if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                          count=count+1;
-                       }
-                   }
-                   if(count>2){
-                       waitingDialog.show();
-                       for(var i=0;i<link.length;i++){
-                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                               $(link[i]).trigger( "click" );
+               if($(el).children().length==1){
+                   $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
+                   setTimeout(function(){ 
+                       var links=$(well_panel).find( "a" );
+                       var length=links.length;
+                       for(var i=0;i<links.length;i++){
+                           if($(links[i]).children('i').hasClass('fa-check-square-o')){
+                                var link=links[i];
+                                var key=$(link).attr("id");
+                                var current = plot_console.getObj(key);
+                                var index = jQuery.inArray(current, plot_console.data)
+                                if ( index > -1 ) {
+                                    plot_console.data.splice(index, 1);
+                                } 
                            }
                        }
+                       plot_console.plotAccordingToChoices();
+                       $("#spinner-remove-single-sidebar").remove()
                        well_panel.remove();
-                       el.remove();
-                       waitingDialog.hide();
-                   }else{
-                         for(var i=0;i<link.length;i++){
-                             if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                                 $(link[i]).trigger( "click" );
-                             }
-                         }
-                         well_panel.remove();
-                         el.remove();
-                        
-                   }
+                       el.remove(); 
+                   }, 500);
                }
-               else{
-                   for(var i=0;i<link.length;i++){
-                       if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                            $(link[i]).trigger( "click" );
-                        }
-                   }                 
-                   well_panel.remove();
-                   el.remove();
-               }             
-                             
         }
 
         function active_link_through_checkbox(el){
             $(el).closest( "a" ).trigger( "click" );
         }
 
-        function reset_all_sidebar(){
-            if ( $('#sidebar_grafici').children().length > 0 ) {
-                $('#sidebar_grafici').empty();
-                plot_console.data = [];
-                plot_console.datasets = []
-                $(plot_console).css('visibility', 'hidden');
-                plot_console.plotAccordingToChoices();
-                date_set(moment().subtract('days', 7),moment());
+        function reset_all_sidebar(a){
+            if($("#spinner-remove-box").length==0){
+                var container=$(a).closest("div");
+                $(container).append("<i id='spinner-remove-box' class='fa fa-spinner fa-spin main-color'></i>");
+                setTimeout(function(){ 
+                    if ( $('#sidebar_grafici').children().length > 0 ) {
+                        $('#sidebar_grafici').empty();
+                        plot_console.data = [];
+                        plot_console.datasets = []
+                        $(plot_console).css('visibility', 'hidden');
+                        plot_console.plotAccordingToChoices();
+                        date_set(moment().subtract('days', 7),moment());
+                    }
+                    $("#spinner-remove-box").remove();
+                }, 1000);
             }
-
          }
     </script>
     <script>

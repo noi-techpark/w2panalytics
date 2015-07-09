@@ -13,7 +13,7 @@ frontends = {'Meteo':'MeteoFrontEnd',
              'Link':'LinkFrontEnd', 
              'Street': 'StreetFrontEnd', 
              'Traffic': 'TrafficFrontEnd',
-             'Cleanroads': 'RWISFrontEnd'}
+             }
 
 def get_frontends():
     session.forget(request)
