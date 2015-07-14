@@ -194,7 +194,7 @@ author: Madeincima.it
 
 
    #title-sidebar-map{color:#93208c;}
-       #main-map{position:relative;background-color:#fcfcfc;z-index:0;width:100%;height:700px;}
+       #main-map{position:relative;background-color:#fcfcfc;z-index:0;width:100%;height:800px;}
 		#main-map .map-container{width:100%;height:100%;background-color:#cccccc;}
 		#main-map .map-container #zoomButtons{width:31px;position:absolute;top:20px;right:20px;z-index:1000;}
 		#main-map .map-container #zoomButtons a{width:31px;float:left;height:29px;text-indent:-9999px;background:#57585a url(../images/ico-zoom.gif) 10px 10px no-repeat;padding-bottom:0;}
@@ -202,7 +202,7 @@ author: Madeincima.it
 		#main-map .map-container #zoomButtons a#zoomOutButton {bottom:0;top:auto;border-top: 1px solid #636466;background-position: 10px -22px;border-bottom-left-radius: 2px;-webkit-border-bottom-left-radius:2px;-moz-border-bottom-left-radius:2px;border-bottom-right-radius:2px;-webkit-border-bottom-right-radius:2px;-moz-border-bottom-right-radius:2px;}
 		#main-map .map-container #credits{position:absolute;bottom:0;right:0;font-size:0.8em;line-height:100%;background-color:rgba(255,255,255,0.8);padding:5px 10px;border-radius:2px 0 0 0;z-index:1000;}
 
-		#main-map .map-panel{height:700px;width:100%;position:absolute;top:0;left:0;bottom:0;background-color:#fcfcfc;padding:30px 35px;z-index:1000;border-bottom:0px;padding-top:0px}
+		#main-map .map-panel{height:800px;width:100%;position:absolute;top:0;left:0;bottom:0;background-color:#fcfcfc;padding:30px 35px;z-index:1000;border-bottom:0px;padding-top:0px}
 		#main-map .map-panel h3{color:#93208c;font-size:1.5em;font-weight:normal;margin-bottom:15px;}
 		#main-map .map-panel ul{margin:5px 0;}
 		#main-map .map-panel li{border-bottom:1px solid #eeeeee;}
