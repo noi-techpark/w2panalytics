@@ -11,6 +11,8 @@
     "weather" : "Wetter",
     "stations-pollution" : "Pollution Stationen",
     "pollutant-dispersion" : "Schadstoff- Dispersion",
+    "pm10-dispersion":"PM10 Dispersion",
+    "no2-dispersion":"NO2 Dispersion",
     "pm10-emissions" : "PM10 Emissionen",
     "nox-emissions" : "NO<sub>x</sub> Emissionen",
     "co2-emissions" : "CO<sub>2</sub> Emissionen",

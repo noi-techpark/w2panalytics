@@ -1,18 +1,13 @@
 <!DOCTYPE html>
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{=T.accepted_language or 'en'}}"> <!--<![endif]-->
 <head>
   <title>BZAnalytics</title>
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<!--[if lte IE 9]>
-	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-
   <meta charset="utf-8" />
-
   <meta name="application-name" content="{{=request.application}}" />
-
-     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   {{include 'web2py_ajax.html'}}
   {{#include 'metadata.html'}}
@@ -28,8 +23,6 @@
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
     }}
 </head>
-<!--  ng-cloak -->
-
 <body>
 
 
@@ -155,34 +148,69 @@
            $select_source.on("change", function () {
                var val_select_tipology=$( "#select2-select_frontend-container" ).text();
                var val_select_source=$( "select.form-control_stations" ).val();
-                   $.ajax({
-                       url : '{{=URL('data','get_data_types')}}',
-                       type: 'GET',
-                       data : 'station='+val_select_source+'&tab=grafici'+'&frontend='+val_select_tipology,
-                       success: function(data){
-                           if(data=='404 NOT FOUND'){
-                               if(val_select_tipology=='Seleziona tipologia'){
-                                   alert("Errore scegli una tipologia");
-                               }
-                               else{
-                                   if(val_select_tipology=='Select tipology'){
-                                       alert("Error select a tipology");
+               var title_sidebar=$(".title-sidebar");
+               for(var i=0;i<title_sidebar.length;i++){
+                   var title=$(title_sidebar[i]);
+                   if($("#select2-form-control_stations-container").text()==$(title).text()){
+                       if ($( "#container-alert" ).length==false) {
+                               if(langCode=="de"){
+                                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Du hast diesen Quelle gewählt </div></div>");
+                                }else{
+                                    if(langCode=="it"){
+                                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Hai già selezionato questa sorgente </div></div>");
+                                    }else{
+                                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> You have already selected this source </div></div>");
                                    }
-                                   else{
-                                       alert("Wählen Sie zuerst Typ");
-                                   }
+                                   changeTipology();
+                                   return;
                                }
-                            }
-                            else{
-                                $('.link_stations').collapse();
-                                $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_tipology+"<i   class='glyphicon glyphicon-remove'></i></span>")
-                                $( '#sidebar_grafici').append(data);
-                                $('#sidebar_grafici').show();
-                                changeTipology();
-                            }
-                        },error: function(req, err){alert('Error server' + err); }
-                    });
-                });
+                       }
+                       else{
+                           $( ".close" ).trigger( "click" );
+                           if(langCode=="de"){
+                               $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Du hast diesen Quelle gewählt </div></div>");
+                           }else{
+                               if(langCode=="it"){
+                                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Hai già selezionato questa sorgente </div></div>");
+                               }else{
+                                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> You have already selected this source </div></div>");
+                               }
+                           }
+                           changeTipology();
+                           return;
+
+                       }
+                   }
+               }
+               $.ajax({
+                   url : '{{=URL('data','get_data_types')}}',
+                   type: 'GET',
+                   data : 'station='+val_select_source+'&tab=grafici'+'&frontend='+val_select_tipology,
+                   success: function(data){
+                   if(data=='404 NOT FOUND'){
+                       if(val_select_tipology=='Seleziona tipologia'){
+                            alert("Errore scegli una tipologia");
+                       }
+                       else{
+                           if(val_select_tipology=='Select tipology'){
+                               alert("Error select a tipology");
+                           }
+                           else{
+                               alert("Wählen Sie zuerst Typ");
+                           }
+                        }
+                     }
+                     else{
+                         $('.link_stations').collapse();
+                         $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_tipology+"<i   class='glyphicon glyphicon-remove'></i></span>");
+                         console.log(data);
+                         $( '#sidebar_grafici').append(data);
+                         $('#sidebar_grafici').show();
+                         changeTipology();
+                      }
+                     },error: function(req, err){alert('Error server' + err); }
+                  });
+             });
        }
 
        function reset_single_sidebar(el){
@@ -190,24 +218,17 @@
                var well_panel=$(el).next("div");
                if($(el).children().length==1){
                    $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
-                   setTimeout(function(){ 
-                       var links=$(well_panel).find( "a" );
-                       var length=links.length;
-                       for(var i=0;i<links.length;i++){
-                           if($(links[i]).children('i').hasClass('fa-check-square-o')){
-                                var link=links[i];
-                                var key=$(link).attr("id");
-                                var current = plot_console.getObj(key);
-                                var index = jQuery.inArray(current, plot_console.data)
-                                if ( index > -1 ) {
-                                    plot_console.data.splice(index, 1);
-                                } 
+                   setTimeout(function(){
+                       var link=$(well_panel).find( "a" );
+                       var length=link.length;
+                       for(var i=0;i<link.length;i++){
+                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
+                               $(link[i]).trigger( "click" );
                            }
                        }
-                       plot_console.plotAccordingToChoices();
                        $("#spinner-remove-single-sidebar").remove()
                        well_panel.remove();
-                       el.remove(); 
+                       el.remove();
                    }, 500);
                }
         }
@@ -220,7 +241,7 @@
             if($("#spinner-remove-box").length==0){
                 var container=$(a).closest("div");
                 $(container).append("<i id='spinner-remove-box' class='fa fa-spinner fa-spin main-color'></i>");
-                setTimeout(function(){ 
+                setTimeout(function(){
                     if ( $('#sidebar_grafici').children().length > 0 ) {
                         $('#sidebar_grafici').empty();
                         plot_console.data = [];

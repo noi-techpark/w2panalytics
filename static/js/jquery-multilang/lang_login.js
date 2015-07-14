@@ -37,30 +37,35 @@ function getBaseURL() {
 
 function setTranslation() {
 	var res= false;
+    var url=getBaseURL();
+    var pathArray = window.location.pathname.split( '/' );
+    if(url=="http://127.0.0.1:8000/"){
+        url=url+pathArray[1]+"/";
+    }
     var cindex= getCookie("lang");
     cindex=cindex.toLowerCase();
     if(cindex) {
         langCode=cindex;
         setCookie("lang",langCode,60);
-        $.getJSON(getBaseURL()+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+        $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
 		res= langCode;
     }else{
          var browserLang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage) ;
          if(browserLang=="it-IT" || browserLang=="it"){    
               langCode= 'it';
               setCookie("lang",langCode,60);
-              $.getJSON(getBaseURL()+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+              $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
               res= langCode;
         }else{
             if(browserLang=="de-DE" || browserLang=="de" ){
                 langCode= 'de';
                 setCookie("lang",langCode,60);
-                $.getJSON(getBaseURL()+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
                 res= langCode;
             }else{
                 langCode= 'en';
                 setCookie("lang",langCode,60);
-                $.getJSON(getBaseURL()+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
                 res= langCode;
             }
         }

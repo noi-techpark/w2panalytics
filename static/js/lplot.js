@@ -387,28 +387,44 @@ function set_param_plot_and_language(){
 }
 
 function live_update_graph(){
-     if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
-        if(langCode=="it"){
-            alert("Seleziona prima una Tiplogia, una Stazione e una sorgente");
+      if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
+          if ($( "#container-alert" ).length==false) {
+              if(langCode=="de"){
+                  $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+              }else{
+                  if(langCode=="it"){
+                      $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
+                  }else{
+                       $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+                  }
+               }
+          }
+          else{
+              $( ".close" ).trigger( "click" );
+              setTimeout(function(){
+                  if(langCode=="de"){
+                      $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+                  }else{
+                      if(langCode=="it"){
+                          $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
+                      }else{
+                          $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+                      }
+                   }
+                }, 1000);
+          }
         }else{
-            if(langCode=="de"){
-                alert("Wählen Sie zuerst eine Tiplogy und einen Quelle");
-            }else{
-                 alert("Select a Tiplogy and a Station first");
+            if($('#icon_chart_tmp').hasClass('visited')){
+                $('#icon_chart_tmp').remove();
+                $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
             }
+            $( "#spinner" ).addClass( "fa-spin" );
+            $('#button_live_update').css({'background':'#93208c'}).finish().show();
+            date_set(moment().subtract(2000000, 'milliseconds'),moment());
+            setTimeout(function(){
+                $( "#spinner" ).removeClass( "fa-spin")
+             }, 2000);
         }
-    }else{
-        if($('#icon_chart_tmp').hasClass('visited')){
-            $('#icon_chart_tmp').remove();
-            $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
-        }
-        $( "#spinner" ).addClass( "fa-spin" );
-        $('#button_live_update').css({'background':'#93208c'}).finish().show();
-        date_set(moment().subtract(2000000, 'milliseconds'),moment());
-        setTimeout(function(){
-            $( "#spinner" ).removeClass( "fa-spin")
-         }, 2000);
-    }
 }
 
 function change_options_bar(){

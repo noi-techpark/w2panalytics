@@ -117,7 +117,7 @@ author: Madeincima.it
     
     .ie-lte8 div.flash{ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222222', endColorstr='#000000', GradientType=0 ); }
     .ie-lte8 div.flash:hover {filter:alpha(opacity=25);}
-    .error_wrapper{color:red !important}
+    
 	.main{float:left;width:100%;padding:0;width:100%;position:relative;overflow:auto;
         padding-bottom:150px !important;}
 	main#login{width:100%;background: url(../images/bg-pattern.jpg) 0 0 repeat;}
