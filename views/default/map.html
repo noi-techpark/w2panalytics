@@ -1,5 +1,4 @@
 <main id="main-map">
-    <main id="main-map">
     <div class="row-fluid">
         <div class='col-md-2' id="#sidebar">
              <div class="map-panel">
@@ -11,17 +10,19 @@
                         <li><a href="#" data-type="parking" class="icon icon-parcheggi" id="icon-parcheggi" onclick="load_geojson_parking()"><span tkey="parking">Parking</span></a></li>
                         <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</span></a></li>
                         <li><a href="#" data-type="environment" class="icon icon-inquinamento" id="icon-inquinamento" onclick="load_geojson_env()"><span tkey="stations-pollution">Stations pollution</span></a></li>
-                        <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
+                        <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-pollution-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
+                        <li><a href="#" data-type="pm10-dispersion" class="icon icon-inquinanti" id="icon-pm10-inquinanti" onclick="load_tileLayer_l_pm10_dispersion()"><span tkey="pm10-dispersion">PM10 dispersion</span></a></li>
+                         <li><a href="#" data-type="no2-dispersion" class="icon icon-inquinanti" id="icon-no2-inquinanti" onclick="load_tileLayer_l_no2_dispersion()"><span tkey="no2-dispersion">No2 dispersion</span></a></li>
                         <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-emissions">PM10 emissions</span></a></li>
                         <li><a href="#" data-type="nox" class="icon icon-nox" id="icon-nox" onclick="load_tileLayer_l_nox()"><span tkey="nox-emissions">NO<sub>x</sub>emissions</span></a></li>
                         <li><a href="#" data-type="co2" class="icon icon-co2"><span tkey="co2-emissions">CO<sub>2</sub>emissions</span></a></li>
                         <li><a href="#" data-type="probe-vehicle" class="icon icon-veicolo-sonda" onclick="load_tileLayer_l_vehicle()"><span tkey="probe-vehicle">Probe vehicle</span></a></li>
+                    <li><a href="#" id="deselect-layers" tkey="uncheck-all" onclick="reset_map()">Deseleziona tutti</a></li>
                     </ul>
-                    <a href="#" id="deselect-layers" tkey="uncheck-all" onclick="reset_map()">Deseleziona tutti</a>
             </div>
         </div>
         <div class='col-md-10' style="padding:0">
-            <div id="map" style="width:100%;"></div>
+            <div id="map" style="width:100%;height:800px"></div>
         </div>
     </div>
 
@@ -60,7 +61,25 @@
         attribution: "",
         format: 'image/png',
     });
-
+   
+    
+    var l_pm10_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
+        layers: 'output_caline_PM10',
+        transparent: true,
+        attribution: "",
+        format: 'image/png',
+    });
+    
+   
+     var l_no2_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
+        layers: 'integreen:output_caline_NO2',
+        transparent: true,
+        attribution: "",
+        format: 'image/png',
+    });
+    
+  
+    
     var l_congestion = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
         layers: 'edi:congestion',
         transparent: true,
@@ -229,6 +248,7 @@
                            url: url_request,
                            dataType: 'json',
                            success: function( data ) {
+                               console.log(data);
                                geojsonLayerParking=L.geoJson(data, {
                                    pointToLayer: function (feature, latlng) {
                                        var max_last_value;
@@ -407,11 +427,15 @@
 
 
     function load_tileLayer_pm10() {
+        var text_tiplogy=$("#icon-pm10").text();
+        $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span><i data='spinner-pm10' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
             if($("#icon-pm10").hasClass( "active" )==true){
                 l_pm10.addTo(map);
+                $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span>");
             }else{
                 map.removeLayer(l_pm10);
+                $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span>");
             }
         }, 1000);
 
@@ -420,22 +444,32 @@
 
 
      function load_tileLayer_l_nox() {
+        var text_tiplogy=$("#icon-nox").text();
+        var span=$("#icon-nox").children("span");
+        $(span).append("<i data='spinner-nox' id='spinner-nox' class='fa fa-spinner fa-spin' style='float:right'></i>")
         setTimeout(function(){
             if($("#icon-nox").hasClass( "active" )==true){
                 l_nox.addTo(map);
+                $("#spinner-nox").remove();
             }else{
                 map.removeLayer(l_nox);
+                $("#spinner-nox").remove();
             }
         }, 1000);
     }
 
 
      function load_tileLayer_l_congestion() {
+        var text_tiplogy=$("#icon-percorrenza").text();
+        $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span><i data='spinner-l_congestion' class='fa fa-spinner fa-spin' style='float:right'></i>");
         setTimeout(function(){
             if($("#icon-percorrenza").hasClass( "active" )==true){
                 l_congestion.addTo(map);
+                $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span>");
+
             }else{
                 map.removeLayer(l_congestion);
+                $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span>");
             }
         }, 1000);
     }
@@ -450,6 +484,33 @@
         }, 1000);
     }
 
+    function load_tileLayer_l_pm10_dispersion() {
+        var text_tiplogy=$("#icon-pm10-inquinanti").text();
+        $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span><i data='spinner-pm10-inquinanti' class='fa fa-spinner fa-spin' style='float:right'></i>");
+        setTimeout(function(){
+            if($("#icon-pm10-inquinanti").hasClass( "active" )==true){
+                l_pm10_dispersion.addTo(map);
+                $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span>");
+            }else{
+                map.removeLayer(l_pm10_dispersion);
+                $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span>");
+            }
+        }, 1000);
+    }
+    
+    function load_tileLayer_l_no2_dispersion() {
+        var text_tiplogy=$("#icon-no2-inquinanti").text();
+        $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span><i data='spinner-no2-inquinanti' class='fa fa-spinner fa-spin' style='float:right'></i>");
+        setTimeout(function(){
+            if($("#icon-no2-inquinanti").hasClass( "active" )==true){
+                 l_no2_dispersion.addTo(map);
+                 $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span>");
+            }else{
+                map.removeLayer(l_no2_dispersion);
+                $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span>");
+            }
+        }, 1000);
+    }
 
     map.on("popupopen", function(e) {
         popup_open = e.popup;
@@ -839,9 +900,12 @@
         setTimeout(function(){
                $("#select2-form-control_stations-container").text(street);
                street=street.replace(/\s/g, '');
+               console.log("guarda street");
                $("#form-control_stations option").filter(function() {
                    select_street=this.text;
                    select_street=select_street.replace(/\s/g, '');
+                   console.log(street+" "+select_street);
+                   console.log(street==select_street);
                    if(select_street==street){
                        $( "select.form-control_stations" ).val($(this).attr("value"));
                        street=$(this).attr("value");
