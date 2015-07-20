@@ -84,7 +84,6 @@ function lplot (ph, options) {
             // Add the zoom to standard options
             zoomed.xaxis.min = zoom.xaxis.min;
             zoomed.xaxis.max = zoom.xaxis.max;
-//            console.log(zoomed.xaxis);
         } else {
             zoomed.xaxis.min = undefined;
             zoomed.xaxis.max = undefined;
@@ -320,6 +319,9 @@ function lplot (ph, options) {
 	        this.plotAccordingToChoices();
         }, this));
     };
+    
+    
+
 
 	this.init = function() {
 	    this.register_handlers();
@@ -383,10 +385,11 @@ function set_param_plot_and_language(){
         }else{
             plot_console = new lplot('grafici_chart', options_console);
         }
-    }  }, 2000);
+    }  }, 1000);
 }
 
 function live_update_graph(){
+
       if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
           if ($( "#container-alert" ).length==false) {
               if(langCode=="de"){
