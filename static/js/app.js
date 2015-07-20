@@ -59,7 +59,6 @@ function onEachFeature (feature, layer) {
 }
 
 function get_data(a_obj, obj) {
-    console.log(a_obj);
     var params = {
         frontend: a_obj.data('frontend'),
         station : a_obj.data('station'),

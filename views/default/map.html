@@ -10,7 +10,6 @@
                         <li><a href="#" data-type="parking" class="icon icon-parcheggi" id="icon-parcheggi" onclick="load_geojson_parking()"><span tkey="parking">Parking</span></a></li>
                         <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</span></a></li>
                         <li><a href="#" data-type="environment" class="icon icon-inquinamento" id="icon-inquinamento" onclick="load_geojson_env()"><span tkey="stations-pollution">Stations pollution</span></a></li>
-                        <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-pollution-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
                         <li><a href="#" data-type="pm10-dispersion" class="icon icon-inquinanti" id="icon-pm10-inquinanti" onclick="load_tileLayer_l_pm10_dispersion()"><span tkey="pm10-dispersion">PM10 dispersion</span></a></li>
                          <li><a href="#" data-type="no2-dispersion" class="icon icon-inquinanti" id="icon-no2-inquinanti" onclick="load_tileLayer_l_no2_dispersion()"><span tkey="no2-dispersion">No2 dispersion</span></a></li>
                         <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-emissions">PM10 emissions</span></a></li>
@@ -875,13 +874,7 @@
                 for_take_first_layer++;
             }
         });
-        var a_layers=$("a");
-        for(var i=0;a_layers.length;a++){
-               var layer=$(a_layers)[i];
-               if($(layer).hasClass("active")){
-                   $(layer).removeClass("active");
-               }
-        }
+        $(".icon").removeClass("active");
     }
 
     function graphTrend(tipology,street,id_station){
