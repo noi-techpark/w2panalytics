@@ -10,10 +10,9 @@
                         <li><a href="#" data-type="parking" class="icon icon-parcheggi" id="icon-parcheggi" onclick="load_geojson_parking()"><span tkey="parking">Parking</span></a></li>
                         <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</span></a></li>
                         <li><a href="#" data-type="environment" class="icon icon-inquinamento" id="icon-inquinamento" onclick="load_geojson_env()"><span tkey="stations-pollution">Stations pollution</span></a></li>
-                        <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-pollution-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
                         <li><a href="#" data-type="pm10-dispersion" class="icon icon-inquinanti" id="icon-pm10-inquinanti" onclick="load_tileLayer_l_pm10_dispersion()"><span tkey="pm10-dispersion">PM10 dispersion</span></a></li>
                          <li><a href="#" data-type="no2-dispersion" class="icon icon-inquinanti" id="icon-no2-inquinanti" onclick="load_tileLayer_l_no2_dispersion()"><span tkey="no2-dispersion">No2 dispersion</span></a></li>
-                        <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-dispersion">PM10 emissions</span></a></li>
+                        <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-emissions">PM10 emissions</span></a></li>
                         <li><a href="#" data-type="nox" class="icon icon-nox" id="icon-nox" onclick="load_tileLayer_l_nox()"><span tkey="nox-emissions">NO<sub>x</sub>emissions</span></a></li>
                         <li><a href="#" data-type="co2" class="icon icon-co2"><span tkey="co2-emissions">CO<sub>2</sub>emissions</span></a></li>
                         <li><a href="#" data-type="probe-vehicle" class="icon icon-veicolo-sonda" onclick="load_tileLayer_l_vehicle()"><span tkey="probe-vehicle">Probe vehicle</span></a></li>
@@ -433,7 +432,7 @@
                 map.removeLayer(l_pm10);
                 $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span>");
             }
-        }, 1000);
+        }, 500);
 
 
     }
@@ -451,7 +450,7 @@
                 map.removeLayer(l_nox);
                 $("#spinner-nox").remove();
             }
-        }, 1000);
+        }, 500);
     }
 
 
@@ -467,7 +466,7 @@
                 map.removeLayer(l_congestion);
                 $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span>");
             }
-        }, 1000);
+        }, 500);
     }
 
     function load_tileLayer_l_vehicle() {
@@ -477,7 +476,7 @@
             }else{
                 map.removeLayer(l_vehicle);
             }
-        }, 1000);
+        }, 500);
     }
 
     function load_tileLayer_l_pm10_dispersion() {
@@ -491,7 +490,7 @@
                 map.removeLayer(l_pm10_dispersion);
                 $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span>");
             }
-        }, 1000);
+        }, 500);
     }
 
     function load_tileLayer_l_no2_dispersion() {
@@ -505,7 +504,7 @@
                 map.removeLayer(l_no2_dispersion);
                 $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span>");
             }
-        }, 1000);
+        }, 500);
     }
 
     map.on("popupopen", function(e) {

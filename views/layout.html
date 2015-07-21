@@ -217,6 +217,7 @@
                var count=0;
                var well_panel=$(el).next("div");
                if($(el).children().length==1){
+                   $(el).children("i").remove();
                    $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
                    setTimeout(function(){
                        var link=$(well_panel).find( "a" );
