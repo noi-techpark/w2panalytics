@@ -383,10 +383,12 @@ function set_param_plot_and_language(){
         }else{
             plot_console = new lplot('grafici_chart', options_console);
         }
-    }  }, 2000);
+    }  }, 1000);
 }
 
 function live_update_graph(){
+      $('#reportrange').data('daterangepicker').setStartDate(moment());
+      $('#reportrange').data('daterangepicker').setEndDate(moment());
       if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
           if ($( "#container-alert" ).length==false) {
               if(langCode=="de"){
