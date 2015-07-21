@@ -133,15 +133,39 @@ function getCookie(cname) {
     return "";
 }
 function reset_map_for_language(){
-        var for_take_first_layer=0;
-        map.eachLayer(function (layer) {
-            if(for_take_first_layer!=0){
-               map.removeLayer(layer);
-            }else{
-                for_take_first_layer++;
-            }
-        });
-        $(".icon").removeClass("active");
+        if($("#icon-parcheggi").hasClass( "active" )==true){
+            $("#icon-parcheggi").removeClass("active")
+            map.removeLayer(geojsonLayerParking);
+        }
+        if($("#icon-bluetooth").hasClass( "active" )==true){
+            $("#icon-bluetooth").removeClass("active")
+            map.removeLayer(geojsonLayerBluetooth);
+        }
+        if($("#icon-inquinamento").hasClass( "active" )==true){
+            $("#icon-inquinamento").removeClass("active")
+            map.removeLayer(geojsonLayerEnv);
+        }
+        if($("#icon-pm10").hasClass( "active" )==true){
+            $("#icon-pm10").removeClass("active")
+            map.removeLayer(l_pm10);
+        }
+        if($("#icon-nox").hasClass( "active" )==true){
+            $("#icon-nox").removeClass("active")
+            map.removeLayer(l_nox);
+        }
+        if($("#icon-percorrenza").hasClass( "active" )==true){
+            $("#icon-percorrenza").removeClass("active")
+            map.removeLayer(l_congestion);
+        }
+        if($("#icon-traffico").hasClass( "active" )==true){
+            $("#icon-traffico").removeClass("active")
+            map.removeLayer(l_vehicle);
+        }
+        if($("#icon-meteo").hasClass( "active" )==true){
+            $("#icon-meteo").removeClass("active")
+            map.removeLayer(geojsonMeteo);
+        }
+
 }
 
 function adapt_language_tipology(language){

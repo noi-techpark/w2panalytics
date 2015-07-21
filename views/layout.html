@@ -216,9 +216,8 @@
        function reset_single_sidebar(el){
                var count=0;
                var well_panel=$(el).next("div");
-               if($("#spinner-remove-single-sidebar").length==0){
+               if($(el).children().length==1){
                    $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
-                   $(el).find(".glyphicon-remove").remove();
                    setTimeout(function(){
                        var link=$(well_panel).find( "a" );
                        var length=link.length;

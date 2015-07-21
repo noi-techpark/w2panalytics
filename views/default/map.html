@@ -10,9 +10,10 @@
                         <li><a href="#" data-type="parking" class="icon icon-parcheggi" id="icon-parcheggi" onclick="load_geojson_parking()"><span tkey="parking">Parking</span></a></li>
                         <li><a href="#" data-type="weather" class="icon icon-meteo" id="icon-meteo" onclick="load_geojson_weather()"><span tkey="weather">Weather</span></a></li>
                         <li><a href="#" data-type="environment" class="icon icon-inquinamento" id="icon-inquinamento" onclick="load_geojson_env()"><span tkey="stations-pollution">Stations pollution</span></a></li>
+                        <li><a href="#" data-type="pollution-dispersion" class="icon icon-inquinanti" id="icon-pollution-inquinanti"><span tkey="pollutant-dispersion">Pollutant dispersion</span></a></li>
                         <li><a href="#" data-type="pm10-dispersion" class="icon icon-inquinanti" id="icon-pm10-inquinanti" onclick="load_tileLayer_l_pm10_dispersion()"><span tkey="pm10-dispersion">PM10 dispersion</span></a></li>
                          <li><a href="#" data-type="no2-dispersion" class="icon icon-inquinanti" id="icon-no2-inquinanti" onclick="load_tileLayer_l_no2_dispersion()"><span tkey="no2-dispersion">No2 dispersion</span></a></li>
-                        <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-emissions">PM10 emissions</span></a></li>
+                        <li><a href="#" data-type="pm10" class="icon icon-pm10" id="icon-pm10" onclick="load_tileLayer_pm10()"><span tkey="pm10-dispersion">PM10 emissions</span></a></li>
                         <li><a href="#" data-type="nox" class="icon icon-nox" id="icon-nox" onclick="load_tileLayer_l_nox()"><span tkey="nox-emissions">NO<sub>x</sub>emissions</span></a></li>
                         <li><a href="#" data-type="co2" class="icon icon-co2"><span tkey="co2-emissions">CO<sub>2</sub>emissions</span></a></li>
                         <li><a href="#" data-type="probe-vehicle" class="icon icon-veicolo-sonda" onclick="load_tileLayer_l_vehicle()"><span tkey="probe-vehicle">Probe vehicle</span></a></li>
@@ -60,25 +61,25 @@
         attribution: "",
         format: 'image/png',
     });
-   
-    
+
+
     var l_pm10_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
         layers: 'output_caline_PM10',
         transparent: true,
         attribution: "",
         format: 'image/png',
     });
-    
-   
+
+
      var l_no2_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
         layers: 'integreen:output_caline_NO2',
         transparent: true,
         attribution: "",
         format: 'image/png',
     });
-    
-  
-    
+
+
+
     var l_congestion = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
         layers: 'edi:congestion',
         transparent: true,
@@ -103,8 +104,7 @@
     function load_geojson_bluetooth() {
         var text_tiplogy=$("#icon-bluetooth").text();
         $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span><i data='spinner-bluetooth' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-               if($("#icon-bluetooth").hasClass( "active" )==true){
+        if(map.hasLayer(geojsonLayerBluetooth)==false){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':1800})}}';
                     $.ajax({
                        url: url_request,
@@ -162,18 +162,18 @@
                          }
                        }
                    });
-                }else{
-                    map.removeLayer(geojsonLayerBluetooth);
-                }
-                $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
-            }, 1000);
+                   $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
+
+        }else{
+            map.removeLayer(geojsonLayerBluetooth);
+            $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
+        }
     }
 
     function load_geojson_traffic() {
         var text_tiplogy=$("#icon-traffic").text();
         $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span><i data='spinner-traffic' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-               if($("#icon-traffic").hasClass( "active" )==true){
+        if(map.hasLayer(geojsonLayerTraffic)==false){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Traffic', 'type':'Traffic Count record', 'period':1800})}}';
                    $.ajax({
                        url: url_request,
@@ -230,20 +230,20 @@
                        }
                    }
                });
-             }else{
+               $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
+         }else{
                 map.removeLayer(geojsonLayerTraffic);
-             }
-             $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
-           }, 1000);
+                $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
+         }
     }
+
 
     function load_geojson_parking() {
         var text_tiplogy=$("#icon-parcheggi").text();
         $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span><i data='spinner-parking' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
+        if(map.hasLayer(geojsonLayerParking)==false){
                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'Parking Count record', 'period':1800})}}';
-                   if($("#icon-parcheggi").hasClass( "active" )==true){
-                       $.ajax({
+                   $.ajax({
                            url: url_request,
                            dataType: 'json',
                            success: function( data ) {
@@ -300,18 +300,17 @@
 
                         }
                     });
-                }else{
-                    map.removeLayer(geojsonLayerParking);
-                }
-                $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
-            }, 1000);
+                    $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
+             }else{
+                 map.removeLayer(geojsonLayerParking);
+                 $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
+            }
     }
 
       function load_geojson_env() {
         var text_tiplogy=$("#icon-inquinamento").text();
         $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span><i data='spinner-inquinamento' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-            if($("#icon-inquinamento").hasClass( "active" )==true){
+        if(map.hasLayer(geojsonLayerEnv)==false){
                     var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'Environment Count record', 'period':1800})}}';
                      $.ajax({
                        url: url_request,
@@ -368,21 +367,19 @@
                           }
                         }
                     });
-            }
-
-            else{
-                map.removeLayer(geojsonLayerEnv);
-            }
-           $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
-        }, 1000);
+                    $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
+           }
+           else{
+               map.removeLayer(geojsonLayerEnv);
+               $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
+           }
     }
 
     function load_geojson_weather() {
         var text_tiplogy=$("#icon-meteo").text();
         $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span><i data='spinner-weather' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Meteo', 'type':'Meteo Count record', 'period':1800})}}';
-                   if($("#icon-meteo").hasClass( "active" )==true){
+        if(map.hasLayer(geojsonLayerMeteo)==false){
+                       var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Meteo', 'type':'Meteo Count record', 'period':1800})}}';
                        $.ajax({
                        url: url_request,
                        dataType: 'json',
@@ -414,11 +411,11 @@
                           }
                         }
                     });
-                   }else{
-                       map.removeLayer(geojsonLayerMeteo);
-                   }
+                    $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span>");
+               }else{
+                   map.removeLayer(geojsonLayerMeteo);
                    $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span>");
-            }, 1000);
+               }
     }
 
 
@@ -496,7 +493,7 @@
             }
         }, 1000);
     }
-    
+
     function load_tileLayer_l_no2_dispersion() {
         var text_tiplogy=$("#icon-no2-inquinanti").text();
         $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span><i data='spinner-no2-inquinanti' class='fa fa-spinner fa-spin' style='float:right'></i>");
@@ -868,13 +865,20 @@
     function reset_map(){
         var for_take_first_layer=0;
         map.eachLayer(function (layer) {
+            console.log(layer);
             if(for_take_first_layer!=0){
                map.removeLayer(layer);
             }else{
                 for_take_first_layer++;
             }
         });
-        $(".icon").removeClass("active");
+        var a_layers=$("a");
+        for(var i=0;a_layers.length;a++){
+               var layer=$(a_layers)[i];
+               if($(layer).hasClass("active")){
+                   $(layer).removeClass("active");
+               }
+        }
     }
 
     function graphTrend(tipology,street,id_station){
