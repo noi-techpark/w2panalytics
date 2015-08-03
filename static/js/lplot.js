@@ -102,7 +102,6 @@ function lplot (ph, options) {
 	};
 
 	this.onDataReceived = function (json, url) {
-
 		var tab = this.placeholder.split('_chart')[0];
 		var data_placeholder = $(tab + ' .data_list');
 		var series = json['series'];
@@ -123,6 +122,11 @@ function lplot (ph, options) {
 			if (current.data.length !== 0) {
     			this.data.push(current);
     	    }
+            if(current.data.length==0){
+                alert_info();
+                return;
+            }
+         
 		}
 		if (this.options.addDynamically === true) {
 			$.merge(this.datasets, series);
@@ -175,30 +179,7 @@ function lplot (ph, options) {
 		        that.onDataReceived(json, url)
 		    },
 		    error: function() {
-                if ($( "#container-alert" ).length==false) {
-                    if(langCode=="de"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
-                    }else{
-                        if(langCode=="it"){
-                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");
-                        }else{
-                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
-                        }
-                    }
-                }else{
-                    $( ".close" ).trigger( "click" );
-                    setTimeout(function(){
-                        if(langCode=="de"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
-                    }else{
-                        if(langCode=="it"){
-                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");
-                        }else{
-                            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
-                        }
-                    } }, 1000);
-                }
-
+                alert_danger();
 		        that.n_active_operations = that.n_active_operations - 1;
 		        if (that.n_active_operations === 0) {
                     $(that.placeholder).trigger($.Event('loaded',{}));
@@ -297,8 +278,10 @@ function lplot (ph, options) {
         $(tab).on('click', '#sidebar_grafici li a', $.proxy(function(event) {
             var element = event.target;
 	        var key = $(element).attr("id");
+            console.log(key);
 	        $(element).toggleClass('muted');
 	        var current = plot_console.getObj(key);
+            console.log(current);
 	        if (typeof current === "undefined") {
 		        if ( ! $(element).hasClass('muted')) {
 			        return get_data($(element), this);
@@ -308,6 +291,7 @@ function lplot (ph, options) {
 		        }
 	        } else {
 		        var index = jQuery.inArray(current, plot_console.data);
+                console.log(index);
 		        if ( index > -1 ) {
 		            // tmp fix
 			        $('#sidebar_grafici #' + key + ' .fa-check-square-o').css('background-color', "#c0c0c0",'color',"#c0c0c0" );
@@ -390,32 +374,9 @@ function live_update_graph(){
       $('#reportrange').data('daterangepicker').setStartDate(moment());
       $('#reportrange').data('daterangepicker').setEndDate(moment());
       if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
-          if ($( "#container-alert" ).length==false) {
-              if(langCode=="de"){
-                  $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-              }else{
-                  if(langCode=="it"){
-                      $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                  }else{
-                       $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-                  }
-               }
-          }
-          else{
-              $( ".close" ).trigger( "click" );
-              setTimeout(function(){
-                  if(langCode=="de"){
-                      $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-                  }else{
-                      if(langCode=="it"){
-                          $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                      }else{
-                          $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-                      }
-                   }
-                }, 1000);
-          }
-        }else{
+         alert_danger();
+         return;
+      }else{
             if($('#icon_chart_tmp').hasClass('visited')){
                 $('#icon_chart_tmp').remove();
                 $("<a class='btn btn-default' onclick='change_options_line()'  href='#' id='icon_chart'><i class='fa fa-line-chart'></i></a>").insertAfter('#icon_label');
@@ -431,31 +392,8 @@ function live_update_graph(){
 
 function change_options_bar(){
     if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
-        if ($( "#container-alert" ).length==false) {
-            if(langCode=="de"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-            }else{
-                if(langCode=="it"){
-                     $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                }else{
-                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-               }
-           }
-        }
-        else{
-            $( ".close" ).trigger( "click" );
-            setTimeout(function(){
-                if(langCode=="de"){
-                    $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-                }else{
-                    if(langCode=="it"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                    }else{
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-                   }
-               }
-            }, 1000);
-        }
+        alert_danger();
+        return;
     }else{
         if($('#icon_chart_tmp').hasClass('visited')){
             $('#icon_chart_tmp').remove();
@@ -470,30 +408,8 @@ function change_options_bar(){
 
 function change_options_line(){
     if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
-        if ($( "#container-alert" ).length==false) {
-            if(langCode=="de"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-            }else{
-                if(langCode=="it"){
-                     $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                }else{
-                   $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-               }
-           }
-        }else{
-            $( ".close" ).trigger( "click" );
-            setTimeout(function(){
-                if(langCode=="de"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
-                }else{
-                    if(langCode=="it"){
-                        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
-                    }else{
-                       $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
-                   }
-               }
-            }, 1000);
-        }
+        alert_danger();
+        return;
     }else{
         plot_console.options.series.lines.show = true;
         plot_console.options.series.points.show = true;
@@ -532,3 +448,33 @@ date_set = function(start, end) {
 
 $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
 pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);
+
+function alert_info(){
+    $( "#container-info" ).remove();
+    $( "#container-alert" ).remove();
+    if(langCode=="de"){
+        $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
+    }else{
+        if(langCode=="it"){
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");
+        }else{
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
+        }
+   }
+   setTimeout(function(){ $( "#container-info" ).remove(); }, 1600);        
+}
+
+function alert_danger(){
+    $( "#container-alert" ).remove();
+    $( "#container-info" ).remove();
+    if(langCode=="de"){
+        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+    }else{
+        if(langCode=="it"){
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
+        }else{
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
+        }
+   }
+   setTimeout(function(){ $( "#container-alert" ).remove(); }, 1600);
+}

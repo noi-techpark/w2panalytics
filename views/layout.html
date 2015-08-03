@@ -203,7 +203,6 @@
                      else{
                          $('.link_stations').collapse();
                          $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_tipology+"<i   class='glyphicon glyphicon-remove'></i></span>");
-                         console.log(data);
                          $( '#sidebar_grafici').append(data);
                          $('#sidebar_grafici').show();
                          changeTipology();
@@ -219,18 +218,20 @@
                if($(el).children().length==1){
                    $(el).children("i").remove();
                    $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
-                   setTimeout(function(){
-                       var link=$(well_panel).find( "a" );
-                       var length=link.length;
-                       for(var i=0;i<link.length;i++){
-                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                               $(link[i]).trigger( "click" );
-                           }
+                   var link=$(well_panel).find( "a" );
+                   var length=link.length;
+                   for(var i=0;i<link.length;i++){
+                       if($(link[i]).children('i').hasClass('fa-check-square-o')){
+                           var key=$(link[i]).attr("id");
+                           var current = plot_console.getObj(key);
+                           var index = jQuery.inArray(current, plot_console.data);
+                           plot_console.data.splice(index, 1);
+                            plot_console.plotAccordingToChoices();
                        }
-                       $("#spinner-remove-single-sidebar").remove()
-                       well_panel.remove();
-                       el.remove();
-                   }, 500);
+                    }
+                    $("#spinner-remove-single-sidebar").remove();
+                    well_panel.remove();
+                    el.remove();
                }
         }
 

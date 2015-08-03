@@ -163,7 +163,9 @@ function reset_map_for_language(){
         }
         if($("#icon-meteo").hasClass( "active" )==true){
             $("#icon-meteo").removeClass("active")
-            map.removeLayer(geojsonMeteo);
+            for(var i=0;markersMeteo.length;i++){
+                map.removeLayer(markersMeteo[i]);
+            }
         }
 
 }
