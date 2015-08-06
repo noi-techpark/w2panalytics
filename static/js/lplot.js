@@ -278,10 +278,8 @@ function lplot (ph, options) {
         $(tab).on('click', '#sidebar_grafici li a', $.proxy(function(event) {
             var element = event.target;
 	        var key = $(element).attr("id");
-            console.log(key);
 	        $(element).toggleClass('muted');
 	        var current = plot_console.getObj(key);
-            console.log(current);
 	        if (typeof current === "undefined") {
 		        if ( ! $(element).hasClass('muted')) {
 			        return get_data($(element), this);
@@ -291,7 +289,6 @@ function lplot (ph, options) {
 		        }
 	        } else {
 		        var index = jQuery.inArray(current, plot_console.data);
-                console.log(index);
 		        if ( index > -1 ) {
 		            // tmp fix
 			        $('#sidebar_grafici #' + key + ' .fa-check-square-o').css('background-color', "#c0c0c0",'color',"#c0c0c0" );
@@ -459,6 +456,21 @@ function alert_info(){
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");
         }else{
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
+        }
+   }
+   setTimeout(function(){ $( "#container-info" ).remove(); }, 1600);        
+}
+
+function alert_info_reset_single_sidebar(){
+    $( "#container-info" ).remove();
+    $( "#container-alert" ).remove();
+    if(langCode=="de"){
+        $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Warten!</strong> Sie sind bereits eine Station abgesagt </div></div>");
+    }else{
+        if(langCode=="it"){
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Aspetta!</strong> Stai gia cancellando una stazione </div></div>");
+        }else{
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Wait!</strong> You are already cancelled a station </div></div>");
         }
    }
    setTimeout(function(){ $( "#container-info" ).remove(); }, 1600);        

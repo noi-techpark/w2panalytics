@@ -211,30 +211,58 @@
                   });
              });
        }
-
+       var delete_sidebar_active=false;
        function reset_single_sidebar(el){
-               var count=0;
-               var well_panel=$(el).next("div");
-               if($(el).children().length==1){
-                   $(el).children("i").remove();
-                   $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
-                   var link=$(well_panel).find( "a" );
-                   var length=link.length;
-                   for(var i=0;i<link.length;i++){
-                       if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                           var key=$(link[i]).attr("id");
-                           var current = plot_console.getObj(key);
-                           var index = jQuery.inArray(current, plot_console.data);
-                           plot_console.data.splice(index, 1);
-                            plot_console.plotAccordingToChoices();
+               if(delete_sidebar_active==false){
+                   delete_sidebar_active=true;
+                   var count=0;
+                   var well_panel=$(el).next("div");
+                   if($(el).children().length==1){
+                       $(el).children("i").remove();
+                       $(el).html("<img src={{=URL('static','images/spinner.gif')}}/>");                    
+                       var link=$(well_panel).find( "a" );
+                       var length=link.length;
+                       var length_link_active=0;
+                       for(var i=0;i<link.length;i++){
+                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
+                               length_link_active++;
+                           }
                        }
-                    }
-                    $("#spinner-remove-single-sidebar").remove();
-                    well_panel.remove();
-                    el.remove();
+                       setCookie("length_link_active",length_link_active,1);
+                       setCookie("spinner",0,1);
+                       if(length_link_active>0){
+                       for(var i=0;i<link.length;i++){
+                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
+                               var key=$(link[i]).attr("id");
+                               var current = plot_console.getObj(key);
+                               var index = jQuery.inArray(current, plot_console.data);
+                               plot_console.data.splice(index, 1);
+                               setTimeout(function(){
+                                   var spinner=parseInt(getCookie("spinner"));
+                                   spinner=spinner+1;
+                                   setCookie("spinner",spinner,1);
+                                   plot_console.plotAccordingToChoices();
+                                   if(parseInt(getCookie("spinner"))>= parseInt(getCookie("length_link_active"))){
+                                       well_panel.remove();
+                                       el.remove();
+                                       delete_sidebar_active=false;
+                                   }
+                               }, 100);
+                           }
+                       }
+                       }else{
+                           well_panel.remove();
+                           el.remove();
+                           delete_sidebar_active=false;
+                       }
+                 }
+               }else{
+                   alert_info_reset_single_sidebar();
                }
         }
 
+        
+        
         function active_link_through_checkbox(el){
             $(el).closest( "a" ).trigger( "click" );
         }
@@ -242,7 +270,7 @@
         function reset_all_sidebar(a){
             if($("#spinner-remove-box").length==0){
                 var container=$(a).closest("div");
-                $(container).append("<i id='spinner-remove-box' class='fa fa-spinner fa-spin main-color'></i>");
+                $(container).append("<img id='img-spinner' src={{=URL('static','images/spinner.gif')}}/>");
                 setTimeout(function(){
                     if ( $('#sidebar_grafici').children().length > 0 ) {
                         $('#sidebar_grafici').empty();
@@ -252,7 +280,7 @@
                         plot_console.plotAccordingToChoices();
                         date_set(moment().subtract('days', 7),moment());
                     }
-                    $("#spinner-remove-box").remove();
+                    $("#img-spinner").remove();
                 }, 1000);
             }
          }
