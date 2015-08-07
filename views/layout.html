@@ -51,23 +51,23 @@
         </div>
      </header>
     {{include}}
-    {{block footer}}
-    <footer id="footer" class="footer">
-            <div class="col-md-5 height-footer">
-                <div class="text">
-                    <p class="centered"> <span tkey="source-code-licensed">Codice licenziato sotto</span> <a class="main-color" href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a class="main-color" href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br/>Powered by <a class="main-color" href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a class="main-color" href="http://www.madeincima.it" target="_blank">Madeincima</a><br/><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
-                </div>
-            </div>
-            <div class="col-md-7 height-footer">
-                   <ul class="centered">
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" width="60px" height="43px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg" width="104px" height="27px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano" width="102px" height="40px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png" width="53px" height="41px"></a></li>
-                    <li style="display:inline"><a  style="padding: .2em 2em;" href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg" width="129px" height="38px"></a></li>
-                </ul>
+    {{block footer}} <!-- this is default footer -->      
+        <footer class="footer" style="padding:1.5em">
+            <div class="container-fluid">
+                <div class="copyright pull-left">
+                    <p style="pull-left"> <span tkey="source-code-licensed">Codice licenziato sotto</span> <a class="main-color" href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a class="main-color" href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br/>Powered by <a class="main-color" href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a class="main-color" href="http://www.madeincima.it" target="_blank">Madeincima</a><br/><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
+               </div>
+               <div id="poweredBy" class="pull-right">
+                   <ul>
+                       <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" width="60px" height="43px"></a></li>
+                      <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg" width="104px" height="27px"></a></li>
+                      <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano" width="102px" height="40px"></a></li>
+                     <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png" width="53px" height="41px"></a></li>
+                     <li style="display:inline"><a  style="padding: .2em 2em;" href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg" width="129px" height="38px"></a></li>
+                  </ul>
+               </div>
            </div>
-    </footer>
+        </footer>
     {{end}}
     {{block page_js}}{{end page_js}}
     {{if response.google_analytics_id:}}
