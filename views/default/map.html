@@ -38,8 +38,33 @@
     var geojsonLayerBluetooth;
     var geojsonLayerEnv;
     var geojsonLayerParking;
-    var geojsonLayerMeteo;
+    var array_parking_free=[];
+    var markersMeteo=[];
     var geojsonLayerTraffic;
+
+    function parking_free(){
+        array_parking_free=[];
+        var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'free', 'period':1800})}}';
+        $.ajax({
+            url :  url_request ,
+            type: 'GET',
+            dataType: "json",
+            success: function(data){
+                for(var i=0;i<data.features.length;i++){
+                    var feature=data.features[i];
+                    item = {
+                        "lat":feature.geometry.coordinates[1],
+                        "long": feature.geometry.coordinates[0],
+                        "val":feature.properties.last_value,
+                    };
+
+                     array_parking_free.push(item);
+
+                }
+
+            }
+        });
+    }
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -101,16 +126,16 @@
     });
 
     function load_geojson_bluetooth() {
-        var text_tiplogy=$("#icon-bluetooth").text();
-        $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span><i data='spinner-bluetooth' class='fa fa-spinner fa-spin' style='float:right'></i>");
         if(map.hasLayer(geojsonLayerBluetooth)==false){
-                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':1800})}}';
+                   $("#icon-bluetooth").append("<i id='spinner-bluetooth' data='spinner-bluetooth' class='fa fa-spinner fa-spin' style='float:right'></i>");
+                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':'1800'})}}';
                     $.ajax({
                        url: url_request,
                        dataType: 'json',
                        success: function( data ) {
                           geojsonLayerBluetooth=L.geoJson(data, {
                             pointToLayer: function (feature, latlng) {
+                                console.log(data);
                                 var max_last_value;
                                 var length=data['features'].length
                                 for(var i=0;i<length;i++){
@@ -147,33 +172,21 @@
                             onEachFeature: onEachFeatureBluetooth
                         }).addTo(map);
                       },
-                      error: function( data ) {
-                         $("#icon-bluetooth").removeClass("active");
-                         if(langCode=="de"){
-                              alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
-                         }else{
-                             if(langCode=="it"){
-                                 alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
-                             }else{
-                                alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
-                             }
-
-                         }
+                      error: function (xhr, ajaxOptions, thrownError) {
+                          error_retrieve_marker("icon-bluetooth");
                        }
                    });
-                   $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
-
+                   $("#spinner-bluetooth").remove();
         }else{
             map.removeLayer(geojsonLayerBluetooth);
-            $("#icon-bluetooth").html("<span tkey='bluetooth-station'>"+text_tiplogy+"</span>");
         }
     }
 
     function load_geojson_traffic() {
         var text_tiplogy=$("#icon-traffic").text();
-        $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span><i data='spinner-traffic' class='fa fa-spinner fa-spin' style='float:right'></i>");
         if(map.hasLayer(geojsonLayerTraffic)==false){
-                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Traffic', 'type':'Traffic Count record', 'period':1800})}}';
+                   $("#icon-traffic").append("<i id='spinner-traffic' data='spinner-traffic' class='fa fa-spinner fa-spin' style='float:right'></i>");
+                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Traffic', 'type':'Traffic Count record', 'period':'1800'})}}';
                    $.ajax({
                        url: url_request,
                        dataType: 'json',
@@ -216,38 +229,28 @@
                         onEachFeature: onEachFeatureTraffic
                       }).addTo(map);
                    },
-                   error: function( data ) {
-                       $("#icon-traffic").removeClass("active");
-                       if(langCode=="de"){
-                           alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
-                       }else{
-                           if(langCode=="it"){
-                               alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
-                           }else{
-                               alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
-                           }
-                       }
+                   error: function (xhr, ajaxOptions, thrownError) {
+                       error_retrieve_marker("icon-traffic");
                    }
                });
-               $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
+               $("#spinner-traffic").remove();
          }else{
                 map.removeLayer(geojsonLayerTraffic);
-                $("#icon-traffic").html("<span tkey='traffic-station'>"+text_tiplogy+"</span>");
          }
     }
 
 
     function load_geojson_parking() {
-        var text_tiplogy=$("#icon-parcheggi").text();
-        $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span><i data='spinner-parking' class='fa fa-spinner fa-spin' style='float:right'></i>");
+        parking_free();
         if(map.hasLayer(geojsonLayerParking)==false){
-                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'Parking Count record', 'period':1800})}}';
-                   $.ajax({
+                   $("#icon-parcheggi").append("<i id='spinner-parking' data='spinner-parking' class='fa fa-spinner fa-spin' style='float:right'></i>");
+                   setTimeout(function(){ 
+                       var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'occupied', 'period':'1800'})}}';
+                       $.ajax({
                            url: url_request,
                            dataType: 'json',
                            success: function( data ) {
-                               console.log(data);
-                               geojsonLayerParking=L.geoJson(data, {
+                               geojsonLayerParking =L.geoJson(data, {
                                    pointToLayer: function (feature, latlng) {
                                        var max_last_value;
                                        var length=data['features'].length
@@ -284,33 +287,21 @@
                                onEachFeature: onEachFeatureParking
                             }).addTo(map);
                        },
-                       error: function( data ) {
-                          $("#icon-parcheggi").removeClass("active");
-                          if(langCode=="de"){
-                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
-                          }else{
-                              if(langCode=="it"){
-                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
-                              }else{
-                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
-                              }
-
-                          }
-
+                       error: function (xhr, ajaxOptions, thrownError) {
+                          error_retrieve_marker("icon-parcheggi");
                         }
                     });
-                    $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
+                       $("#spinner-parking").remove();
+                }, 300);
              }else{
                  map.removeLayer(geojsonLayerParking);
-                 $("#icon-parcheggi").html("<span tkey='parking'>"+text_tiplogy+"</span>");
             }
-    }
+     }
 
       function load_geojson_env() {
-        var text_tiplogy=$("#icon-inquinamento").text();
-        $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span><i data='spinner-inquinamento' class='fa fa-spinner fa-spin' style='float:right'></i>");
         if(map.hasLayer(geojsonLayerEnv)==false){
-                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'Environment Count record', 'period':1800})}}';
+                    $("#icon-inquinamento").append("<i id='spinner-inquinamento' data='spinner-inquinamento' class='fa fa-spinner fa-spin' style='float:right'></i>");
+                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'NO2', 'period':'3600'})}}';
                      $.ajax({
                        url: url_request,
                        dataType: 'json',
@@ -352,69 +343,119 @@
                         onEachFeature: onEachFeatureEnv
                         }).addTo(map);
                        },
-                       error: function( data ) {
-                          $("#icon-inquinamento").removeClass("active");
-                          if(langCode=="de"){
-                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
-                          }else{
-                              if(langCode=="it"){
-                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
-                              }else{
-                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
-                              }
-
-                          }
-                        }
+                       error: function (xhr, ajaxOptions, thrownError) {
+                          error_retrieve_marker("icon-inquinamento");
+                       }
                     });
-                    $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
+                    $("#spinner-inquinamento").remove();
            }
            else{
                map.removeLayer(geojsonLayerEnv);
-               $("#icon-inquinamento").html("<span tkey='stations-pollution'>"+text_tiplogy+"</span>");
            }
     }
 
     function load_geojson_weather() {
-        var text_tiplogy=$("#icon-meteo").text();
-        $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span><i data='spinner-weather' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        if(map.hasLayer(geojsonLayerMeteo)==false){
-                       var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Meteo', 'type':'Meteo Count record', 'period':1800})}}';
+        if($(".icon-meteo").hasClass("active")==false){
+                       $("#icon-meteo").append("<i id='spinner-weather' data='spinner-weather' class='fa fa-spinner fa-spin' style='float:right'></i>");
+                       var get_stations = 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-stations';
+                       var get_station_details = 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-station-details';
+                       var get_data_types="http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types"
+                       var stations;
+                       var id_station;
+                       var name_station;
+                       var type;
+                       var symbol;
+                       var title;
+                       var stations_cord_lat;
+                       var stations_cord_log;
+                       var stations_details;
+                       var stations_type;
+                       var stations_val;
+                       var array_last_value=[];
+                       var period;
                        $.ajax({
-                       url: url_request,
-                       dataType: 'json',
-                       success: function( data ) {
-                          geojsonLayerMeteo=L.geoJson(data, {
-                            pointToLayer: function (feature, latlng) {
-                                var v = feature.properties.last_value;
-                                var markerIcon;
-                                markerIcon= new L.Icon.Default({
-                                           iconUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                           iconRetinaUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                });
-                                return L.marker(latlng, {icon: markerIcon});
-                            },
-                                onEachFeature: onEachFeatureWeather
-                          }).addTo(map);
-                       },
-                       error: function( data ) {
-                          $("#icon-meteo").removeClass("active");
-                          if(langCode=="de"){
-                               alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
-                          }else{
-                              if(langCode=="it"){
-                                  alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
-                              }else{
-                                 alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
-                              }
+                            url: 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-stations' ,
+                            dataType: 'json',
+                            success: function( json_station ) {
+                                        stations=json_station;
+                                        $.ajax({
+                                            url: 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-station-details',
+                                            type: 'GET',
+                                            async:false,
+                                            success: function( json_details ) {
+                                                 stations_details=json_details;
+                                                 for(var i_stations=0; i_stations<stations.length;  i_stations++){
+                                                     id_station=stations[i_stations];
+                                                     for(var i_det=0;i_det<stations_details.length;i_det++){
+                                                         if(stations_details[i_det].id==stations[i_stations]){
+                                                            name_station=stations_details[i_det].name;
+                                                            stations_cord_lat=stations_details[i_det].latitude;
+                                                            stations_cord_log=stations_details[i_det].longitude;
+                                                            var get_data_types="http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types"+"?station="+id_station;
+                                                            $.ajax({
+                                                                url: get_data_types,
+                                                                type: 'GET',
+                                                                async:false,
+                                                                success: function( json_type ) {
+                                                                     stations_type=json_type;
+                                                                     var last_value=[];
+                                                                     var items;
+                                                                     for(var i_typ=0;i_typ<stations_type.length;i_typ++){
+                                                                         type=stations_type[i_typ][0];
+                                                                         symbol=stations_type[i_typ][1];
+                                                                         title=stations_type[i_typ][2];
+                                                                         period=stations_type[i_typ][3];
+                                                                         $.ajax({
+                                                                             url: '{{=URL('data', 'get_geojson')}}'+'?frontend=Meteo&type='+type+"&period="+period,
+                                                                             type: 'GET',
+                                                                             async:false,
+                                                                             success: function( data_stations ) {
+                                                                                 stations_val=data_stations;
+                                                                                 for(var i_val_stat=0;i_val_stat<stations_val.features.length;i_val_stat++){
+                                                                                     var id_station=stations_val.features[i_val_stat].properties.id;
+                                                                                     if(id_station==id_station){
+                                                                                         var items={
+                                                                                             'type':type,
+                                                                                             'symbol':symbol,
+                                                                                             'last_value':stations_val.features[i_val_stat].properties.last_value,
+                                                                                             'title':title,
+                                                                                             'period':period,
+                                                                                         }
+                                                                                         array_last_value.push(items);
 
-                          }
-                        }
-                    });
-                    $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span>");
-               }else{
-                   map.removeLayer(geojsonLayerMeteo);
-                   $("#icon-meteo").html("<span tkey='weather'>"+text_tiplogy+"</span>");
-               }
+                                                                                     }
+                                                                                 }
+
+                                                                             },
+
+                                                                          });
+                                                                        }
+
+                                                                }
+                                                             });
+                                                        }
+                                                    }
+                                                    var markerIcon= new L.Icon.Default({
+                                                       iconUrl: '{{=URL('static','images/meteo-icon.png')}}',
+                                                       iconRetinaUrl: '{{=URL('static','images/meteo-icon.png')}}',
+                                                   });
+                                                    var marker_weather=L.marker([stations_cord_lat, stations_cord_log], {icon: markerIcon}).addTo(map);
+                                                    markersMeteo.push(marker_weather);
+                                                    createWeatherMarker(id_station,name_station,stations_cord_lat,stations_cord_log,array_last_value,marker_weather);
+                                                 }
+                                           }
+
+                                    });
+                                    $("#spinner-weather").remove();
+                               },error: function (xhr, ajaxOptions, thrownError) {
+                                   error_retrieve_marker("icon-meteo");
+                               }
+                          });
+                 }else{
+                     for(var i=0;markersMeteo.length;i++){
+                         map.removeLayer(markersMeteo[i]);
+                     }
+                }
     }
 
 
@@ -527,8 +568,9 @@
         var tipology="Bluetooth";
         var text_tipology="Bluetooth";
         var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_lat=feature['geometry']['coordinates'][0];
-        var coordinate_long=feature['geometry']['coordinates'][1];
+        console.log(feature);
+        var coordinate_long=feature['geometry']['coordinates'][0];
+        var coordinate_lat=feature['geometry']['coordinates'][1];
         var id_station=feature['properties']['id'];
         var last_value=feature['properties']['last_value'];
         if(last_value==-1){
@@ -556,7 +598,7 @@
         }
          var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"","","","",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -584,8 +626,8 @@
             }
         }
         var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_lat=feature['geometry']['coordinates'][0];
-        var coordinate_long=feature['geometry']['coordinates'][1];
+        var coordinate_long=feature['geometry']['coordinates'][0];
+        var coordinate_lat=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
         if(last_value==-1){
@@ -613,7 +655,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"","","","",street,text_tipology,first_text,second_text,left_link,right_link,"#db4748",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -631,6 +673,8 @@
         var second_text;
         var left_link;
         var right_link;
+        var state_occupied;
+        var state_free;
         var street=popupContent;
         var tipology="Parking";
         var text_tipology;
@@ -644,27 +688,42 @@
             }
         }
         var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_lat=feature['geometry']['coordinates'][0];
-        var coordinate_long=feature['geometry']['coordinates'][1];
+        var coordinate_long=feature['geometry']['coordinates'][0];
+        var coordinate_lat=feature['geometry']['coordinates'][1];
+        var last_value_parking_free;
+        for(var i=0;i< array_parking_free.length;i++){
+                var parking_free_lat=array_parking_free[i].lat;
+                var parking_free_long=array_parking_free[i].long;
+                if(parking_free_lat==coordinate_lat && parking_free_long==coordinate_long){
+                        last_value_parking_free=array_parking_free[i].val;
+                }
+        }
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
+
         if(last_value==-1){
                last_value=0;
         }
         if(langCode=="it"){
             first_text="Rilevamenti";
+            state_occupied="Occupati";
+            state_free="Liberi";
             second_text="Negli ultimi 15 minuti"
             left_link="Trend ultima ora";
             right_link="Grafico storico";
         }else{
          if(langCode=="de"){
                 first_text="Umfragen";
+                state_occupied="Besetzt";
+                state_free="Verfügbar";
                 second_text="In den letzten 15 Minuten"
                 left_link="Trend der letzten Stunde";
                 right_link="History Graphen";
          }
          else{
              first_text="Data detect";
+             state_occupied="Occupied";
+             state_free="Available";
              second_text="In the last 15 minutes"
              left_link="Trend last hours";
              right_link="Storic graph";
@@ -673,7 +732,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
+            .setContent(create_popoup(id_station,last_value,last_value_parking_free,state_occupied,state_free,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
         layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -681,113 +740,158 @@
 
     }
 
-    function onEachFeatureWeather(feature, layer) {
-        var popupContent;
+    function  createWeatherMarker(id_station,name_station,stations_cord_lat,stations_cord_log,array_last_value,markersMeteo){
         var left_link;
         var right_link;
-        var tipology="Meteo";
-        var coordinate_lat=feature['geometry']['coordinates'][0];
-        var coordinate_long=feature['geometry']['coordinates'][1];
-        var id_station=feature['properties']['id'];
-        if (feature.properties && feature.properties.popupContent) {
-            popupContent = feature.properties.popupContent;
-        }
-        var street=adapt_string_for_view(popupContent,tipology);
         var label_pression;
-        var label_precipitation;
-        var label_sun_radiation;
         var label_wind_velocity;
-        var label_wind_velocity_squall;
-        var label_direction;
+        var label_relative_humidity_hair;
+        var label_sunshine_duration;
+        var label_wind_direction;
         var label_air_temperature;
-        var label_humidity;
-        var pression;
-        var precipitation;
-        var sun_radiation;
-        var wind_velocity;
-        var wind_velocity_squall;
-        var wind_direction;
-        var label_temperature;
-        var humidity;
+        var label_wind_velocity_squall;
+        var label_sun_radiation;
+        var label_precipitation;
         if(langCode=="it"){
             left_link="Trend ultima ora";
             right_link="Grafico storico";
             label_pression="Pressione";
-            label_precipitation="Precipitazioni";
-            label_sun_radiation="Radiazioni solari";
             label_wind_velocity="Velocità vento";
-            label_wind_velocity_squall="Raffica vento";
-            label_direction="Direzione vento";
-            label_temperature="Temp";
-            label_humidity="Umidità";
+            label_relative_humidity_hair="Umidità rel. aria";
+            label_sunshine_duration="Durata luce del sole";
+            label_wind_direction="Direzione del vento";
+            label_air_temperature="Temperatura dell'aria";
+            label_wind_velocity_squall="Velocità raffiche di vento";
+            label_sun_radiation="Radiazione solare";
+            label_precipitation="Precipitazione";
         }else{
-         if(langCode=="de"){
-            left_link="Trend der letzten Stunde";
-            right_link="History Graphen";
-            label_pression="Druck";
-            label_precipitation="Niederschlag";
-            label_sun_radiation="Sonnenlicht";
-            label_wind_velocity="Windgeschwindigkeit";
-            label_wind_velocity_squall="Windböen";
-            label_direction="Windrichtung";
-            label_temperature="Temp";
-            label_humidity="Luftfeuchtigkeit";
-         }
-         else{
-            left_link="Trend last hours";
-            right_link="Storic graph";
-            label_pression="Pression";
-            label_precipitation="Precipitation";
-            label_sun_radiation="Sun Radiation";
-            label_wind_velocity="Wind velocity";
-            label_wind_velocity_squall="Wind gust";
-            label_direction="Wind direction";
-            label_temperature="Temp";
-            label_humidity="Humidity";
-         }
+            if(langCode=="de"){
+                left_link="Trend der letzten Stunde";
+                right_link="History Graphen";
+                label_pression="Druck";
+                label_wind_velocity="Windgeschwindigkeit";
+                label_relative_humidity_hair="Rel. Luftfeuchtigkeit";
+                label_sunshine_duration="Sonnenscheindauer";
+                label_wind_direction="Windrichtung";
+                label_air_temperature="Lufttemperatur";
+                label_wind_velocity_squall="Geschwindigkeit Windböen";
+                label_sun_radiation="Sonnenstrahlung";
+                label_precipitation="Niederschlag";
+             }
+             else{
+                left_link="Trend last hours";
+                right_link="Storic graph";
+                label_pression="Pression";
+                label_wind_velocity="Wind Velocity";
+                label_relative_humidity_hair="Rel. humidity of the hair";
+                label_sunshine_duration="Sunshine duration";
+                label_wind_direction="Wind direction";
+                label_air_temperature="Air temperature";
+                label_wind_velocity_squall="Wind velocity squall";
+                label_sun_radiation="Sun radiation";
+                label_precipitation="Precipitation";
+             }
 
         }
-        $.ajax({
-            url :"http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types?station="+feature['properties']['id'],
-            type: 'GET',
-            dataType: "json",
-            success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if(i==0){
-                            pression=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==1){
-                           wind_velocity=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==2){
-                            humidity=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==5){
-                            wind_direction=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==6){
-                            air_temperature=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==7){
-                           wind_velocity_squall=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==8){
-                            sun_radiation=data[i][3]+" "+data[i][1];
-                        }
-                        if(i==9){
-                            precipitation=data[i][3]+" "+data[i][1];
-                        }
+        var pression;
+        var wind_velocity;
+        var relative_humidity_hair;
+        var sunshine_duration;
+        var wind_direction;
+        var air_temperature;
+        var wind_velocity_squall;
+        var sun_radiation;
+        var precipitation;
+        var sym_pression;
+        var sym_wind_velocity;
+        var sym_relative_humidity_hair;
+        var sym_shunshine_duration;
+        var sym_wind_direction;
+        var sym_air_temperature;
+        var sym_wind_velocity_squall;
+        var sym_sun_radiation;
+        var sym_precipitation;
+        var period_pression;
+        var period_wind_velocity;
+        var period_relative_humidity_hair;
+        var period_sunshine_duration;
+        var period_wind_direction;
+        var period_air_temperature;
+        var period_wind_velocity_squall;
+        var period_sun_radiation;
+        var period_precipitation;
+        for(var i=0;i<array_last_value.length;i++){
+            if(array_last_value[i].last_value<0){
+                    array_last_value[i].last_value=0;
+            }
+            if(array_last_value[i].type=="LD"){
+                pression=array_last_value[i].last_value;
+                sym_pression=array_last_value[i].symbol;
+                period_pression=array_last_value[i].period;
+            }
+            else{
+                if(array_last_value[i].type=="WG"){
+                    wind_velocity=array_last_value[i].last_value;
+                    sym_wind_velocity=array_last_value[i].symbol;
+                    period_wind_velocity=array_last_value[i].period;
+                }
+                else{
+                   if(array_last_value[i].type=="LF"){
+                       relative_humidity_hair=array_last_value[i].last_value;
+                       sym_relative_humidity_hair=array_last_value[i].symbol;
+                       period_relative_humidity_hair=array_last_value[i].period;
+                   }
+                   else{
+                      if(array_last_value[i].type=="SD"){
+                          sunshine_duration=array_last_value[i].last_value;
+                          sym_shunshine_duration=array_last_value[i].symbol;
+                          period_sunshine_duration=array_last_value[i].period;
+                      }
+                      else{
+                          if(array_last_value[i].type=="WR"){
+                              wind_direction=array_last_value[i].last_value;
+                              sym_wind_direction=array_last_value[i].symbol;
+                              period_wind_direction=array_last_value[i].period;
+                          }
+                          else{
+                              if(array_last_value[i].type=="LT"){
+                                  air_temperature=array_last_value[i].last_value;
+                                  sym_air_temperature=array_last_value[i].symbol;
+                                  period_air_temperature=array_last_value[i].period;
+                              }
+                              else{
+                                  if(array_last_value[i].type=="WG.BOE"){
+                                      wind_velocity_squall=array_last_value[i].last_value;
+                                      sym_wind_velocity_squall=array_last_value[i].symbol;
+                                      period_wind_velocity_squall=array_last_value[i].period;
+                                  }
+                                  else{
+                                      if(array_last_value[i].type=="GS"){
+                                          sun_radiation=array_last_value[i].last_value;
+                                          sym_sun_radiation=array_last_value[i].symbol;
+                                          period_sun_radiation=array_last_value[i].period;
+                                      }
+                                      else{
+                                          if(array_last_value[i].type=="N"){
+                                              precipitation=array_last_value[i].last_value;
+                                              sym_precipitation=array_last_value[i].symbol;
+                                              period_precipitation=array_last_value[i].period;
 
-                    }
-                    var popup = L.popup({maxWidth:450,minWidth:450})
-                        .setLatLng(coordinate_lat,coordinate_long)
-                       .setContent(create_popoup_weather(id_station,label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,"#93208c"));
-                    layer.bindPopup(popup);
-                     if (feature.properties && feature.properties.openPopup) {
-                        popup_selected = popup;
-                    }
-             },error: function(req, err){alert('Error server' + err); }
-         });
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                   }
+                }
+            }
+        }
+
+        var popup = L.popup({maxWidth:450,minWidth:550})
+            .setLatLng(stations_cord_lat,stations_cord_log)
+            .setContent(create_popoup_weather(id_station,name_station,label_pression,label_wind_velocity,label_relative_humidity_hair,label_sunshine_duration,label_wind_direction,label_air_temperature,label_wind_velocity_squall,label_sun_radiation,label_precipitation,period_pression,period_wind_velocity,period_relative_humidity_hair,period_sunshine_duration,period_wind_direction,period_air_temperature,period_wind_velocity_squall,period_sun_radiation,period_precipitation,sym_pression,sym_wind_velocity,sym_relative_humidity_hair,sym_shunshine_duration,sym_wind_direction,sym_air_temperature,sym_wind_velocity_squall,sym_sun_radiation,sym_precipitation,pression,wind_velocity,relative_humidity_hair,sunshine_duration,wind_direction,air_temperature,wind_velocity_squall,sun_radiation,precipitation,left_link,right_link,"#93208c","Meteo"));
+        markersMeteo.bindPopup(popup);
 
     }
 
@@ -816,8 +920,8 @@
             }
         }
         var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_lat=feature['geometry']['coordinates'][0];
-        var coordinate_long=feature['geometry']['coordinates'][1];
+        var coordinate_long=feature['geometry']['coordinates'][0];
+        var coordinate_lat=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
         if(last_value==-1){
@@ -845,7 +949,7 @@
         }
         var popup = L.popup({maxWidth:350,minWidth:350})
             .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
+            .setContent(create_popoup(id_station,last_value,"","","","µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
             layer.bindPopup(popup);
         if (feature.properties && feature.properties.openPopup) {
             popup_selected = popup;
@@ -878,9 +982,15 @@
                    $(layer).removeClass("active");
                }
         }
+        if(markersMeteo.length>0){
+            for(var i=0;markersMeteo.length;i++){
+                map.removeLayer(markersMeteo[i]);
+            }
+            $(".icon-meteo").removeClass("active");
+        }
     }
 
-    function graphTrend(tipology,street,id_station){
+    function graphTrend(tipology,id_station){
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -894,24 +1004,7 @@
          $('#tab a:first').tab('show');
         changeTipology();
         setTimeout(function(){
-               $("#select2-form-control_stations-container").text(street);
-               street=street.replace(/\s/g, '');
-               console.log("guarda street");
-               $("#form-control_stations option").filter(function() {
-                   select_street=this.text;
-                   select_street=select_street.replace(/\s/g, '');
-                   console.log(street+" "+select_street);
-                   console.log(street==select_street);
-                   if(select_street==street){
-                       $( "select.form-control_stations" ).val($(this).attr("value"));
-                       street=$(this).attr("value");
-                   }
-               });
-
-
-        }, 1000);
-        setTimeout(function(){
-                recover_stations(tipology,street);
+                recover_stations(tipology,id_station);
         }, 2000);
         setTimeout(function(){
                date_set(moment().subtract(1,'hours'),moment());
@@ -924,7 +1017,7 @@
 
     }
 
-    function graphStoric(tipology,street,id_station){
+    function graphStoric(tipology,id_station){
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -938,21 +1031,7 @@
         $( "select.form-control_frontends" ).val(tipology);
         changeTipology();
         setTimeout(function(){
-               $("#select2-form-control_stations-container").text(street);
-               street=street.replace(/\s/g, '');
-               $("#form-control_stations option").filter(function() {
-                   select_street=this.text;
-                   select_street=select_street.replace(/\s/g, '');
-                   if(select_street==street){
-                       $( "select.form-control_stations" ).val($(this).attr("value"));
-                       street=$(this).attr("value");
-                   }
-               });
-
-
-        }, 1000);
-        setTimeout(function(){
-                recover_stations(tipology,street);
+                recover_stations(tipology,id_station);
         }, 2000);
          setTimeout(function(){
              $("a[data-station="+id_station+"]").trigger("click");
@@ -960,27 +1039,39 @@
 
 
     }
+    function create_popoup(id_station,last_value,last_value_parking_free,state_occupied,state_free,unit_measure,street,text_tipology,first_text,second_text,left_link,right_link,color,street,tipology){
+        var lef_part_popoup;
+        if(tipology=="Parking"){
+             lef_part_popoup="<div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-6' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h4 style='font-weight:bold;'>"+last_value+" "+state_occupied+"</h4><h4 style='font-weight:bold;'>"+last_value_parking_free+" "+state_free+"</h4></div>";
+        }else{
+            if(tipology=="Environment"){
+               lef_part_popoup="<div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-6' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight:bold;'>"+last_value+"</h1><h4 style='font-weight:bold;'>"+unit_measure+"</h4></div>";
+            }else{
+                  lef_part_popoup="<div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-6' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight:bold;'>"+last_value+"</h1></div>";
+            }
 
-    function create_popoup(id_station,last_value,unit_measure,street,text_tipology,first_text,second_text,left_link,right_link,color,street,tipology){
-        return " <div class='row' style='padding-top:10px;'><div class='col-md-12'><h1 style='font-weight: bold;font-size: 25px;'>TIS Innovation Park</h1></div></div><div class='row' style=padding-top:10px;'><div class='col-md-4' style='padding-right:0px'><div style='height:100px;color:#fff;text-align:center;padding-top:25px;background:"+color+"'><h1 style='font-weight: bold;font-size: 30px;display:inline'>"+last_value+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+unit_measure+"</h1></div></div><div class='col-md-8' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
+        }
+
+
+        return lef_part_popoup+"</div><div class='col-md-6' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+street+"</h1><br/> <h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div><div class='row' style='padding-top:10px;'><div class='col-md-12'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='float:left;color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='float:right;color:"+color+";border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></div></div>";
     }
 
-    function create_popoup_weather(id_station,label_pression,label_precipitation,label_sun_radiation,label_wind_velocity,label_wind_velocity_squall,label_direction,label_temperature,label_humidity,pression,precipitation,sun_radiation,wind_velocity,wind_velocity_squall,wind_direction,humidity,tipology,street,left_link,right_link,color){
+    function create_popoup_weather(id_station,name_station,label_pression,label_wind_velocity,label_relative_humidity_hair,label_sunshine_duration,label_wind_direction,label_air_temperature,label_wind_velocity_squall,label_sun_radiation,label_precipitation,period_pression,period_wind_velocity,period_relative_humidity_hair,period_sunshine_duration,period_wind_direction,period_air_temperature,period_wind_velocity_squall,period_sun_radiation,period_precipitation,sym_pression,sym_wind_velocity,sym_relative_humidity_hair,sym_shunshine_duration,sym_wind_direction,sym_air_temperature,sym_wind_velocity_squall,sym_sun_radiation,sym_precipitation,pression,wind_velocity,relative_humidity_hair,sunshine_duration,wind_direction,air_temperature,wind_velocity_squall,sun_radiation,precipitation,left_link,right_link,color,tipology){
         var url = "http://"+window.location.host+"/";
         var pathname= window.location.pathname.split( '/' );
         if(pathname[1]!="default"){
             url=url+pathname[1]+"/";
         }
-        return "<div class='row' style='padding-top:10px;'><div class='col-md-7'><h1 style='font-weight: bold;font-size: 30px;'>"+street+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+precipitation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+": </h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_direction+":</h1></td><td><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+wind_direction+"</h1></td></tr></table></div><div class='col-md-5'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url+"static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+precipitation+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_humidity+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+humidity+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+street+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
+        return "<div class='row' style='padding-top:10px;'><div class='col-md-6'><h1 style='font-weight: bold;font-size: 30px;'>"+name_station+"</h1><br/><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+"("+period_pression+"): </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+pression+sym_pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+"("+period_wind_velocity+"): </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_velocity+sym_wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_relative_humidity_hair+"("+period_relative_humidity_hair+"): </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+relative_humidity_hair+sym_relative_humidity_hair+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sunshine_duration+"("+period_sunshine_duration+"): </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+sunshine_duration+sym_shunshine_duration+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_direction+"("+period_wind_direction+"): </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_direction+sym_wind_direction+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_air_temperature+"("+period_air_temperature+"):</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+air_temperature+sym_air_temperature+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+"("+period_wind_velocity_squall+"):</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_velocity_squall+sym_wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+"("+period_sun_radiation+"):</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+sun_radiation+sym_sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+"("+period_precipitation+"):</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+precipitation+sym_precipitation+"</h1></td></tr></table></div><div class='col-md-6'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url+"static/images/cloud_weather.png'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_air_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+air_temperature+" "+sym_air_temperature+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_relative_humidity_hair+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+relative_humidity_hair+" "+sym_relative_humidity_hair+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
 
     }
 
 
-    function recover_stations(tipology,street){
+    function recover_stations(tipology,id_station){
         $.ajax({
             url : '{{=URL('data','get_data_types')}}',
             type: 'GET',
-            data : 'station='+street+'&tab=grafici'+'&frontend='+tipology,
+            data : 'station='+id_station+'&tab=grafici'+'&frontend='+tipology,
             success: function(data){
                 $('.link_stations').collapse();
                 $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+tipology+"<i   class='glyphicon glyphicon-remove'></i></span>")
@@ -1002,6 +1093,18 @@
                 }
     }
 
+    function error_retrieve_marker(id){
+        $("#"+id).removeClass("active");
+        if(langCode=="de"){
+            alert( "Fehler:  " + "Im Moment ist nicht möglich, die Daten für diesen tipology abrufen" );
+        }else{
+            if(langCode=="it"){
+                alert( "ERRORE:  " + "Al momento è impossibile recurperare i dati per questa tipologia" );
+            }else{
+                alert( "ERROR:  " + "At the moment is impossible to retrieve the data for this tipology" );
+            }
+        }
 
+    }
 
 </script>

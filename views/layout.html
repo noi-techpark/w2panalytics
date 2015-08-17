@@ -51,23 +51,23 @@
         </div>
      </header>
     {{include}}
-    {{block footer}}
-    <footer id="footer" class="footer">
-            <div class="col-md-5 height-footer">
-                <div class="text">
-                    <p class="centered"> <span tkey="source-code-licensed">Codice licenziato sotto</span> <a class="main-color" href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a class="main-color" href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br/>Powered by <a class="main-color" href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a class="main-color" href="http://www.madeincima.it" target="_blank">Madeincima</a><br/><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
-                </div>
-            </div>
-            <div class="col-md-7 height-footer">
-                   <ul class="centered">
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" width="60px" height="43px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg" width="104px" height="27px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano" width="102px" height="40px"></a></li>
-                    <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png" width="53px" height="41px"></a></li>
-                    <li style="display:inline"><a  style="padding: .2em 2em;" href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg" width="129px" height="38px"></a></li>
-                </ul>
+    {{block footer}} <!-- this is default footer -->      
+        <footer class="footer" style="padding:1.5em">
+            <div class="container-fluid">
+                <div class="copyright pull-left">
+                    <p style="pull-left"> <span tkey="source-code-licensed">Codice licenziato sotto</span> <a class="main-color" href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank">GNU Affero General Public License</a> <span tkey="published-on">pubblicato su</span> <a class="main-color" href="https://github.com/tis-innovation-park/BZtraffic" title="BZ-Traffic" target="_blank">github</a><br/>Powered by <a class="main-color" href="http://www.ethicalsoftware.it" target="_blank">Ethical Software</a> | Designed by <a class="main-color" href="http://www.madeincima.it" target="_blank">Madeincima</a><br/><span tkey="contact">Contatto</span>: project [at] integreen-life.bz.it</p>
+               </div>
+               <div id="poweredBy" class="pull-right">
+                   <ul>
+                       <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://ec.europa.eu/environment/life/" title="Environment LIFE program" target="_blank"><img alt="Environment LIFE program" src="http://clean-roads.eu/clean-roads-theme/images/life.jpg" width="60px" height="43px"></a></li>
+                      <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://integreen-life.bz.it" target="_blank"><img src="/w2panalytics/static/images/logo-integreen.jpg" width="104px" height="27px"></a></li>
+                      <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.comune.bolzano.it/" target="_blank"><img src="/w2panalytics/static/images/logo-bz.jpg" alt="Logo Comune di Bolzano" width="102px" height="40px"></a></li>
+                     <li style="display:inline;margin-right:10px"><a style="padding: .2em 2em;" href="http://www.tis.bz.it/open" title="TIS innovation park" target="_blank"><img alt="TIS innovation park" src="http://clean-roads.eu/clean-roads-theme/images/tis.png" width="53px" height="41px"></a></li>
+                     <li style="display:inline"><a  style="padding: .2em 2em;" href="http://www.ait.ac.at/" target="_blank"><img src="/w2panalytics/static/images/logo-ait.jpg" width="129px" height="38px"></a></li>
+                  </ul>
+               </div>
            </div>
-    </footer>
+        </footer>
     {{end}}
     {{block page_js}}{{end page_js}}
     {{if response.google_analytics_id:}}
@@ -203,7 +203,6 @@
                      else{
                          $('.link_stations').collapse();
                          $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+val_select_tipology+"<i   class='glyphicon glyphicon-remove'></i></span>");
-                         console.log(data);
                          $( '#sidebar_grafici').append(data);
                          $('#sidebar_grafici').show();
                          changeTipology();
@@ -212,28 +211,58 @@
                   });
              });
        }
-
+       var delete_sidebar_active=false;
        function reset_single_sidebar(el){
-               var count=0;
-               var well_panel=$(el).next("div");
-               if($(el).children().length==1){
-                   $(el).children("i").remove();
-                   $(el).append("<i id='spinner-remove-single-sidebar' class='fa fa-spinner fa-spin main-color'></i>");
-                   setTimeout(function(){
+               if(delete_sidebar_active==false){
+                   delete_sidebar_active=true;
+                   var count=0;
+                   var well_panel=$(el).next("div");
+                   if($(el).children().length==1){
+                       $(el).children("i").remove();
+                       $(el).html("<img src={{=URL('static','images/spinner.gif')}}/>");                    
                        var link=$(well_panel).find( "a" );
                        var length=link.length;
+                       var length_link_active=0;
                        for(var i=0;i<link.length;i++){
                            if($(link[i]).children('i').hasClass('fa-check-square-o')){
-                               $(link[i]).trigger( "click" );
+                               length_link_active++;
                            }
                        }
-                       $("#spinner-remove-single-sidebar").remove()
-                       well_panel.remove();
-                       el.remove();
-                   }, 500);
+                       setCookie("length_link_active",length_link_active,1);
+                       setCookie("spinner",0,1);
+                       if(length_link_active>0){
+                       for(var i=0;i<link.length;i++){
+                           if($(link[i]).children('i').hasClass('fa-check-square-o')){
+                               var key=$(link[i]).attr("id");
+                               var current = plot_console.getObj(key);
+                               var index = jQuery.inArray(current, plot_console.data);
+                               plot_console.data.splice(index, 1);
+                               setTimeout(function(){
+                                   var spinner=parseInt(getCookie("spinner"));
+                                   spinner=spinner+1;
+                                   setCookie("spinner",spinner,1);
+                                   plot_console.plotAccordingToChoices();
+                                   if(parseInt(getCookie("spinner"))>= parseInt(getCookie("length_link_active"))){
+                                       well_panel.remove();
+                                       el.remove();
+                                       delete_sidebar_active=false;
+                                   }
+                               }, 100);
+                           }
+                       }
+                       }else{
+                           well_panel.remove();
+                           el.remove();
+                           delete_sidebar_active=false;
+                       }
+                 }
+               }else{
+                   alert_info_reset_single_sidebar();
                }
         }
 
+        
+        
         function active_link_through_checkbox(el){
             $(el).closest( "a" ).trigger( "click" );
         }
@@ -241,7 +270,7 @@
         function reset_all_sidebar(a){
             if($("#spinner-remove-box").length==0){
                 var container=$(a).closest("div");
-                $(container).append("<i id='spinner-remove-box' class='fa fa-spinner fa-spin main-color'></i>");
+                $(container).append("<img id='img-spinner' src={{=URL('static','images/spinner.gif')}}/>");
                 setTimeout(function(){
                     if ( $('#sidebar_grafici').children().length > 0 ) {
                         $('#sidebar_grafici').empty();
@@ -251,7 +280,7 @@
                         plot_console.plotAccordingToChoices();
                         date_set(moment().subtract('days', 7),moment());
                     }
-                    $("#spinner-remove-box").remove();
+                    $("#img-spinner").remove();
                 }, 1000);
             }
          }
