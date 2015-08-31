@@ -5,9 +5,9 @@
     "map" : "Karte",
     "map-layers" : "Ebenenmaske",
     "bluetooth-station" : "Bluetooth-Stationen",
-    "traffic-station" : "Verkehrsstazioni",
+    "traffic-station" : "Verkehrsstation",
     "journey-time" : "Gesamtzeiten",
-    "parking" : "Parkplätze",
+    "parking" : "Parkplatz",
     "weather" : "Wetter",
     "stations-pollution" : "Pollution Stationen",
     "pollutant-dispersion" : "Schadstoff- Dispersion",
@@ -24,7 +24,7 @@
     "add-date"    : "Informationen hinzufügen",
     "select-typology" : "Typ auswählen",
     "select-source" : "Quelle wählen",
-    "select-source-param" : "Wählen Sie einen Typ, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen",
+    "select-source-param" : "Wählen Sie einen Typ, eine Quelle und ein Bahnhof um die Grafik zu sehen",
     "remove-boxes": "Entfernen Sie alle Boxen",
     "layer-map":"Ebenenmaske"
 }
