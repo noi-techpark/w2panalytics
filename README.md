@@ -29,8 +29,8 @@ On the sidebar of the map dashboard we have different stations which capture all
 Bluetooth station: http://ipchannels.integreen-life.bz.it/BluetoothFrontEnd/
 Parking: http://ipchannels.integreen-life.bz.it/parkingFrontEnd/ 
 These links provide all necessary informations about the presence of Bluetooth stations and  Parking slots in Bolzano. With these data we can retrieve meta-data of stations,  data from a specific station, data in time-frame from a specific station and lastly the date of the last record.
-The Bluetooth markers are shown in 2 different colors and it depends on the presence of bluetooth stations in each location. The biggest number of bluetooth present in a location show the marker colour dark blue as all the other locations which has at least 75% of the higher bluetooth station and the other minor locations which don't go over the 75% are colored light blue. 
-When is not possible to retrieve the data from the WebServer this last return the value -1 and in this case the markers are inserts in the map with a gray popup color.
+The Bluetooth markers are shown in 2 different colors based on the value of the field "last value" for each stations. The biggest "last value" shows the popup-marker colour dark blue as all the other "last value" which has at least 75% of this one and the others which don't go over the 75% are colored light blue. 
+When is not possible to retrieve the data from the WebServer this last return the field "last value" with value -1 and in this case the markers are inserts in the map with a gray popup color.
 Weather: http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/
 The above mentioned link provides all the necessary informations to estimate the weather situation in Bolzano. The API contains informations about the pressure measured in pascal, the wind velocity in m/s, the percentage of the air humidity, sunshine duration, wind directions, Air temperature, wind velocity squall, sun radiation and lastly the precipitation. 
 All the informations are retrieved through AJAX calls to WEB2PY  open source framework which acquire and manipulate data .
