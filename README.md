@@ -19,7 +19,7 @@ BZ Analytics is a multi-language software introduced in English, German and Ital
 Through the Sidebar users can select different typology retrieve through AJAX calls to the Web2py Server, different sources for each typology and lastly different stations for each source to see the relative graphs (always retrieve by Ajax calls) . The dynamic creation of the Sidebar is managed through the static/graph.js file and the selects has been customized through select.js library: https://select2.github.io/.
 
 ## LPLOT
-By the selection of a station through the sidebar users can see appear a graph related to the station which by scrolling the mouse wheel or by holding down the left mouse button  on the graph allows to navigate through it. The creation of the graph is managed through the static/lpolt.js file.
+By the selection of a station through the sidebar users can see appear a graph and the creation of the graph is managed through the static/lpolt.js file.
 more on [here](http://www.flotcharts.org/)
 
 ## How does the MAP work?
