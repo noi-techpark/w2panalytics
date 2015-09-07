@@ -1,4 +1,3 @@
-# w2panalytics
 # BZAnalytics
 
 Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on-line application and is developed under AGPL License
