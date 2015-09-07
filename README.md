@@ -16,7 +16,7 @@ More technical info about hardware installation of the API can be found on: http
 BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js).On the first access the software will catch the browser language and  You can change it through the “log in” page by clicking on the component “Dropdown” located on the upper right side. The cookie settings and the language changes of the software are managed through the files static/js/jquery-multilang/lang_login.js regards to “log in” page and through static/js/jquery-multilang/lang.js regards to other pages. 
 
 ## Task of Sidebar
-Through the Sidebar users can select different typology retrieve through AJAX calls to the Web2py Server, different sources for each typology and lastly different stations for each source to see the relative graphs (always retrieve by Ajax calls) . The dynamic creation of the Sidebar is managed through the static/graph.js file and the selects has been customized through select.js library: https://select2.github.io/.
+Through the Sidebar users can select different typology retrieve through AJAX calls to the Web2py Server, differents sources for each typology and lastly differents stations for each source to see the relative graphs (always retrieve by Ajax calls) . The dynamic creation of the Sidebar is managed through the static/graph.js file and the selects has been customized through select.js library: https://select2.github.io/.
 
 ## LPLOT
 By the selection of a station through the sidebar users can see appear a graph and this last is managed through the static/lpolt.js file.
