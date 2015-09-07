@@ -33,8 +33,7 @@ The Bluetooth markers are shown in 2 different colors based on the value of the 
 When is not possible to retrieve the data from the WebServer this last return the field "last value" with value -1 and in this case the markers are inserts in the map with a gray popup color.
 Weather: http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/
 The above mentioned link provides all the necessary informations to estimate the weather situation in Bolzano. The API contains informations about the pressure measured in pascal, the wind velocity in m/s, the percentage of the air humidity, sunshine duration, wind directions, Air temperature, wind velocity squall, sun radiation and lastly the precipitation. 
-All the informations are retrieved through AJAX calls to WEB2PY  open source framework which acquire and manipulate data .
-The Map is built thanks to a open source JavaScript library used to built web mapping applications such as LEAFLET in GeoJson format. 
+Remember all the informations are retrieved through AJAX calls to WEB2PY  open source framework which acquire and manipulate data. The Map is built thanks to a open source JavaScript library used to built web mapping applications such as LEAFLET in GeoJson format. 
 More on [geojson](http://leafletjs.com/examples/geojson.html)
 
 And thanks to this library the map stations when are selected they got marked in on the map and by clicking on them we can see appear a pop up tab which contains all the informations related to the station.
