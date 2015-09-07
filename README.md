@@ -52,11 +52,10 @@ more on [web2py](http://www.web2py.com/book/default/chapter/01) and [python](htt
 * ***WEB SERVER***
 Download and install an open source web application framework written in the Python programming language such as “WEB2PY” [here](https://http://www.moneo.si/examples/download) you can choose your compatible version to install. 
 
-* ***CODES***
+* ***GITHUB CODES***
 Download the codes of the project and the codes of the supporter application on your local disk [here](https://github.com/tis-innovation-park/w2panalytics); (https://github.com/ilvalle/vtraffic) 
 unzip the downloaded files into the application directory  of the web2py web server.
 
-* ***GITHUB***
-Download and install the codes of the Web-based Git repository hosting service for web2py  such as “GitHup” [here](https://github.com/ilvalle/vtraffic).
+
 
 ENJOY THE FUTURE!
