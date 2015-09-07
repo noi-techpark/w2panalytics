@@ -29,7 +29,7 @@ On the left sidebar of the map we have differents stations which capture all the
 Bluetooth stations: http://ipchannels.integreen-life.bz.it/BluetoothFrontEnd/
 Parking stations: http://ipchannels.integreen-life.bz.it/parkingFrontEnd/ 
 These links provide all necessary informations about the presence of Bluetooth stations and  Parking slots in Bolzano. With these data we can retrieve meta-data of stations,  data from a specific station, data in time-frame from a specific station and lastly the date of the last record.
-The Bluetooth markers are shown in 2 different colors based on the value of the field "last value" for each stations. The biggest "last value" shows the popup-marker colour dark blue as all the other "last value" which has at least 75% of this one and the others which don't go over the 75% are colored light blue. 
+The markers are shown in 2 different colors based on the value of the field "last value" for each stations. The biggest "last value" shows the popup-marker colour dark blue as all the other "last value" which has at least 75% of this one and the others which don't go over the 75% are colored light blue. 
 When is not possible to retrieve the data from the WebServer this last return the field "last value" with value -1 and in this case the markers are inserts in the map with a gray popup color.
 Weather: http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/
 The above mentioned link provides all the necessary informations to estimate the weather situation in Bolzano. The API contains informations about the pressure measured in pascal, the wind velocity in m/s, the percentage of the air humidity, sunshine duration, wind directions, Air temperature, wind velocity squall, sun radiation and lastly the precipitation. 
