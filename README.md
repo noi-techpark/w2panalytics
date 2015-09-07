@@ -24,7 +24,7 @@ more on [here](http://www.flotcharts.org/)
 
 ## How does the MAP work?
 
-On the sidebar of the map dashboard we have different stations which capture all the required data with  Ajax call to the Web2py Server. The Web2py Server return the data in GeoJson format and retrieves these through the Integreen API: 
+On the left sidebar of the map we have differents stations which capture all the required data with  Ajax call to the Web2py Server. The Web2py Server return the data in GeoJson format and retrieves these through the Integreen API: 
 
 Bluetooth station: http://ipchannels.integreen-life.bz.it/BluetoothFrontEnd/
 Parking: http://ipchannels.integreen-life.bz.it/parkingFrontEnd/ 
