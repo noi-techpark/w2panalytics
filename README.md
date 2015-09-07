@@ -45,7 +45,7 @@ All the information retrieved from integreen API are in JSON format and retrieve
  more on [JSON](http://www.json.org)
 
 * ***WEB2PY/PYTHON***
-In BZ Analytics we acquire and manipulate the data (coming from API) Through the web2py open source framework  which is requested by ajax/jquery
+In BZ Analytics we acquire and manipulate the data (coming from API) through the Web2py open source framework.
 more on [web2py](http://www.web2py.com/book/default/chapter/01) and [python](https://wiki.python.org/moin/BeginnersGuide)
 
 ## Installation
