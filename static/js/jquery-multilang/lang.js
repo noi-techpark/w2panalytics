@@ -13,59 +13,35 @@ $( document ).ready(function() {
     setTranslation();
 });
 
-function getBaseURL() {
-    var url = location.href;  // entire url including querystring - also: window.location.href;
-    var baseURL = url.substring(0, url.indexOf('/', 14));
 
-
-    if (baseURL.indexOf('http://localhost') != -1) {
-        // Base Url for localhost
-        var url = location.href;  // window.location.href;
-        var pathname = location.pathname;  // window.location.pathname;
-        var index1 = url.indexOf(pathname);
-        var index2 = url.indexOf("/", index1 + 1);
-        var baseLocalUrl = url.substr(0, index2);
-
-        return baseLocalUrl + "/";
-    }
-    else {
-        // Root Url for domain name
-        return baseURL + "/";
-    }
-
-}
 
 function setTranslation() {
 	var res= false;
     var cindex= getCookie("lang");
     cindex=cindex.toLowerCase();
-    var url=getBaseURL();
-    var pathArray = window.location.pathname.split( '/' );
-    if(url=="http://127.0.0.1:8000/"){
-        url=url+pathArray[1]+"/";
-    }
+    var url=url_multilanguage;
     if(cindex) {
         langCode=cindex;
         setCookie("lang",langCode,60);
-        $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+        $.getJSON(url+'/lang/'+langCode+'.json', translate);
 		res= langCode;
     }else{
          var browserLang = navigator.languages ? navigator.languages[0] : (navigator.language || navigator.userLanguage) ;
          if(browserLang=="it-IT" || browserLang=="it"){    
               langCode= 'it';
               setCookie("lang",langCode,60);
-              $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+              $.getJSON(url+'/lang/'+langCode+'.json', translate);
               res= langCode;
         }else{
             if(browserLang=="de-DE" || browserLang=="de" ){
                 langCode= 'de';
                 setCookie("lang",langCode,60);
-                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+                $.getJSON(url+'/lang/'+langCode+'.json', translate);
                 res= langCode;
             }else{
                 langCode= 'en';
                 setCookie("lang",langCode,60);
-                $.getJSON(url+'static/js/jquery-multilang/lang/'+langCode+'.json', translate);
+                $.getJSON(url+'/lang/'+langCode+'.json', translate);
                 res= langCode;
             }
         }
@@ -95,7 +71,7 @@ function setTranslation() {
             $('#frontends_form').empty().append(save);
             $("#stations").empty();
             $.ajax({
-                url :url+"data/get_frontends",
+                url :url_get_frontends,
                 type: 'GET',
                 success: function(data){
                     $('#frontends_form').append(data);
@@ -182,6 +158,120 @@ function adapt_language_select_source(language){
         }
     }   
 }
+
+var datapickler_option_eng = {
+    format: 'MM/DD/YYYY',
+        startDate: startDate,
+        endDate: endDate,
+        minDate: '01/01/2012',
+        maxDate: '12/31/2015',
+        dateLimit: { months: 1 },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: true,
+        timePickerIncrement: 1,
+        timePicker12Hour: true,
+        ranges: {
+            'Last 2 hours': [moment().subtract('hours', 2), moment().add('days', 1)],
+            'Today': [moment({hour: 00, minute: 00}), moment()],
+            'Yesterday': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
+            'Last 7 Days': [moment().subtract('days', 6), moment().add('days', 1)],
+            'Last 30 Days': [moment().subtract('days', 29), moment().add('days', 1)],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        opens: 'left',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-primary',
+        cancelClass: 'btn-default',
+        separator: ' to ',
+        locale: {
+            applyLabel: 'Submit',
+            cancelLabel: 'Cancel',
+            fromLabel: 'From',
+            toLabel: 'To',
+            customRangeLabel: 'Custom',
+            daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+            monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            firstDay: 1
+        }
+};
+
+var datapickler_option_it = {
+        format: 'MM/DD/YYYY',
+        startDate: startDate,
+        endDate: endDate,
+        minDate: '01/01/2012',
+        maxDate: '12/31/2015',
+        dateLimit: { months: 1 },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: true,
+        timePickerIncrement: 1,
+        timePicker12Hour: true,
+        ranges: {
+            'Ultime 2 ore': [moment().subtract('hours', 2), moment().add('days', 1)],
+            'Oggi': [moment({hour: 00, minute: 00}), moment()],
+            'Ieri': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
+            'Ultimi 7 giorni': [moment().subtract('days', 6), moment().add('days', 1)],
+            'Ultimi 30 giorni': [moment().subtract('days', 29), moment().add('days', 1)],
+            'Questo mese': [moment().startOf('month'), moment().endOf('month')],
+            'Scorso mese': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        opens: 'left',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-primary',
+        cancelClass: 'btn-default',
+        separator: ' to ',
+        locale: {
+            applyLabel: 'Applica',
+            cancelLabel: 'Annulla',
+            fromLabel: 'Da',
+            toLabel: 'A',
+            customRangeLabel: 'Personalizza',
+            daysOfWeek: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
+            monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+            firstDay: 1
+        }
+};
+
+var datapickler_option_de = {
+        format: 'MM/DD/YYYY',
+        startDate: startDate,
+        endDate: endDate,
+        minDate: '01/01/2012',
+        maxDate: '12/31/2015',
+        dateLimit: { months: 1 },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: true,
+        timePickerIncrement: 1,
+        timePicker12Hour: true,
+        ranges: {
+            'Letzte 2 Stunden': [moment().subtract('hours', 2), moment().add('days', 1)],
+            'Heute': [moment({hour: 00, minute: 00}), moment()],
+            'Gestern': [moment({hour: 00, minute: 00}).subtract('days', 1), moment({hour: 23, minute: 59}).subtract('days', 1)],
+            'Letzte 7 Tage': [moment().subtract('days', 6), moment().add('days', 1)],
+            'Letzte 30 Tage': [moment().subtract('days', 29), moment().add('days', 1)],
+            'Diesen Monat': [moment().startOf('month'), moment().endOf('month')],
+            'Letzter Monat': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        opens: 'left',
+        buttonClasses: ['btn', 'btn-sm'],
+        applyClass: 'btn-primary',
+        cancelClass: 'btn-default',
+        separator: ' to ',
+        locale: {
+            applyLabel: 'Übernehmen',
+            cancelLabel: 'Abbrechen',
+            fromLabel: 'Von',
+            toLabel: 'Bis',
+            customRangeLabel: 'Anpassen',
+            daysOfWeek: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+            monthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+            firstDay: 1
+        }
+};
 
 function adapt_language_calendar(langCode){
     if(langCode=="it"){

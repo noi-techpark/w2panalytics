@@ -383,7 +383,7 @@ function live_update_graph(){
             date_set(moment().subtract(2000000, 'milliseconds'),moment());
             setTimeout(function(){
                 $( "#spinner" ).removeClass( "fa-spin")
-             }, 2000);
+             }, 1000);
         }
 }
 
@@ -453,9 +453,9 @@ function alert_info(){
         $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Fehler!</strong> Sorry, ich haben ein Problem, um das Datum dieser Station nehmen </div></div>");
     }else{
         if(langCode=="it"){
-            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati da questa stazione </div></div>");
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Sono spiacente, ho un problema nel recuperare i dati per questa stazione </div></div>");
         }else{
-            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Sorry, I have a problem to take the date of this station </div></div>");
+            $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Sorry, I have a problem to take the date for this station </div></div>");
         }
    }
    setTimeout(function(){ $( "#container-info" ).remove(); }, 1600);        
@@ -465,7 +465,7 @@ function alert_info_reset_single_sidebar(){
     $( "#container-info" ).remove();
     $( "#container-alert" ).remove();
     if(langCode=="de"){
-        $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Warten!</strong> Sie sind bereits eine Station abgesagt </div></div>");
+        $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Warten!</strong> Sie sind dabei eine Station zu löschen </div></div>");
     }else{
         if(langCode=="it"){
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Aspetta!</strong> Stai gia cancellando una stazione </div></div>");
@@ -473,14 +473,14 @@ function alert_info_reset_single_sidebar(){
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-info'><div class='alert alert-info' id='myAlert'><a href='#' class='close close-info' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Wait!</strong> You are already cancelled a station </div></div>");
         }
    }
-   setTimeout(function(){ $( "#container-info" ).remove(); }, 1600);        
+   setTimeout(function(){ $( "#container-info" ).remove(); }, 1800);        
 }
 
 function alert_danger(){
     $( "#container-alert" ).remove();
     $( "#container-info" ).remove();
     if(langCode=="de"){
-        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Fehler!</strong> Wählen Sie zuerst eine Art, eine Quelle und ein Bahnhof zu ihren Graphen zu sehen </div></div>");
+        $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Fehler!</strong> Wählen Sie Zuerst einen Typ, eine Quelle und ein Bahnhof um die Grafik zu sehen </div></div>");
     }else{
         if(langCode=="it"){
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Errore!</strong> Seleziona prima una Tipologia, una Sorgente e una Stazione </div></div>");
@@ -488,5 +488,5 @@ function alert_danger(){
             $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close close-alert' data-dismiss='alert'>&times;</a><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><strong>Error!</strong> Selct first a Tipology, a Source and a Station </div></div>");
         }
    }
-   setTimeout(function(){ $( "#container-alert" ).remove(); }, 1600);
+   setTimeout(function(){ $( "#container-alert" ).remove(); }, 1800);
 }
