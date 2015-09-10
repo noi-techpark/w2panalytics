@@ -578,9 +578,6 @@
         var coordinate_lat=feature['geometry']['coordinates'][1];
         var id_station=feature['properties']['id'];
         var last_value=feature['properties']['last_value'];
-        if(last_value==-1){
-               last_value=0;
-        }
         if(langCode=="it"){
             first_text="Rilevamenti";
             second_text="Negli ultimi 15 minuti"
@@ -635,9 +632,6 @@
         var coordinate_lat=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
-        if(last_value==-1){
-               last_value=0;
-        }
         if(langCode=="it"){
             first_text="Rilevamenti";
             second_text="Negli ultimi 15 minuti"
@@ -705,10 +699,6 @@
         }
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
-
-        if(last_value==-1){
-               last_value=0;
-        }
         if(langCode=="it"){
             first_text="Rilevamenti";
             state_occupied="Occupati";
@@ -929,9 +919,6 @@
         var coordinate_lat=feature['geometry']['coordinates'][1];
         var last_value=feature['properties']['last_value'];
         var id_station=feature['properties']['id'];
-        if(last_value==-1){
-               last_value=0;
-        }
         if(langCode=="it"){
             first_text="Concentrazione NO2";
             second_text="Dato attuale"
@@ -1054,7 +1041,7 @@
             popoup_footer="";
         }else{
             if(tipology=="Parking"){
-                    if(last_value_parking_free==-1){
+                    if(last_value_parking_free==-1 || last_value_parking_free==undefined || last_value==undefined){
                         color="none repeat scroll 0 0 #ccc";
                         last_value="--";
                         last_value_parking_free="--";
@@ -1080,7 +1067,7 @@
     function create_popoup_weather(id_station,name_station,label_pression,label_wind_velocity,label_relative_humidity_hair,label_sunshine_duration,label_wind_direction,label_air_temperature,label_wind_velocity_squall,label_sun_radiation,label_precipitation,period_pression,period_wind_velocity,period_relative_humidity_hair,period_sunshine_duration,period_wind_direction,period_air_temperature,period_wind_velocity_squall,period_sun_radiation,period_precipitation,sym_pression,sym_wind_velocity,sym_relative_humidity_hair,sym_shunshine_duration,sym_wind_direction,sym_air_temperature,sym_wind_velocity_squall,sym_sun_radiation,sym_precipitation,pression,wind_velocity,relative_humidity_hair,sunshine_duration,wind_direction,air_temperature,wind_velocity_squall,sun_radiation,precipitation,left_link,right_link,color,tipology){
         
         var url_image_weather;
-        if(precipitation==0 && air_temperature>18){
+        if(precipitation==0 && air_temperature>=18){
             url_image_weather="{{=URL('static','images/sunny.png')}}"
         }else{
             if(precipitation>0){

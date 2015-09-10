@@ -444,7 +444,6 @@ date_set = function(start, end) {
 }
 
 $('#reportrange span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
-pickler = $('#reportrange').daterangepicker(datapickler_option_it, date_set);
 
 function alert_info(){
     $( "#container-info" ).remove();
