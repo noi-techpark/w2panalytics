@@ -13,11 +13,9 @@ The documents of the API can be found on: http://ipchannels.integreen-life.bz.it
 More technical info about hardware installation of the API can be found on: http://www.integreen-life.bz.it/approfondimenti-tecnologici.
 
 ## How to change the software language?
-BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js). On the first access the software catches the browser language, after you can change it through the “log in” page by clicking on the component “Dropdown” which is located on the upper right side. 
-
-The files static/js/jquery-multilang/lang_login.js correspond to Log-in page and allstatic/js/jquery-multilang/lang.js 
-The "cookie settings" and "language changes" of the software are managed through the files static/js/jquery-multilang/lang_login.js regards to “log in” page and through static/js/jquery-multilang/lang.js regards to other pages. 
-
+BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js). On the first access the software catches the browser language and settings the relative cookie that the user can change through the "Dropdown menu" on the upper right side of the window. This operation is manged through these files:
+-static/js/jquery-multilang/lang_login.js for the Log-in page
+-static/js/jquery-multilang/lang.js for other pages
 
 ## Task of Sidebar
 Through the Sidebar users can select different typologies retrieve through AJAX calls to the Web2py Server, different sources for each typology and lastly different stations for each source to see the relative graph (all retrieve by Ajax calls) . The dynamic creation of the Sidebar is managed through the static/graph.js file and the selects has been customized through select.js library: https://select2.github.io/.
