@@ -39,7 +39,8 @@ more on [here](http://www.flotcharts.org/)
 
 ## How does the MAP work?
 
-On the left sidebar of the map we have differents stations which capture all the required data with  Ajax call to the Web2py Server. The Web2py Server returns the data in GeoJson format and retrieves these through the Integreen API: 
+On the left sidebar of the map we have differents link-stations that active the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. The date associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
+The Web2py Application retrieves the data through the Integreen API:
 
 For example 
 
