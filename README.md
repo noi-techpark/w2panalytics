@@ -17,7 +17,7 @@ More technical info about hardware installation of the API can be found on:
 
 http://www.integreen-life.bz.it/approfondimenti-tecnologici.
 
-## A video that show the use of the application:
+## A video that show a example of use of the application:
 
 Url:
 
