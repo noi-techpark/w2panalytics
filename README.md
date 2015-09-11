@@ -39,7 +39,7 @@ more on [here](http://www.flotcharts.org/)
 
 ## How does the MAP work?
 
-On the left sidebar of the map we have differents link-stations that actives the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. See for example:
+On the left sidebar of the map we have differents link-stations that actives the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. See for example  in the map.html:
 
 -load_geojson_bluetooth()
 
