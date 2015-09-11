@@ -9,9 +9,13 @@ Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on
 The application shows the differents data retrieved by detectors present at Bolzano under a statistic graph or through a map of the city. There are differents tipology of data like: 
 
 -Bluetooth.
+
 -Traffic.
+
 -Weather.
+
 -Environment.
+
 -Pollution.
 
 ## Where to find documentation:
