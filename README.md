@@ -14,7 +14,9 @@ More technical info about hardware installation of the API can be found on: http
 
 ## How to change the software language?
 BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js). On the first access the software catches the browser language and settings the relative cookie that the user can change through the "Dropdown menu" on the upper right side of the window. This operation is manged through these files:
+
 -static/js/jquery-multilang/lang_login.js for the Log-in page
+
 -static/js/jquery-multilang/lang.js for other pages
 
 ## Task of Sidebar
