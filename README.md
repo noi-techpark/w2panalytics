@@ -6,7 +6,7 @@ Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on
 * ***web design*** [made in cima](www.madeincima.it) 
 * ***developed by*** [Ethical Software](http://www.ethicalsoftware.it)
 
-The application shows the differents data retrieved by detectors present at Bolzano under a statistic graph or through a map of the city. There are differents tipology of data like: 
+The application shows the differents data retrieved by detectors present at Bolzano through a statistic graph or a map of the city. There are differents tipology of data like: 
 
 -Bluetooth.
 
