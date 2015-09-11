@@ -1,6 +1,6 @@
 # BZAnalytics
 
-Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on-line application and is developed under AGPL License
+Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on-line application and is developed under [AGPL License](http://www.gnu.org/licenses/agpl-3.0.en.html)
 * [City of Bolzano/Bozen](http://www.gemeinde.bozen.it/) project [intergreen](http://www.integreen-life.bz.it/) 
 * [TIS innovation park South Tyrol](http://www.tis.bz.it) 
 * ***web design*** [Made In Cima](http://www.madeincima.it) 
