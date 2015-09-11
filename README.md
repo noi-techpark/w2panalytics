@@ -17,6 +17,12 @@ More technical info about hardware installation of the API can be found on:
 
 http://www.integreen-life.bz.it/approfondimenti-tecnologici.
 
+## A video that show the use of the application:
+
+Url:
+
+https://www.youtube.com/watch?v=XPL7L1LJTNo
+
 ## How to change the software language?
 BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js). On the first access the software catches the browser language and settings the relative cookie that the user can change through the "Dropdown menu" on the upper right side of the window. The language of BZAnalytics application is manged through these files:
 
