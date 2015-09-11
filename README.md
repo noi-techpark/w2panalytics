@@ -39,9 +39,17 @@ more on [here](http://www.flotcharts.org/)
 
 ## How does the MAP work?
 
-On the left sidebar of the map we have differents link-stations that active the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. The date associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
-The Web2py Application retrieves the data through the Integreen API:
+On the left sidebar of the map we have differents link-stations that active the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. See for example:
 
+-load_geojson_bluetooth()
+-load_geojson_traffic()
+-load_geojson_parking() 
+-load_geojson_env()
+
+N.B. Web2py server return the data in GeoJSON format.
+
+The date associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
+The Web2py Application retrieves the data through the Integreen API:
 For example 
 
 Bluetooth stations: 
@@ -51,7 +59,7 @@ Parking stations:
 -http://ipchannels.integreen-life.bz.it/parkingFrontEnd/ 
 
 These links provide all necessary informations about the presence of Bluetooth stations and  Parking slots in Bolzano. With these API we can retrieve meta-data of stations,  data from a specific station, data in time-frame from a specific station and lastly the date of the last record.
-The markers are shown in 2 different colors based on the value of the field "last value" for each stations. The biggest "last value" shows the popup-marker colour dark blue as all the other "last value" which has at least 75% of this one and the others which don't go over the 75% are colored light blue. 
+The markers are shown in 2 different colors based on the value of the field "last value" for each stations. If the last value is almost 75% of the biggest last value of all stations the color is full otherwise is transparent.
 When is not possible to retrieve the data from the WebServer this last return the field "last value" with value -1 and in this case the markers are inserts in the map with a gray popup color.
 Weather: http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/
 The above mentioned link provides all the necessary informations to estimate the weather situation in Bolzano. The API contains informations about the pressure measured in pascal, the wind velocity in m/s, the percentage of the air humidity, sunshine duration, wind directions, Air temperature, wind velocity squall, sun radiation and lastly the precipitation. 
