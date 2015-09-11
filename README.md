@@ -53,7 +53,7 @@ N.B. Web2py server return the data in GeoJSON format.
 
 The date associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
 The Web2py Application retrieves the data through the Integreen API:
-For example 
+
 
 Bluetooth stations: 
 -http://ipchannels.integreen-life.bz.it/BluetoothFrontEnd/
