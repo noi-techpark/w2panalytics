@@ -61,9 +61,7 @@ Useful resources can be th [introduction to web2py](http://www.web2py.com/book/d
 Download and install an open source web application framework written in the Python programming language such as [WEB2PY](https://http://www.moneo.si/examples/download), you can choose a compatible version to install. 
 
 * ***SOURCE CODE ON GITHUB***
-
 Download the [project source code](https://github.com/tis-innovation-park/w2panalytics) and the supporter application [vtraffic](https://github.com/ilvalle/vtraffic)
-
 unzip the downloaded files into the application directory of the web2py web server.
 
 ENJOY THE FUTURE!
