@@ -6,7 +6,13 @@ Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on
 * ***web design*** [made in cima](www.madeincima.it) 
 * ***developed by*** [Ethical Software](http://www.ethicalsoftware.it)
 
-It helps the local travelers and the tourists to choose the best passage through the street of Bolzano in base of the real time traffic flow and to find the nearest and available parking. It also provides significant information regarding to the environments like weather or pollution. Finally it allows you to consult and compare statistics of the different detectors which are placed in Bolzano with live updates.
+The application shows the differents data retrieved by detectors present at Bolzano under a statistic graph or through a map of the city. There are differents tipology of data like: 
+
+-Bluetooth.
+-Traffic.
+-Weather.
+-Environment.
+-Pollution.
 
 ## Where to find documentation:
 The documents of the API can be found on: 
