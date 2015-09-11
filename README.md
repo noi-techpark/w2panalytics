@@ -67,8 +67,11 @@ When is not possible to retrieve the data from the WebServer this last return th
 Weather: http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/
 The above mentioned link provides all the necessary informations to estimate the weather situation in Bolzano. The API contains informations about the pressure measured in pascal, the wind velocity in m/s, the percentage of the air humidity, sunshine duration, wind directions, Air temperature, wind velocity squall, sun radiation and lastly the precipitation. 
 Remember:
+
 1)All the informations are retrieved through AJAX calls to WEB2PY
+
 2)The Map is built thanks to a open source JavaScript library called LEAFLET. More on [geojson](http://leafletjs.com/examples/geojson.html)
+
 3)Some stations use a different feature offered by LEAFLET such as “TileLayer”  : Stations Pollution, PM10 Dispersion, NO2 Dispersion, PM10 Emissions, NOx Emissions, CO2 Emissions, Journey time and Probe vehicles
 More on [Environment] http://ipchannels.integreen-life.bz.it/EnvironmentFrontEnd/ 
 
