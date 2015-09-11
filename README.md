@@ -51,7 +51,7 @@ On the left sidebar of the map we have differents link-stations that actives the
 
 N.B. Web2py server returns the data in GeoJSON format.
 
-The date associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
+The data associated with a station is showing to the user through a popup that allows to switch to the graphic tab for seeing the data in a statistic graph.
 The Web2py Application retrieves the data through the Integreen API:
 
 
