@@ -30,7 +30,7 @@ BZ Analytics is a multi-language software introduced in English, German and Ital
 
 -static/js/jquery-multilang/lang.js for other pages
 
-## Task of Sidebar
+## Graph creation
 Through the Sidebar presents in the graphic tab the users can select a tipology, a source and a station to display the statistic data of the detectors through a graph. The application use the select.js library (https://select2.github.io/) for generate the selects and the static/graph.js file for retrieve the data by the server(Ajax call).
 
 ## LPLOT
