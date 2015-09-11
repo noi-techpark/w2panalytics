@@ -42,8 +42,11 @@ more on [here](http://www.flotcharts.org/)
 On the left sidebar of the map we have differents link-stations that active the Javascript code in the map.html file. When the Javascript code is called, all stations associated with a tipology is recovered through Ajax call to the Web2py Server and reports in the map under makers. See for example:
 
 -load_geojson_bluetooth()
+
 -load_geojson_traffic()
+
 -load_geojson_parking() 
+
 -load_geojson_env()
 
 N.B. Web2py server return the data in GeoJSON format.
