@@ -6,14 +6,18 @@ Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on
 * ***web design*** [made in cima](www.madeincima.it) 
 * ***developed by*** [Ethical Software](http://www.ethicalsoftware.it)
 
-It helps the local travelers to choose the best passage through Bolzano roads based on the traffic flow, weather situation, available parking slots.  It provides also significant informations regard to the environment like weather or pollution. Finally it allows you to consult and compare statistics of different detectors presents in  Bolzano even  with live updates.
+It helps the local travelers to choose the best passage through Bolzano roads based on the traffic flow and weather situation. It helps the people to find available parking and identify the most closed to his current possition. It also provides significant information regarding to the environments like weather or pollution. Finally it allows you to consult and compare statistics of different detectors which are placed in Bolzano with live updates.
 
 ## Where to find documentation:
 The documents of the API can be found on: http://ipchannels.integreen-life.bz.it/doc/
 More technical info about hardware installation of the API can be found on: http://www.integreen-life.bz.it/approfondimenti-tecnologici.
 
 ## How to change the software language?
-BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js).On the first access the software will catch the browser language and  You can change it through the “log in” page by clicking on the component “Dropdown” located on the upper right side. The cookie settings and the language changes of the software are managed through the files static/js/jquery-multilang/lang_login.js regards to “log in” page and through static/js/jquery-multilang/lang.js regards to other pages. 
+BZ Analytics is a multi-language software introduced in English, German and Italian (directory: static/js/jquery-multilang/lang/DE.js; EN.js; and IT.js). On the first access the software catches the browser language, after you can change it through the “log in” page by clicking on the component “Dropdown” which is located on the upper right side. 
+
+The files static/js/jquery-multilang/lang_login.js correspond to Log-in page and allstatic/js/jquery-multilang/lang.js 
+The "cookie settings" and "language changes" of the software are managed through the files static/js/jquery-multilang/lang_login.js regards to “log in” page and through static/js/jquery-multilang/lang.js regards to other pages. 
+
 
 ## Task of Sidebar
 Through the Sidebar users can select different typologies retrieve through AJAX calls to the Web2py Server, different sources for each typology and lastly different stations for each source to see the relative graph (all retrieve by Ajax calls) . The dynamic creation of the Sidebar is managed through the static/graph.js file and the selects has been customized through select.js library: https://select2.github.io/.
