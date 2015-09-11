@@ -9,7 +9,10 @@ Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on
 It helps the local travelers and the tourists to choose the best passage through the street of Bolzano in base of the real time traffic flow and to find the nearest and available parking. It also provides significant information regarding to the environments like weather or pollution. Finally it allows you to consult and compare statistics of the different detectors which are placed in Bolzano with live updates.
 
 ## Where to find documentation:
-The documents of the API can be found on: http://ipchannels.integreen-life.bz.it/doc/
+The documents of the API can be found on: 
+
+http://ipchannels.integreen-life.bz.it/doc/
+
 More technical info about hardware installation of the API can be found on: 
 
 http://www.integreen-life.bz.it/approfondimenti-tecnologici.
