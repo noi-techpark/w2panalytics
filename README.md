@@ -3,7 +3,7 @@
 Bz Analytics is a [free software](http://www.gnu.org/philosophy/free-sw.html) on-line application and is developed under AGPL License
 * [Comune di Bolzano progetto intergreen](http://www.integreen-life.bz.it/) 
 * [Tis Innovation Park](http://www.tis.bz.it) 
-* ***web design*** [made in cima](www.madeincima.it) 
+* ***web design*** [made in cima](http://www.madeincima.it) 
 * ***developed by*** [Ethical Software](http://www.ethicalsoftware.it)
 
 It helps the local travelers to choose the best passage through Bolzano roads based on the traffic flow, weather situation, available parking slots.  It provides also significant informations regard to the environment like weather or pollution. Finally it allows you to consult and compare statistics of different detectors presents in  Bolzano even  with live updates.
