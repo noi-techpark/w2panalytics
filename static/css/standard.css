@@ -123,10 +123,10 @@ author: Madeincima.it
     }
 	/* ----------- Graph ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
     .padding-right-zero{padding-right:0px !important}
-    #container-select{margin-right:10%;padding-top:10px;text-align:center!important;}
+    #container-select{margin-right:10%;padding-top:10px;padding-left:10%;padding-right:10%}
     div .form_frontend{margin-bottom:20%;padding:0px;width:100%;}
     div .sidebar_grafici{width:100%;}
-    div .stations{margin-bottom:20%;margin-left:0px;padding:0px;width:100%;text-align:center !important;}
+    div .stations{margin-bottom:20%;margin-left:0px;padding:0px;width:100%;}
     div .pull-left{margin:0px;padding:0px;}
     .select2-container--default .select2-selection--single .select2-selection__rendered {color: #93208c !important;font-family:'titillium_websemibold' !imporntant;
         line-height: 28px;
@@ -138,8 +138,8 @@ author: Madeincima.it
     #container-remove-box{text-align:right;margin-right:10%;cursor: pointer;}
     #container-remove-box a{font-weight: bold;}
     #container-remove-box a:hover,a:active,a:focus{font-weight: bold;color:#93208c;}
-    .form-control_frontends,.form-control_stations{width:168px !important;font-family:'titillium_websemibold' !important;color:#93208c !important;padding:0px!important;background-color:#fff;}
-    .frontends_form{margin-bottom:10%}
+    .form-control_frontends,.form-control_stations{width:100% !important;font-family:'titillium_websemibold' !important;color:#93208c !important;padding:0px!important;background-color:#fff;}
+    .frontends_form{margin-bottom:10%;}
     .grafici_chart{height:370px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;}
     #row_icon{margin-bottom:2%}
     .container-title-sidebar{border-bottom:1px solid #c0c0c0}
@@ -188,8 +188,9 @@ author: Madeincima.it
    .fa-square-o{background-color: #c0c0c0 !important;color:#c0c0c0 !important}
    #container-icon,#reportrange{float: right;}
    #icon_label{margin-right:30px}
-   #icon_x{border:0px;float:right;color:#c0c0c0;margin-right:40px;margin-bottom:10px; cursor: pointer;font-weight: bold;color:#93208c !important;}
-
+   #icon_x{border:0px;float:right;margin-right:40px;margin-left:5px;margin-bottom:10px; cursor: pointer;font-weight: bold;color:#B2B2B2 !important;}
+   #icon_x .fa-times{background:#EFEFEF !important}
+   .span-report-station{float:right;font-weight: bold;color:#B2B2B2}
  	/* ----------- Graph ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 
