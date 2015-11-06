@@ -1092,7 +1092,7 @@
             data : 'station='+id_station+'&tab=grafici'+'&frontend='+tipology,
             success: function(data){
                 $('.link_stations').collapse();
-                $('#sidebar_grafici').append("<span onclick='reset_single_sidebar(this)' id='icon_x'>"+tipology+"<i   class='glyphicon glyphicon-remove'></i></span>")
+                $('#sidebar_grafici').append("<span class='fa-stack fa-lg' id='icon_x' onclick='reset_single_sidebar(this)'><i class='fa fa-square-o fa-stack-2x'></i><i class='fa fa-times fa-stack-1x'></i></span><span class='span-report-station' style='float:right'>"+tipology+"</span>");
                 $( '#sidebar_grafici').append(data);
                 $('#sidebar_grafici').show();
                 changeTipology();
