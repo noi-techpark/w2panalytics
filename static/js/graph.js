@@ -131,6 +131,7 @@ function reset_single_sidebar(el){
         delete_sidebar_active=true;
         var count=0;
         var well_panel=$(el).next("span").next("div");
+        console.log(el);
         if($(well_panel).find("a .fa-check-square-o").length>0){
             setCookie("length_link_active",$(well_panel).find("a .fa-check-square-o").length,1);
             setCookie("spinner",0,1);
@@ -147,19 +148,17 @@ function reset_single_sidebar(el){
                         setCookie("spinner",spinner,1);
                         plot_console.plotAccordingToChoices();
                         if(parseInt(getCookie("spinner"))>= parseInt(getCookie("length_link_active"))){
-                            well_panel.remove();
-                            $(el).next("span").remove();
-                            el.remove();
                             delete_sidebar_active=false;
                         }
                      }, 100);
             }
         }else{
-            well_panel.remove();
-            $(el).siblings("span").remove();
-            el.remove();
             delete_sidebar_active=false;
         }
+        var span=$(el).next("span")
+        el.remove();
+        $(span).remove();
+        well_panel.remove();
     }else{
         alert_info_reset_single_sidebar();
     }

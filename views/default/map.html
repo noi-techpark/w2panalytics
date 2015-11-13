@@ -1,9 +1,9 @@
 <main id="main-map">
     <div class="row-fluid">
-        <div class='col-md-2' id="#sidebar">
+        <div class='col-md-2' id="sidebar">
              <div class="map-panel">
-                    <h3 tkey="layer-map" class="main-color">Map layers</h3>
-                    <ul>
+                    <h3 tkey="layer-map" class="main-color background-white">Map layers</h3>
+                    <ul class="background-white">
                         <li id="li-icon-bluetooth"><a href="#" data-bluetooth="bluetooth" class="icon icon-bluetooth" id="icon-bluetooth" onclick="load_geojson_bluetooth()"><span tkey="bluetooth-station">Bluetooth station</span></a></li>
                         <li id="li-icon-traffic"><a href="#" data-type="traffic" class="icon icon-traffico" id="icon-traffic" onclick="load_geojson_traffic()"><span tkey="traffic-station">Traffic station</span></a></li>
                         <li id="li-icon-percorrenza"><a href="#" data-type="journey-time"  class="icon icon-percorrenza" id="icon-percorrenza" onclick="load_tileLayer_l_congestion()"><span tkey="journey-time">Journey time</span></a></li>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class='col-md-10' style="padding:0">
-            <div id="map" style="width:100%;height:800px"></div>
+            <div id="map"></div>
         </div>
     </div>
 
@@ -982,6 +982,8 @@
     }
 
     function graphTrend(tipology,id_station){
+        change_to_graph();
+        $('#tab a:first').tab('show');
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -992,7 +994,6 @@
         var select_street;
         $('#select2-select_frontend-container').text(tipology);
         $( "select.form-control_frontends" ).val(tipology);
-         $('#tab a:first').tab('show');
         changeTipology();
         setTimeout(function(){
                 recover_stations(tipology,id_station);
@@ -1003,12 +1004,15 @@
         setTimeout(function(){
              $("a[data-station="+id_station+"]").trigger("click");
         }, 3000);
+       
 
 
 
     }
 
     function graphStoric(tipology,id_station){
+        change_to_graph();
+        $('#tab a:first').tab('show');
         if ( $('#sidebar_grafici').children().length > 0 ) {
               $('#sidebar_grafici').empty();
                 plot_console.data = [];
@@ -1016,7 +1020,6 @@
                 $(plot_console).css('visibility', 'hidden');
                 date_set(moment().subtract('days', 7),moment());
         }
-        $('#tab a:first').tab('show');
         var select_street;
         $('#select2-select_frontend-container').text(tipology);
         $( "select.form-control_frontends" ).val(tipology);

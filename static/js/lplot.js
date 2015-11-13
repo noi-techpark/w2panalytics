@@ -274,8 +274,8 @@ function lplot (ph, options) {
 
     this.register_handlers = function() {
         var tab = this.placeholder.split('_chart')[0];
-
-        $(tab).on('click', '#sidebar_grafici li a', $.proxy(function(event) {
+        $("#sidebar_grafici").on('click', 'li a', $.proxy(function(event) {
+            console.log("sono entrato");
             var element = event.target;
 	        var key = $(element).attr("id");
 	        $(element).toggleClass('muted');
