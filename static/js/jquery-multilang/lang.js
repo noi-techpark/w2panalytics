@@ -65,28 +65,8 @@ function setTranslation() {
         }
     }
     var language=langCode;
-    if(firstTime==false){
-        setTimeout(function(){
-            var save = $('#title-from-frontend').detach();    
-            $('#frontends_form').empty().append(save);
-            $("#stations").empty();
-            $.ajax({
-                url :url_get_frontends,
-                type: 'GET',
-                success: function(data){
-                    $('#frontends_form').append(data);
-                    adapt_language_tipology(language);
-                    $('.form-control_frontends').select2();
-                    $select_tipology=$("#select_frontend"); 
-                    $select_tipology.on("change",function (e) {changeTipology()});
-                    $('#frontends_form').show();
-                }
-                   
-            });       
-        }, 800);
-    }else{
-        firstTime=false;
-    }    
+    adapt_language_tipology(language);
+    adapt_language_select_source(language);
     adapt_language_calendar(langCode);
     setTimeout(function(){reset_map_for_language();}, 800);
 	return res;
@@ -132,29 +112,45 @@ function reset_map_for_language(){
 }
 
 function adapt_language_tipology(language){
+    $("#select_frontend option:first").remove();
     if(language=="it"){
-        $("#first-option-select-frontends").html("Seleziona tipologia");
+        $("#select_frontend").prepend("<option>Seleziona tipologia</option>");
+        $("#select2-select_frontend-container").html("Seleziona tipologia");
+        $("#select_frontend option:first-child").attr("selected", true);
+
     }
     else{
         if(language=="de"){
-            $("#first-option-select-frontends").html("Typ auswählen");
+            $("#select_frontend").prepend("<option>Typ auswählen</option>");
+            $("#select2-select_frontend-container").html("Typ auswählen");
+            $("#select_frontend option:first-child").attr("selected", true);
         }
         else{
-            $("#first-option-select-frontends").html("Select tipology");
+            $("#select_frontend").prepend("<option>Select tipology</option>");
+            $("#select2-select_frontend-container").html("Select tipology");
+            $("#select_frontend option:first-child").attr("selected", true);
+
         }
     }     
 }
 
 function adapt_language_select_source(language){
+    $("#form-control_stations option:first").remove();
     if(language=="it"){
-        $("#first-option-select-stations").html("Seleziona sorgente");
+        $("#form-control_stations").prepend("<option>Seleziona sorgente</option>");
+        $("#select2-form-control_stations-container").html("Seleziona sorgente");
+        $("#form-control_stations option:first-child").attr("selected", true);
     }
     else{
         if(language=="de"){
-            $("#first-option-select-stations").html("Quelle wählen");
+            $("#form-control_stations").prepend("<option>Quelle wählen</option>");
+            $("#select2-form-control_stations-container").html("Quelle wählen");
+            $("#form-control_stations option:first-child").attr("selected", true);
         }
         else{
-            $("#first-option-select-stations").html("Select source");
+            $("#form-control_stations").prepend("<option>Select source</option>");
+            $("#select2-form-control_stations-container").html("Select source");
+            $("#form-control_stations option:first-child").attr("selected", true);
         }
     }   
 }

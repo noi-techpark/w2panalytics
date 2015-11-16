@@ -8,6 +8,14 @@
   <meta name="application-name" content="{{=request.application}}" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{=URL('static','font-awesome/css/font-awesome.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/bootstrap-multiselect.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/web2py_bootstrap.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/daterangepicker-bs3.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/leaflet.css')}}">
+  <link rel="stylesheet" href="{{=URL('static','css/standard.css')}}">
+
   <script>
       var url_multilanguage="{{=URL('static','js/jquery-multilang')}}";
       var url_get_frontends="{{=URL('data','get_frontends')}}";
@@ -16,6 +24,7 @@
   </script>
 
   {{include 'web2py_ajax.html'}}
+
   <script src="{{=URL('static','js/graph.js')}}"></script>
   {{#include 'metadata.html'}}
   {{block head}}{{end}}
@@ -58,22 +67,24 @@
         </div>
      </header>
               
-     <div class="container-fluid">
+     <div class="container-fluid" id="container-middle-column-and-sidebar">
       {{if left_sidebar_enabled:}}
         <div class="col-md-3 left-sidebar">
             {{block left_sidebar}}
-                <div id='tab_select_data'>
-                    <div  id='sidebar_grafici' class='sidebar_grafici'></div>
+                <div id='panel-sidebar'>
+                    <div  id='container-stations' class='container-stations'></div>
                     <div class="container-select" id="container-select">                  
-                        <div id='frontends_form' class='frontends_form' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h3></div>
-                        <div id='stations' target='stations' class='stations' style="text-align:left"></div>
-                        <div id="container-remove-box" class="container-remove-box"><a href="#" class="main-color" onclick="reset_all_sidebar(this)"  tkey="remove-boxes">Remove all boxes</a></div>
+                        <div id='container-select-tipology' class='container-select-tipology' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h3></div>
+                        <div id='container-select-stations' target='stations' class='container-select-stations' style="text-align:left"></div>
+                        <br/>
+                        <br/>
+                        <p class="p-remove-boxes"><a href="#" class="main-color" onclick="reset_all_sidebar(this)"  tkey="remove-boxes">Remove all boxes</a></p>
                     </div>
                </div>
             {{end}}
         </div>
       {{pass}}
-      <div class="{{=middle_column}}">
+      <div class="{{=middle_column}}" id="middle_column">
         {{block center}}
         {{include}}
         {{end}}

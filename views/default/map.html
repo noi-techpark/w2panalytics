@@ -984,8 +984,8 @@
     function graphTrend(tipology,id_station){
         change_to_graph();
         $('#tab a:first').tab('show');
-        if ( $('#sidebar_grafici').children().length > 0 ) {
-              $('#sidebar_grafici').empty();
+        if ( $('#container-stations').children().length > 0 ) {
+              $('#container-stations').empty();
                 plot_console.data = [];
                 plot_console.datasets = []
                 $(plot_console).css('visibility', 'hidden');
@@ -1013,8 +1013,8 @@
     function graphStoric(tipology,id_station){
         change_to_graph();
         $('#tab a:first').tab('show');
-        if ( $('#sidebar_grafici').children().length > 0 ) {
-              $('#sidebar_grafici').empty();
+        if ( $('#container-stations').children().length > 0 ) {
+              $('#container-stations').empty();
                 plot_console.data = [];
                 plot_console.datasets = []
                 $(plot_console).css('visibility', 'hidden');
@@ -1095,9 +1095,9 @@
             data : 'station='+id_station+'&tab=grafici'+'&frontend='+tipology,
             success: function(data){
                 $('.link_stations').collapse();
-                $('#sidebar_grafici').append("<span class='fa-stack fa-lg' id='icon_x' onclick='reset_single_sidebar(this)'><i class='fa fa-square-o fa-stack-2x'></i><i class='fa fa-times fa-stack-1x'></i></span><span class='span-report-station' style='float:right'>"+tipology+"</span>");
-                $( '#sidebar_grafici').append(data);
-                $('#sidebar_grafici').show();
+                $('#container-stations').append("<span class='fa-stack fa-lg' id='icon_x' onclick='reset_single_sidebar(this)'><i class='fa fa-square-o fa-stack-2x'></i><i class='fa fa-times fa-stack-1x'></i></span><span class='span-report-station' style='float:right'>"+tipology+"</span>");
+                $( '#container-stations').append(data);
+                $('#container-stations').show();
                 changeTipology();
 
             },error: function(req, err){alert('Error server' + err); }

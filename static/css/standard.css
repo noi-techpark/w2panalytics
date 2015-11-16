@@ -83,16 +83,139 @@ author: Madeincima.it
     html {position: relative;min-height: 100%;}
     body {margin: 10 20 100;color:#58595b;background:url(../images/bg-body.jpg) 0 0 repeat	 /* bottom = footer height */}
 	/* ----------- HEADER ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
+
+    @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:2.5% 0 1% 0;position:relative width:100%;height:160px}
+        #logo{height:60px}
+        .grafici_chart{height:250px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:20%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:250px;height:250px;overflow:hidden}
+        #sidebar{max-height:250px;height:250px;background:white}
+
+    }
+
+    @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:2.5% 0 1% 0;position:relative width:100%;height:160px}
+        #logo{height:60px}
+        .grafici_chart{height:250px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:20%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:250px;height:250px;overflow:hidden}
+        #sidebar{max-height:250px;height:250px;background:white}
+
+    }
+
+    @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:2.5% 0 1% 0;position:relative width:100%;height:160px}
+        #logo{height:60px}
+        .grafici_chart{height:300px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:20%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:400px;height:400px;overflow:hidden}
+        #sidebar{max-height:400px;height:400px;background:white}
+
+
+    }
+    @media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:3.5% 0 1% 0;position:relative width:100%;height:180px}
+        #logo{height:80px}
+        .grafici_chart{height:360px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:20%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:600px;height:600px;overflow:hidden}
+        #sidebar{max-height:600px;height:600px;background:white}
+    }
+    @media (min-width:1025px) {
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:3.5% 0 1% 0;position:relative width:100%;height:200px}
+        #logo{height:100px}
+        .grafici_chart{height:400px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:22%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:740px;height:740px;overflow:hidden}
+        #sidebar{max-height:740px;height:740px;background:white}
+    }
+    @media (min-width:1281px) { /* hi-res laptops and desktops */
+        .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:3.5% 0 1% 0;position:relative width:100%;height:200px}
+        #logo{height:100px}
+        .grafici_chart{height:400px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
+        #tools-graph{
+            padding-top:2%;
+            margin-bottom:2%;
+        }
+        #panel-sidebar {
+            padding-top:22%;
+            margin-bottom: 40px;
+        }
+        .main{
+            padding-left:3.5em;
+            padding-right:3.5em;
+        }
+        #map{max-height:740px;height:740px;overflow:hidden}
+        #sidebar{max-height:740px;height:740px;background:white}
+    }
+   
 	.logo{padding-left:6%}
     .nav-tabs{border-bottom:0px;}
 	.round{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;  }
     .round li a:hover{background-color: #93208c;}
-	.lang{position:absolute;top:0px;right:0px;z-index:500;font-size:1.2em;font-family: 'titillium_websemibold',Arial,sans-serif;padding-right:5%;float:right}
+	.lang{position:absolute;top:0px;right:0px;z-index:500;font-size:1.2em;font-family: 'titillium_websemibold',Arial,sans-serif;padding-right:2%;float:right}
 	.lang span{display:block;cursor:pointer;color:#fff;text-transform:uppercase;padding:.45em 25px .45em .6em;background:#5c5a65 url(../images/bg-arrow-thin-w.png) 83% .85em no-repeat;-moz-box-shadow:1px 1px 1px #000;-webkit-box-shadow:1px 1px 1px #000;box-shadow:1px 1px 1px #000}
 	.lang span.open{background-position:83% -1.2em}
 	.lang ul{display:none;position:absolute;top:2.3em;left:0;min-width:50px;background:#5c5a65}
     .lang a{color:#fff;border:0;padding:.4em .45em;display:block}
-	.switch-mode{position:absolute;top:50px;right:0px;;font-family: 'titillium_websemibold',Arial,sans-serif;z-index:400;padding-right:5%;float:right}
+	.switch-mode{position:absolute;top:50px;right:0px;;font-family: 'titillium_websemibold',Arial,sans-serif;z-index:400;padding-right:2%;float:right}
 	.switch-mode li{display:inline-block;text-align:center;margin:0 0 0 5px;background-color:#5c5a65;width:150px;border-radius: 5px;box-shadow: 1px 1px 1px 1px;}
 	.switch-mode li.active{background-color:#93208c;}
 	.switch-mode a{font-size:1.2em;line-height:100%;border-bottom:none;color:#ffffff;text-transform:uppercase;display:block;padding:10px 0;text-decoration:none !important}
@@ -118,8 +241,7 @@ author: Madeincima.it
 	/* ----------- Graph ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
     .padding-right-zero{padding-right:0px !important}
     #container-select{margin-right:10%;padding-top:10px;padding-left:10%;padding-right:10%;margin-bottom:120px;width:100%}
-    div .form_frontend{margin-bottom:20%;padding:0px;width:100%;}
-    div .sidebar_grafici{width:100%;}
+    div .container-stations{width:100%;}
     div .stations{margin-bottom:20%;margin-left:0px;padding:0px;width:100%;}
     div .pull-left{margin:0px;padding:0px;}
     .select2-container--default .select2-selection--single .select2-selection__rendered {color: #93208c !important;font-family:'titillium_websemibold' !imporntant;
@@ -129,23 +251,26 @@ author: Madeincima.it
     .select2-container--default .select2-results__option--highlighted[aria-selected] {background-color: #93208c !important;color: white;}
     #tab_chart_space,#container-select{border:2px dashed #d5d5d5;}
     #tab_chart_space{padding:0px;width:100%}
-    #container-remove-box{text-align:right;cursor: pointer;width:100%}
-    #container-remove-box a{font-weight: bold;}
-    #container-remove-box a:hover,a:active,a:focus{font-weight: bold;color:#93208c;}
+    .p-remove-boxes{cursor: pointer;width:100%;text-align:right !important}
+    .p-remove-boxes a{font-weight: bold;}
+    .p-remove-boxes a:hover,a:active,a:focus{font-weight: bold;color:#93208c;}
     .form-control_frontends,.form-control_stations{width:100% !important;font-family:'titillium_websemibold' !important;color:#93208c !important;padding:0px!important;background-color:#fff;}
-    .frontends_form{margin-bottom:10%;}
+    .container-select-tipology{margin-bottom:10%;}
     .container-title-sidebar{border-bottom:1px solid #c0c0c0}
     .title-sidebar{font-family:'titillium_webregular';font-size:1.5em;color:#c0c0c0;font-weight:normal;line-height:1;margin-bottom:30px;font-size:30px;font-weight: bold;padding-left:30px}
     .title-from-frontend{font-family:'titillium_webregular';font-size:1.5em;color:#c0c0c0;font-weight:normal;line-height:1;margin-bottom:30px;font-size:30px;font-weight: bold}
    h3 a{font-family:'titillium_webregular';font-size:1.5em;color:#92278f;font-weight:normal;line-height:1;margin-bottom:30px;font-size:30px;}
     .message_select_date{font-family:'titillium_webregular';font-size:1.5em;color:#bfbfbf;font-weight:normal;line-height:1;display: table-cell;
   vertical-align: middle;}
-  .sidebar_grafici ul a{color:black;padding-left:10px;}
-  .sidebar_grafici ul li{border-bottom:1px solid #c0c0c0;}
+  .container-stations ul a{color:black;padding-left:10px;}
+  .container-stations ul li{border-bottom:1px solid #c0c0c0;}
    #reportrange{background-color:white;float:right; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;}
    .daterangepicker .ranges li.active, .daterangepicker .ranges li:hover {background: none repeat scroll 0% 0% rgba(187, 32, 245, 1);background-color: #92278f;background-image: none;margin-left: 15px;background-repeat: repeat;background-attachment: scroll;background-position: 0% 0%;background-clip: border-box;background-origin: padding-box;background-size: auto auto;border: 1px solid #FFF;color: #FFF;}
     .daterangepicker .ranges li{color:black;}
     #reportrange{color:#93208c;margin-left:88px}
+    .applyBtn {background: #93208c;color: #ffffff;border-color:white}
+    .applyBtn:hover, .applyBtn:focus, .applyBtns:active, .applyBtn.active, .open > .dropdown-toggle.btn-success {background: #93208c;border-color:white}
+
     .daterangepicker td.available:hover, .daterangepicker th.available:hover {background: #93208c none repeat scroll 0 0 !important;color: white !important;
     }
     .reportrange .ranges li {font-size: 13px;background: none repeat scroll 0% 0% #F5F5F5;border: 1px solid #F5F5F5;color: black;padding: 3px 12px;margin-bottom: 8px;border-radius: 5px;cursor: pointer;}
@@ -153,22 +278,13 @@ author: Madeincima.it
     .well {background-color: white;border: 1px solid #e3e3e3;border-radius: 4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;width:100%}
     }
     .black, .black a {color: black;}
-    
+
 
 
 
     /* ----------- Button ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-    button.applyBtn{border-color:#cccccc !important;}
-    button.applyBtn:hover{border-color:#cccccc !important;}
-    button.applyBtn:active{border-color:#cccccc !important;}
-    .btn:focus, .btn:active:focus, .btn.active:focus {outline: 0 none;}
-    .btn-success {background: #93208c;color: #ffffff;}
-    .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success {background: #93208c;}
-    .btn-success:active, .btn-success.active {background:#93208c;box-shadow:none;}
-    .btn-primary{background: #93208c;color: #ffffff;}
-    .btn-primary:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success {background: #93208c;}
-    .btn-primary:active, .btn-success.active {background:#93208c;box-shadow:none;}
+    
     #container-icon .btn-default {background:#fff !important;color: #c0c0c0 !important;}
     #container-icon{margin-right:5px}
     /* ----------- ICON ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
@@ -185,7 +301,7 @@ author: Madeincima.it
    .span-report-station{float:right;font-weight: bold;color:#B2B2B2}
  	/* ----------- Graph ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-   
+
    #title-sidebar-map{color:#93208c;}
    .background_white{background:white}
    #main-map{position:relative;background-color:#fcfcfc;z-index:0;width:100%;height:100%;}
@@ -230,8 +346,8 @@ author: Madeincima.it
   .leaflet-popup-close-button{color:black !important;}
   .leaflet-control-zoom-in{color:#93208c !important;}
   .leaflet-control-zoom-out{color:#93208c !important;}
-       
- 	/* ----------- Footer ----------------------------------------------------------------------------------------------------------------------------------------------------------- */      
+
+ 	/* ----------- Footer ----------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
  .footer {
         position: absolute;
@@ -305,130 +421,7 @@ author: Madeincima.it
 
 
 
-	
 
-
-
-
-
-@media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:100spx}
-    #logo{height:60px}
-    .grafici_chart{height:250px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:150px;height:150px;overflow:hidden}  
-
-}
-
-@media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ 
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:150spx}
-    #logo{height:80px}
-    .grafici_chart{height:250px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:350px;height:350px;overflow:hidden} 
-
-}
-
-@media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
-
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:150spx}
-    #logo{height:80px}
-    .grafici_chart{height:350px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:380px;height:380px;overflow:hidden}
-
-
-}
-@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */ 
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:150spx}
-    #logo{height:80px}
-    .grafici_chart{height:450px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:750px;height:750px;overflow:hidden}
-    #sidebar{max-height:750px;height:750px;background:white} 
-}
-@media (min-width:1025px) { 
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:200px}
-    #logo{height:100px}
-    .grafici_chart{height:450px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:750px;height:750px;overflow:hidden}
-    #sidebar{max-height:750px;height:750px;background:white}
-}
-@media (min-width:1281px) { /* hi-res laptops and desktops */ 
-    .header{background:url(../images/bg-pattern.jpg) 0 0 repeat;padding:4.5% 0 1% 0;position:relative width:100%;height:200px}
-    #logo{height:100px}
-    .grafici_chart{height:450px;display: flex;justify-content: center; /* align horizontal */align-items: center;cursor:pointer;width:100%}
-    #tools-graph{
-        padding-top:2%;
-        margin-bottom:2%;
-    }
-    #tab_select_data {
-        padding-top:20%;
-        margin-bottom: 40px;
-    }
-    .main{
-	    padding-left:3.5em;
-        padding-right:3.5em;
-	}
-    #map{max-height:750px;height:750px;overflow:hidden}
-    #sidebar{max-height:750px;height:750px;background:white}
-}
 
 
 #web2py_user_form {
