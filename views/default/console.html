@@ -1,34 +1,24 @@
-<main id="main" class="main">
-      <i class="icon-check-empty lg"></i>
-      <div id="row_icon" class="row">
-          <div class='col-md-12 padding-right-zero'>
+<div class="row" id="tools-graph">
+        <div class='col-md-12'>
+            <i class="icon-check-empty lg"></i>
+            <div class='col-md-12 padding-right-zero'>
                 <div id="reportrange">
-                  <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                  <span></span> <b class="caret"></b>
-               </div>
-              <div class="btn-group" id="container-icon">
-                  <a class="btn btn-default" onclick="live_update_graph()" href="#" id="icon_label"><i class="fa fa-spinner" id="spinner"></i><span class="label-live-update">Live update</span></a>
-                  <a class="btn btn-default visited"   href="#" onclick="change_options_line()" id="icon_chart_tmp"><i class="fa fa-line-chart"></i></a>
-                  <a class="btn btn-default" onclick="change_options_bar()" href="#" id="icon_bar"><i class="fa fa-bar-chart"></i></a>
-
-             </div>
-        </div>
-     </div>
-
-    <div class="row">
-            <div id='tab_select_data' class="col-md-3">
-                <div  id='sidebar_grafici' class='sidebar_grafici'></div>
-                <div class="container-select" id="container-select">                  
-                    <div id='frontends_form' class='frontends_form' ><h2 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h2></div>
-                    <div id='stations' target='stations' class='stations' style="text-align:left"></div>
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                    <span></span> <b class="caret"></b>
                 </div>
-                <div id="container-remove-box" class="container-remove-box">
-                        <a href="#" class="main-color" onclick="reset_all_sidebar(this)"  tkey="remove-boxes">Remove all boxes</a>
+                <div class="btn-group" id="container-icon">
+                    <a class="btn btn-default" onclick="live_update_graph()" href="#" id="icon_label"><i class="fa fa-spinner" id="spinner"></i><span class="label-live-update">Live update</span></a>
+                    <a class="btn btn-default visited"   href="#" onclick="change_options_line()" id="icon_chart_tmp"><i class="fa fa-line-chart"></i></a>
+                    <a class="btn btn-default" onclick="change_options_bar()" href="#" id="icon_bar"><i class="fa fa-bar-chart"></i></a>
                 </div>
             </div>
-            <div class='col-md-9'>
+         </div>
+    </div>
+        
+    <div class="row">
+            <div class='col-md-12'>
                 <div id='tab_chart_space'>
-                    <div  id="grafici_chart" class="grafici_chart" width="370px">
+                    <div  id="grafici_chart" class="grafici_chart">
                         <h2 class="message_select_date" tkey="select-source-param">Select a tipology, a source, a station to see the relative graph</h2>
                     </div>                            
                </div>
@@ -37,7 +27,6 @@
             </div>
     </div>
     <div class="push"></div>
-</main>
 
 <script>
     var reload_interval;

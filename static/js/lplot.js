@@ -274,8 +274,8 @@ function lplot (ph, options) {
 
     this.register_handlers = function() {
         var tab = this.placeholder.split('_chart')[0];
-
-        $(tab).on('click', '#sidebar_grafici li a', $.proxy(function(event) {
+        $("#container-stations").on('click', 'li a', $.proxy(function(event) {
+            console.log("sono entrato");
             var element = event.target;
 	        var key = $(element).attr("id");
 	        $(element).toggleClass('muted');
@@ -291,8 +291,8 @@ function lplot (ph, options) {
 		        var index = jQuery.inArray(current, plot_console.data);
 		        if ( index > -1 ) {
 		            // tmp fix
-			        $('#sidebar_grafici #' + key + ' .fa-check-square-o').css('background-color', "#c0c0c0",'color',"#c0c0c0" );
-                    $('#sidebar_grafici #' + key + ' .fa-check-square-o').removeClass('fa-check-square-o').addClass('fa-square-o');
+			        $('#container-stations #' + key + ' .fa-check-square-o').css('background-color', "#c0c0c0",'color',"#c0c0c0" );
+                    $('#container-stations #' + key + ' .fa-check-square-o').removeClass('fa-check-square-o').addClass('fa-square-o');
 			        this.data.splice(index, 1);
 		        } else {
 			        this.data.push(current);
@@ -370,7 +370,7 @@ function set_param_plot_and_language(){
 function live_update_graph(){
       $('#reportrange').data('daterangepicker').setStartDate(moment());
       $('#reportrange').data('daterangepicker').setEndDate(moment());
-      if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
+      if ( $('#container-stations').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
          alert_danger();
          return;
       }else{
@@ -388,7 +388,7 @@ function live_update_graph(){
 }
 
 function change_options_bar(){
-    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
+    if ( $('#container-stations').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
         alert_danger();
         return;
     }else{
@@ -404,7 +404,7 @@ function change_options_bar(){
 }
 
 function change_options_line(){
-    if ( $('#sidebar_grafici').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
+    if ( $('#container-stations').children().length == 0 || $("#grafici_chart").children().length==1 || $("#grafici_chart").is(":visible")==false ){
         alert_danger();
         return;
     }else{

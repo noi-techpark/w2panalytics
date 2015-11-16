@@ -1,7 +1,7 @@
 $(function() {
     var $select_tipology;
     var $select_source;
-    $( '#sidebar_grafici').hide();
+    $( '#container-stations').hide();
     setTimeout(function(){
         generate_select_frontends();
     }, 1000);
@@ -15,19 +15,20 @@ function generate_select_frontends(){
         url :url_get_frontends,
         type: 'GET',
         success: function(data){
-            $('#frontends_form').append(data);
+            $('#container-select-tipology').append(data);
+            $('#select_frontend').select2();
             adapt_language_tipology(langCode);
-            $('.form-control_frontends').select2();
             $select_tipology=$("#select_frontend");
             $select_tipology.on("change",function (e) {changeTipology()});
-            $('#frontends_form').show();
+            $('#container-select-tipology').show();
           },
 
       });
 }
 
 function changeTipology(){
-    var val_select_tipology=$("#select2-select_frontend-container").text();
+    var val_select_tipology=$("#select_frontend option:selected").val();
+    console.log($("#select_frontend option:selected").val());
     $.ajax({
         url : url_get_stations,
         type: 'GET',
@@ -46,12 +47,12 @@ function changeTipology(){
                      }
                   }
             }else{
-                 $( '#stations').html(data);
+                 $("#container-select-stations").html(data);
                  adapt_language_select_source(langCode);
-                 $('.form-control_stations').select2();
+                 $('#form-control_stations').select2();
                  $select_source=$("#form-control_stations");
                  changeSource();
-                 $( '#stations').show();
+                 $( '#container-select-stations').show();
             }
 
         },error: function(req, err){alert('Error server' + err); }
@@ -60,12 +61,13 @@ function changeTipology(){
 
 function changeSource(){
     $select_source.on("change", function () {
+        console.log("changeSource");
         var val_select_tipology=$( "#select2-select_frontend-container" ).text();
-        var val_select_source=$( "select.form-control_stations" ).val();
+        var val_select_source=$("#form-control_stations option:selected").val();
         var title_sidebar=$(".title-sidebar");
         for(var i=0;i<title_sidebar.length;i++){
             var title=$(title_sidebar[i]);
-            if($("#select2-form-control_stations-container").text()==$(title).text()){
+            if($("#form-control_stations option:selected").text()==$(title).text()){
                 if ($( "#container-alert" ).length==false) {
                     if(langCode=="de"){
                         $("#tab_chart_space").prepend("<div class='bs-example' id='container-alert'><div class='alert alert-danger' id='myAlert'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>Fehler!</strong> Du hast diesen Quelle gewählt </div></div>");
@@ -114,10 +116,10 @@ function changeSource(){
                      }
                 }
                 else{
-                    $('.link_stations').collapse();
-                    $('#sidebar_grafici').append("<span class='fa-stack fa-lg' id='icon_x' onclick='reset_single_sidebar(this)'><i class='fa fa-square-o fa-stack-2x'></i><i class='fa fa-times fa-stack-1x'></i></span><span class='span-report-station' style='float:right'>"+val_select_tipology+"</span>");
-                    $( '#sidebar_grafici').append(data);
-                    $('#sidebar_grafici').show();
+                    $('.link_container-select-stations').collapse();
+                    $('#container-stations').append("<span class='fa-stack fa-lg' id='icon_x' onclick='reset_single_sidebar(this)'><i class='fa fa-square-o fa-stack-2x'></i><i class='fa fa-times fa-stack-1x'></i></span><span class='span-report-station' style='float:right'>"+val_select_tipology+"</span>");
+                    $( '#container-stations').append(data);
+                    $('#container-stations').show();
                     changeTipology();
                 }
             },error: function(req, err){alert('Error server' + err); }
@@ -131,6 +133,7 @@ function reset_single_sidebar(el){
         delete_sidebar_active=true;
         var count=0;
         var well_panel=$(el).next("span").next("div");
+        console.log(el);
         if($(well_panel).find("a .fa-check-square-o").length>0){
             setCookie("length_link_active",$(well_panel).find("a .fa-check-square-o").length,1);
             setCookie("spinner",0,1);
@@ -147,19 +150,17 @@ function reset_single_sidebar(el){
                         setCookie("spinner",spinner,1);
                         plot_console.plotAccordingToChoices();
                         if(parseInt(getCookie("spinner"))>= parseInt(getCookie("length_link_active"))){
-                            well_panel.remove();
-                            $(el).next("span").remove();
-                            el.remove();
                             delete_sidebar_active=false;
                         }
                      }, 100);
             }
         }else{
-            well_panel.remove();
-            $(el).siblings("span").remove();
-            el.remove();
             delete_sidebar_active=false;
         }
+        var span=$(el).next("span")
+        el.remove();
+        $(span).remove();
+        well_panel.remove();
     }else{
         alert_info_reset_single_sidebar();
     }
@@ -173,11 +174,10 @@ function active_link_through_checkbox(el){
 
 function reset_all_sidebar(a){
     if($("#spinner-remove-box").length==0){
-        var container=$(a).closest("div");
-        $(container).append("<i id='spinner-cog' class='fa fa-cog fa-spin fa-2x' style='color:#93208c'></i>");
+        $(".p-remove-boxes").append("<i id='spinner-cog' class='fa fa-cog fa-spin fa-2x' style='color:#93208c'></i>");
         setTimeout(function(){
-            if ( $('#sidebar_grafici').children().length > 0 ) {
-                $('#sidebar_grafici').empty();
+            if ( $('#container-stations').children().length > 0 ) {
+                $('#container-stations').empty();
                 plot_console.data = [];
                 plot_console.datasets = []
                 $(plot_console).css('visibility', 'hidden');
