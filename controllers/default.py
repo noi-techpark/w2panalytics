@@ -28,8 +28,8 @@ def wms():
         return response.stream(r.raw)
 
 
-
-if request.args(0) == 'login':
+def user():
+    if request.args(0) == 'login':
         response.view = 'default/login.html'
         form=auth()
         input_usernames=form.elements(_id='auth_user_username')
