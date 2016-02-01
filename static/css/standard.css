@@ -207,18 +207,19 @@ author: Madeincima.it
     }
    
 	.logo{padding-left:6%}
-	#container-logout{float:right;padding-right:60px;display:inline;cursor:pointer;}
+    #container-logout{float:right;padding-right:60px;display:inline;cursor:pointer;}
     #container-logout a{font-family: 'titillium_websemibold',Arial,sans-serif;color:#fff;font-size:1.2em;color:#ffffff;text-transform:uppercase;border-radius: 5px;background-color:#5c5a65;background-position:center;padding:.45em}
     #container-logout a:hover{background-color:#93208c;}
     .nav-tabs{border-bottom:0px;}
 	.round{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;  }
     .round li a:hover{background-color: #93208c;}
 	.lang{position:absolute;top:0px;right:0px;z-index:500;font-size:1.2em;font-family: 'titillium_websemibold',Arial,sans-serif;padding-right:2%;float:right}
-	.lang span{display:block;cursor:pointer;color:#fff;text-transform:uppercase;padding:.45em 25px .45em .6em;background:#5c5a65 url(../images/bg-arrow-thin-w.png) 83% .85em no-repeat;-moz-box-shadow:1px 1px 1px #000;-webkit-box-shadow:1px 1px 1px #000;box-shadow:1px 1px 1px #000}
+	.lang span{display:inline;cursor:pointer;color:#fff;text-transform:uppercase;padding:.45em 25px .45em .6em;background:#5c5a65 url(../images/bg-arrow-thin-w.png) 83% .85em no-repeat;-moz-box-shadow:1px 1px 1px #000;-webkit-box-shadow:1px 1px 1px #000;box-shadow:1px 1px 1px #000}
+    .lang a{display:inline;cursor:pointer;color:#fff;text-transform:uppercase;padding:.45em 25px .45em .6em;background:#5c5a65  83% .85em no-repeat;-moz-box-shadow:1px 1px 1px #000;-webkit-box-shadow:1px 1px 1px #000;box-shadow:1px 1px 1px #000}
 	.lang span.open{background-position:83% -1.2em}
 	.lang ul{display:none;position:absolute;top:2.3em;left:0;min-width:50px;background:#5c5a65}
     .lang a{color:#fff;border:0;padding:.4em .45em;display:block}
-	.switch-mode{position:absolute;top:50px;right:0px;;font-family: 'titillium_websemibold',Arial,sans-serif;z-index:400;padding-right:2%;float:right}
+	.switch-mode{position:absolute;top:50px;right:0px;font-family: 'titillium_websemibold',Arial,sans-serif;z-index:400;padding-right:2%;float:right}
 	.switch-mode li{display:inline-block;text-align:center;margin:0 0 0 5px;background-color:#5c5a65;width:150px;border-radius: 5px;box-shadow: 1px 1px 1px 1px;}
 	.switch-mode li.active{background-color:#93208c;}
 	.switch-mode a{font-size:1.2em;line-height:100%;border-bottom:none;color:#ffffff;text-transform:uppercase;display:block;padding:10px 0;text-decoration:none !important}
