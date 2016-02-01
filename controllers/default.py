@@ -27,30 +27,31 @@ def wms():
     else:
         return response.stream(r.raw)
 
-       
 
-def user():
-    if request.args(0) == 'login':
+
+if request.args(0) == 'login':
         response.view = 'default/login.html'
         form=auth()
         input_usernames=form.elements(_id='auth_user_username')
         for input_username in input_usernames:
             input_username['_placeholder'] = 'Username'
         return dict(form=form)
-    
-    if request.args(0) == 'retrieve_password':
+
+    elif request.args(0) == 'retrieve_password':
         response.view = 'default/retrieve_password.html'
         form=auth.retrieve_password()
         input_usernames = form.elements(_id='auth_user_username')
         for input_username in input_usernames:
             input_username['_placeholder'] = 'Username'
         return dict(form=form)
-    
-    if request.args(0) == 'register':
+
+    elif request.args(0) == 'register':
         return dict(form=auth.register())
 
 
-    if request.args(0) == 'reset_password':
+    elif request.args(0) == 'reset_password':
         response.view = 'default/reset_password.html'
         form=auth.reset_password()
         return dict(form=form)
+    else:
+        return dict(form=auth())

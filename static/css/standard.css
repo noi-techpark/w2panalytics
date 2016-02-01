@@ -207,6 +207,9 @@ author: Madeincima.it
     }
    
 	.logo{padding-left:6%}
+	#container-logout{float:right;padding-right:60px;display:inline;cursor:pointer;}
+    #container-logout a{font-family: 'titillium_websemibold',Arial,sans-serif;color:#fff;font-size:1.2em;color:#ffffff;text-transform:uppercase;border-radius: 5px;background-color:#5c5a65;background-position:center;padding:.45em}
+    #container-logout a:hover{background-color:#93208c;}
     .nav-tabs{border-bottom:0px;}
 	.round{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;  }
     .round li a:hover{background-color: #93208c;}
