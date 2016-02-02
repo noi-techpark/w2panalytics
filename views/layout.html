@@ -49,6 +49,9 @@
                       <h1 class="logo" style="float:left"><a href="#"><img src="{{=URL('static','images/logo-bzanalytics.png')}}" alt="Logo BZ Analytics" id="logo" /></a></h1>
                    </div>
                    <div class="col-md-6">
+                        <div id="container-logout">
+                            <a href="{{=URL('default','user/logout')}}?_next={{=URL('default','index')}}">Logout</a>
+                        </div>
                         <div class="lang round" style="float:right">
                             <span class="round" id="round-first">IT</span>
                                 <ul class="round">
@@ -74,7 +77,7 @@
                 <div id='panel-sidebar'>
                     <div  id='container-stations' class='container-stations'></div>
                     <div class="container-select" id="container-select">                  
-                        <div id='container-select-tipology' class='container-select-tipology' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-date'>Add Date</h3></div>
+                        <div id='container-select-tipology' class='container-select-tipology' ><h3 id='title-from-frontend' class='title-from-frontend' tkey='add-data'>Add Data</h3></div>
                         <div id='container-select-stations' target='stations' class='container-select-stations' style="text-align:left"></div>
                         <br/>
                         <br/>
