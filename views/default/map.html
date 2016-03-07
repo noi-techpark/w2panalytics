@@ -28,9 +28,6 @@
 
 </main>
 
-
-
-
 <script>
     var map = L.map('map').setView([46.493, 11.34], 14);
     var popup_selected;
@@ -41,147 +38,46 @@
     var array_parking_free=[];
     var markersMeteo=[];
     var geojsonLayerTraffic;
+    var url_request_bluetooth = "{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':'900'})}}";
+    var url_img_bluetooth="{{=URL('static','images/bluetooth-icon.png')}}";
+    var url_img_bluetooth_trasparence="{{=URL('static','images/bluetooth-icon-trasparence.png')}}";
+    var url_request_env = "{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'NO2', 'period':'3600'})}}";
+    var url_img_env="{{=URL('static','images/inquinamento-icon.png')}}";
+    var url_img_env_trasparence="{{=URL('static','images/inquinamento-icon-trasparence.png')}}";
+    var url_request_parking_free="{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'free', 'period':1800})}}";
+    var url_request_parking_occupied="{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'occupied', 'period':'1800'})}}";
+    var url_img_parking="{{=URL('static','images/parking-icon.png')}}";
+    var url_img_parking_traparence="{{=URL('static','images/parking-icon-trasparence.png')}}";
+    var url_img_wheater="{{=URL('static','images/meteo-icon.png')}}";
+    var url_image_weather_cloud_weather="{{=URL('static','images/cloud_weather.png')}}";
+    var url_image_weather_sunny="{{=URL('static','images/sunny.png')}}";
 
-    function parking_free(){
-        array_parking_free=[];
-        var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'free', 'period':1800})}}';
-        $.ajax({
-            url :  url_request ,
-            type: 'GET',
-            dataType: "json",
-            success: function(data){
-                for(var i=0;i<data.features.length;i++){
-                    var feature=data.features[i];
-                    item = {
-                        "lat":feature.geometry.coordinates[1],
-                        "long": feature.geometry.coordinates[0],
-                        "val":feature.properties.last_value,
-                    };
 
-                     array_parking_free.push(item);
+</script>
+<script src="{{=URL('static','js/map/bluetooth.js')}}"></script>
+<script src="{{=URL('static','js/map/parking.js')}}"></script>
+<script src="{{=URL('static','js/map/env.js')}}"></script>
+<script src="{{=URL('static','js/map/weather.js')}}"></script>
+<script src="{{=URL('static','js/map/other_stations_tile_layer.js')}}"></script>
+<script src="{{=URL('static','js/map/reset_map.js')}}"></script>
 
-                }
 
-            }
-        });
-    }
+<script>
+
+   
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+    
 
     $('div.leaflet-top').removeClass('leaflet-left').addClass('leaflet-right');
-
-    var l_pm10 = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
-        layers: 'edi:pollution_pm10',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-    var l_nox = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
-        layers: 'edi:pollution_nox',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-
-    var l_pm10_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
-        layers: 'output_caline_PM10',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-
-     var l_no2_dispersion=L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/integreen/wms", {
-        layers: 'integreen:output_caline_NO2',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-
-
-    var l_congestion = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
-        layers: 'edi:congestion',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-    var l_vehicle = L.tileLayer.betterWms("http://geodata.integreen-life.bz.it/geoserver/edi/wms", {
-        layers: 'edi:no2_1_microgm3_ma_position',
-        transparent: true,
-        attribution: "",
-        format: 'image/png',
-    });
-
-
-
 
     $(document).on('shown.bs.tab','body a[data-toggle="tab"]', function() {
         map.invalidateSize(false);
     });
 
-    function load_geojson_bluetooth() {
-        if(map.hasLayer(geojsonLayerBluetooth)==false && $("#icon-bluetooth").hasClass("active")==false){
-                   $("#icon-bluetooth").append("<i id='spinner-bluetooth' data='spinner-bluetooth' class='fa fa-spinner fa-spin' style='float:right'></i>");
-                   var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Bluetooth', 'type':'Bluetooth Count record', 'period':'1800'})}}';
-                    $.ajax({
-                       url: url_request,
-                       dataType: 'json',
-                       success: function( data ) {
-                          geojsonLayerBluetooth=L.geoJson(data, {
-                            pointToLayer: function (feature, latlng) {
-                                console.log(data);
-                                var max_last_value;
-                                var length=data['features'].length
-                                for(var i=0;i<length;i++){
-                                    if(i==0){
-                                        max_last_value= data['features'][i]['properties']['last_value'];
-                                    }else{
-                                        if(max_last_value<data['features'][i]['properties']['last_value']){
-                                            max_last_value=data['features'][i]['properties']['last_value']
-                                        }
-                                    }
-                                }
-                                var v = feature.properties.last_value;
-                                if(v==-1){
-                                     v=0;
-                                }
-                                if(max_last_value==-1){
-                                       max_last_value=0;
-                                }
-                                var markerIcon;
-                                if(v/max_last_value>=0.70){
-                                        markerIcon = new L.Icon.Default({
-                                            iconUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                                            iconRetinaUrl: '{{=URL('static','images/bluetooth-icon.png')}}',
-                                        });
-                                }
-                                else{
-                                    markerIcon = new L.Icon.Default({
-                                            iconUrl: '{{=URL('static','images/bluetooth-icon-trasparence.png')}}',
-                                        iconRetinaUrl: '{{=URL('static','images/bluetooth-icon-trasparence.png')}}',
-                                    });
-                                }
-                                return L.marker(latlng, {icon: markerIcon});
-                            },
-                            onEachFeature: onEachFeatureBluetooth
-                        }).addTo(map);
-                      },
-                      error: function (xhr, ajaxOptions, thrownError) {
-                          error_retrieve_marker("icon-bluetooth");
-                       }
-                   });
-                   $("#spinner-bluetooth").remove();
-        }else{
-            map.removeLayer(geojsonLayerBluetooth);
-            setTimeout(function(){$("#icon-bluetooth").removeClass("active"); },300);
-        }
-    }
+    
 
     function load_geojson_traffic() {
         var text_tiplogy=$("#icon-traffic").text();
@@ -240,319 +136,9 @@
                 setTimeout(function(){$("#icon-traffic").removeClass("active"); },300);
          }
     }
-
-
-    function load_geojson_parking() {
-        parking_free();
-        if(map.hasLayer(geojsonLayerParking)==false && $("#icon-parcheggi").hasClass("active")==false){
-                   $("#icon-parcheggi").append("<i id='spinner-parking' data='spinner-parking' class='fa fa-spinner fa-spin' style='float:right'></i>");
-                   setTimeout(function(){ 
-                       var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Parking', 'type':'occupied', 'period':'1800'})}}';
-                       $.ajax({
-                           url: url_request,
-                           dataType: 'json',
-                           success: function( data ) {
-                               geojsonLayerParking =L.geoJson(data, {
-                                   pointToLayer: function (feature, latlng) {
-                                       var max_last_value;
-                                       var length=data['features'].length
-                                       for(var i=0;i<length;i++){
-                                           if(i==0){
-                                               max_last_value= data['features'][i]['properties']['last_value'];
-                                           }else{
-                                               if(max_last_value<data['features'][i]['properties']['last_value']){
-                                                   max_last_value=data['features'][i]['properties']['last_value']
-                                                }
-                                            }
-                                        }
-                                        var v = feature.properties.last_value;
-                                        if(v==-1){
-                                            v=0;
-                                        }
-                                        if(max_last_value==-1){
-                                           max_last_value=0;
-                                        }
-                                        var markerIcon;
-                                        if(v/max_last_value>=0.70){
-                                           markerIcon= new L.Icon.Default({
-                                               iconUrl: '{{=URL('static','images/parking-icon.png')}}',
-                                               iconRetinaUrl: '{{=URL('static','images/parking-icon.png')}}',
-                                           });
-                                        }else{
-                                            markerIcon= new L.Icon.Default({
-                                               iconUrl: '{{=URL('static','images/parking-icon-trasparence.png')}}',
-                                               iconRetinaUrl: '{{=URL('static','images/parking-icon-trasparence.png')}}',
-                                            });
-                                        }
-                                   return L.marker(latlng, {icon: markerIcon});
-                               },
-                               onEachFeature: onEachFeatureParking
-                            }).addTo(map);
-                       },
-                       error: function (xhr, ajaxOptions, thrownError) {
-                          error_retrieve_marker("icon-parcheggi");
-                        }
-                    });
-                       $("#spinner-parking").remove();
-                }, 300);
-             }else{
-                 map.removeLayer(geojsonLayerParking);
-                 setTimeout(function(){$("#icon-parcheggi").removeClass("active"); },300);
-
-            }
-     }
-
-      function load_geojson_env() {
-        if(map.hasLayer(geojsonLayerEnv)==false && $("#icon-inquinamento").hasClass("active")==false){
-                    $("#icon-inquinamento").append("<i id='spinner-inquinamento' data='spinner-inquinamento' class='fa fa-spinner fa-spin' style='float:right'></i>");
-                    var url_request = '{{=URL('data', 'get_geojson', vars={'frontend':'Environment', 'type':'NO2', 'period':'3600'})}}';
-                     $.ajax({
-                       url: url_request,
-                       dataType: 'json',
-                       success: function( data ) {
-                          geojsonLayerEnv=L.geoJson(data, {
-                            pointToLayer: function (feature, latlng) {
-                                var max_last_value;
-                                var length=data['features'].length
-                                for(var i=0;i<length;i++){
-                                    if(i==0){
-                                        max_last_value= data['features'][i]['properties']['last_value'];
-                                    }else{
-                                        if(max_last_value<data['features'][i]['properties']['last_value']){
-                                            max_last_value=data['features'][i]['properties']['last_value']
-                                        }
-                                    }
-                                }
-                                var v = feature.properties.last_value;
-                                if(v==-1){
-                                     v=0;
-                                }
-                                if(max_last_value==-1){
-                                       max_last_value=0;
-                                }
-                                var markerIcon;
-                                 if(v/max_last_value>=0.70){
-                                       markerIcon= new L.Icon.Default({
-                                           iconUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
-                                           iconRetinaUrl: '{{=URL('static','images/inquinamento-icon.png')}}',
-                                       });
-                                   }else{
-                                       markerIcon= new L.Icon.Default({
-                                           iconUrl: '{{=URL('static','images/inquinamento-icon-trasparence.png')}}',
-                                           iconRetinaUrl: '{{=URL('static','images/inquinamento-icon-trasparence.png')}}',
-                                       });
-                                   }
-                                   return L.marker(latlng, {icon: markerIcon});
-                            },
-                        onEachFeature: onEachFeatureEnv
-                        }).addTo(map);
-                       },
-                       error: function (xhr, ajaxOptions, thrownError) {
-                          error_retrieve_marker("icon-inquinamento");
-                       }
-                    });
-                    $("#spinner-inquinamento").remove();
-           }
-           else{
-               map.removeLayer(geojsonLayerEnv);
-               setTimeout(function(){$("#icon-inquinamento").removeClass("active"); },300);
-           }
-    }
-
-    function load_geojson_weather() {
-        if($(".icon-meteo").hasClass("active")==false && $("#icon-meteo").hasClass("active")==false){
-                       $("#icon-meteo").append("<i id='spinner-weather' data='spinner-weather' class='fa fa-spinner fa-spin' style='float:right'></i>");
-                       var get_stations = 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-stations';
-                       var get_station_details = 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-station-details';
-                       var get_data_types="http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types"
-                       var stations;
-                       var id_station;
-                       var name_station;
-                       var type;
-                       var symbol;
-                       var title;
-                       var stations_cord_lat;
-                       var stations_cord_log;
-                       var stations_details;
-                       var stations_type;
-                       var stations_val;
-                       var array_last_value=[];
-                       var period;
-                       $.ajax({
-                            url: 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-stations' ,
-                            dataType: 'json',
-                            success: function( json_station ) {
-                                        stations=json_station;
-                                        $.ajax({
-                                            url: 'http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-station-details',
-                                            type: 'GET',
-                                            async:false,
-                                            success: function( json_details ) {
-                                                 stations_details=json_details;
-                                                 for(var i_stations=0; i_stations<stations.length;  i_stations++){
-                                                     id_station=stations[i_stations];
-                                                     for(var i_det=0;i_det<stations_details.length;i_det++){
-                                                         if(stations_details[i_det].id==stations[i_stations]){
-                                                            name_station=stations_details[i_det].name;
-                                                            stations_cord_lat=stations_details[i_det].latitude;
-                                                            stations_cord_log=stations_details[i_det].longitude;
-                                                            var get_data_types="http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types"+"?station="+id_station;
-                                                            $.ajax({
-                                                                url: get_data_types,
-                                                                type: 'GET',
-                                                                async:false,
-                                                                success: function( json_type ) {
-                                                                     stations_type=json_type;
-                                                                     var last_value=[];
-                                                                     var items;
-                                                                     for(var i_typ=0;i_typ<stations_type.length;i_typ++){
-                                                                         type=stations_type[i_typ][0];
-                                                                         symbol=stations_type[i_typ][1];
-                                                                         title=stations_type[i_typ][2];
-                                                                         period=stations_type[i_typ][3];
-                                                                         $.ajax({
-                                                                             url: '{{=URL('data', 'get_geojson')}}'+'?frontend=Meteo&type='+type+"&period="+period,
-                                                                             type: 'GET',
-                                                                             async:false,
-                                                                             success: function( data_stations ) {
-                                                                                 stations_val=data_stations;
-                                                                                 for(var i_val_stat=0;i_val_stat<stations_val.features.length;i_val_stat++){
-                                                                                     var id_station=stations_val.features[i_val_stat].properties.id;
-                                                                                     if(id_station==id_station){
-                                                                                         var items={
-                                                                                             'type':type,
-                                                                                             'symbol':symbol,
-                                                                                             'last_value':stations_val.features[i_val_stat].properties.last_value,
-                                                                                             'title':title,
-                                                                                             'period':period,
-                                                                                         }
-                                                                                         array_last_value.push(items);
-
-                                                                                     }
-                                                                                 }
-
-                                                                             },
-
-                                                                          });
-                                                                        }
-
-                                                                }
-                                                             });
-                                                        }
-                                                    }
-                                                    var markerIcon= new L.Icon.Default({
-                                                       iconUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                                       iconRetinaUrl: '{{=URL('static','images/meteo-icon.png')}}',
-                                                   });
-                                                    var marker_weather=L.marker([stations_cord_lat, stations_cord_log], {icon: markerIcon}).addTo(map);
-                                                    markersMeteo.push(marker_weather);
-                                                    createWeatherMarker(id_station,name_station,stations_cord_lat,stations_cord_log,array_last_value,marker_weather);
-                                                 }
-                                           }
-
-                                    });
-                                    $("#spinner-weather").remove();
-                               },error: function (xhr, ajaxOptions, thrownError) {
-                                   error_retrieve_marker("icon-meteo");
-                               }
-                          });
-                 }else{
-                     for(var i=0;markersMeteo.length;i++){
-                         map.removeLayer(markersMeteo[i]);
-                     }
-                     setTimeout(function(){$("#icon-meteo").removeClass("active"); },300);
-                }
-    }
-
-
-
-
-
-    function load_tileLayer_pm10() {
-        var text_tiplogy=$("#icon-pm10").text();
-        $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span><i data='spinner-pm10' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-            if($("#icon-pm10").hasClass( "active" )==true){
-                l_pm10.addTo(map);
-                $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span>");
-            }else{
-                map.removeLayer(l_pm10);
-                $("#icon-pm10").html("<span tkey='pm10-emissions'>"+text_tiplogy+"</span>");
-            }
-        }, 300);
-
-
-    }
-
-
-     function load_tileLayer_l_nox() {
-        var text_tiplogy=$("#icon-nox").text();
-        var span=$("#icon-nox").children("span");
-        $(span).append("<i data='spinner-nox' id='spinner-nox' class='fa fa-spinner fa-spin' style='float:right'></i>")
-        setTimeout(function(){
-            if($("#icon-nox").hasClass( "active" )==true){
-                l_nox.addTo(map);
-                $("#spinner-nox").remove();
-            }else{
-                map.removeLayer(l_nox);
-                $("#spinner-nox").remove();
-            }
-        }, 300);
-    }
-
-
-     function load_tileLayer_l_congestion() {
-        var text_tiplogy=$("#icon-percorrenza").text();
-        $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span><i data='spinner-l_congestion' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-            if($("#icon-percorrenza").hasClass( "active" )==true){
-                l_congestion.addTo(map);
-                $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span>");
-
-            }else{
-                map.removeLayer(l_congestion);
-                $("#icon-percorrenza").html("<span tkey='journey-time'>"+text_tiplogy+"</span>");
-            }
-        }, 300);
-    }
-
-    function load_tileLayer_l_vehicle() {
-        setTimeout(function(){
-            if($("#icon-traffic").hasClass( "active" )==true){
-                l_vehicle.addTo(map);
-            }else{
-                map.removeLayer(l_vehicle);
-            }
-        }, 300);
-    }
-
-    function load_tileLayer_l_pm10_dispersion() {
-        var text_tiplogy=$("#icon-pm10-inquinanti").text();
-        $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span><i data='spinner-pm10-inquinanti' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-            if($("#icon-pm10-inquinanti").hasClass( "active" )==true){
-                l_pm10_dispersion.addTo(map);
-                $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span>");
-            }else{
-                map.removeLayer(l_pm10_dispersion);
-                $("#icon-pm10-inquinanti").html("<span tkey='pm10-dispersion'>"+text_tiplogy+"</span>");
-            }
-        }, 300);
-    }
-
-    function load_tileLayer_l_no2_dispersion() {
-        var text_tiplogy=$("#icon-no2-inquinanti").text();
-        $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span><i data='spinner-no2-inquinanti' class='fa fa-spinner fa-spin' style='float:right'></i>");
-        setTimeout(function(){
-            if($("#icon-no2-inquinanti").hasClass( "active" )==true){
-                 l_no2_dispersion.addTo(map);
-                 $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span>");
-            }else{
-                map.removeLayer(l_no2_dispersion);
-                $("#icon-no2-inquinanti").html("<span tkey='no2-dispersion'>"+text_tiplogy+"</span>");
-            }
-        }, 300);
-    }
+     
+    
+    
 
     map.on("popupopen", function(e) {
         popup_open = e.popup;
@@ -561,51 +147,6 @@
     map.on("popupclose", function() {
         popup_open = undefined;
     });
-
-    function onEachFeatureBluetooth (feature, layer) {
-        var popupContent;
-        if (feature.properties && feature.properties.popupContent) {
-            popupContent = feature.properties.popupContent;
-        }
-        var first_text;
-        var second_text;
-        var left_link;
-        var right_link;
-        var tipology="Bluetooth";
-        var text_tipology="Bluetooth";
-        var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_long=feature['geometry']['coordinates'][0];
-        var coordinate_lat=feature['geometry']['coordinates'][1];
-        var id_station=feature['properties']['id'];
-        var last_value=feature['properties']['last_value'];
-        if(langCode=="it"){
-            first_text="Rilevamenti";
-            second_text="Negli ultimi 15 minuti"
-            left_link="Trend ultima ora";
-            right_link="Grafico storico";
-        }else{
-         if(langCode=="de"){
-                first_text="Umfragen";
-                second_text="In den letzten 15 Minuten"
-                left_link="Trend der letzten Stunde";
-                right_link="History Graphen";
-         }
-         else{
-             first_text="Data detect";
-             second_text="In the last 15 minutes"
-             left_link="Trend last hours";
-             right_link="Storic graph";
-         }
-
-        }
-         var popup = L.popup({maxWidth:350,minWidth:350})
-            .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"","","","",street,text_tipology,first_text,second_text,left_link,right_link,"#315cab",street,tipology));
-        layer.bindPopup(popup);
-        if (feature.properties && feature.properties.openPopup) {
-            popup_selected = popup;
-        }
-    }
 
     function onEachFeatureTraffic(feature, layer) {
         var popupContent;
@@ -662,294 +203,8 @@
 
     }
 
-    function onEachFeatureParking(feature, layer) {
-        var popupContent;
-        if (feature.properties && feature.properties.popupContent) {
-            popupContent = feature.properties.popupContent;
-        }
-        var popup;
-        var first_text;
-        var second_text;
-        var left_link;
-        var right_link;
-        var state_occupied;
-        var state_free;
-        var street=popupContent;
-        var tipology="Parking";
-        var text_tipology;
-        if(langCode=="de"){
-            text_tipology="Parkplatz";
-        }else{
-            if(langCode=="it"){
-                text_tipology="Parcheggio";
-            }else{
-              text_tipology="Parking";
-            }
-        }
-        var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_long=feature['geometry']['coordinates'][0];
-        var coordinate_lat=feature['geometry']['coordinates'][1];
-        var last_value_parking_free;
-        for(var i=0;i< array_parking_free.length;i++){
-                var parking_free_lat=array_parking_free[i].lat;
-                var parking_free_long=array_parking_free[i].long;
-                if(parking_free_lat==coordinate_lat && parking_free_long==coordinate_long){
-                        last_value_parking_free=array_parking_free[i].val;
-                }
-        }
-        var last_value=feature['properties']['last_value'];
-        var id_station=feature['properties']['id'];
-        if(langCode=="it"){
-            first_text="Rilevamenti";
-            state_occupied="Occupati";
-            state_free="Liberi";
-            second_text="Negli ultimi 15 minuti"
-            left_link="Trend ultima ora";
-            right_link="Grafico storico";
-        }else{
-         if(langCode=="de"){
-                first_text="Umfragen";
-                state_occupied="Besetzt";
-                state_free="Verfügbar";
-                second_text="In den letzten 15 Minuten"
-                left_link="Trend der letzten Stunde";
-                right_link="History Graphen";
-         }
-         else{
-             first_text="Data detect";
-             state_occupied="Occupied";
-             state_free="Available";
-             second_text="In the last 15 minutes"
-             left_link="Trend last hours";
-             right_link="Storic graph";
-         }
 
-        }
-        var popup = L.popup({maxWidth:350,minWidth:350})
-            .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,last_value_parking_free,state_occupied,state_free,"",street,text_tipology,first_text,second_text,left_link,right_link,"#009cdd",street,tipology));
-        layer.bindPopup(popup);
-        if (feature.properties && feature.properties.openPopup) {
-            popup_selected = popup;
-        }
-
-    }
-
-    function  createWeatherMarker(id_station,name_station,stations_cord_lat,stations_cord_log,array_last_value,markersMeteo){
-        var left_link;
-        var right_link;
-        var label_pression;
-        var label_wind_velocity;
-        var label_relative_humidity_hair;
-        var label_sunshine_duration;
-        var label_wind_direction;
-        var label_air_temperature;
-        var label_wind_velocity_squall;
-        var label_sun_radiation;
-        var label_precipitation;
-        if(langCode=="it"){
-            left_link="Trend ultima ora";
-            right_link="Grafico storico";
-            label_pression="Pressione";
-            label_wind_velocity="Velocità vento";
-            label_relative_humidity_hair="Umidità rel. aria";
-            label_sunshine_duration="Durata luce del sole";
-            label_wind_direction="Direzione del vento";
-            label_air_temperature="Temperatura dell'aria";
-            label_wind_velocity_squall="Velocità raffiche di vento";
-            label_sun_radiation="Radiazione solare";
-            label_precipitation="Precipitazione";
-        }else{
-            if(langCode=="de"){
-                left_link="Trend der letzten Stunde";
-                right_link="History Graphen";
-                label_pression="Druck";
-                label_wind_velocity="Windgeschwindigkeit";
-                label_relative_humidity_hair="Rel. Luftfeuchtigkeit";
-                label_sunshine_duration="Sonnenscheindauer";
-                label_wind_direction="Windrichtung";
-                label_air_temperature="Lufttemperatur";
-                label_wind_velocity_squall="Geschwindigkeit Windböen";
-                label_sun_radiation="Sonnenstrahlung";
-                label_precipitation="Niederschlag";
-             }
-             else{
-                left_link="Trend last hours";
-                right_link="Storic graph";
-                label_pression="Pression";
-                label_wind_velocity="Wind Velocity";
-                label_relative_humidity_hair="Rel. humidity of the hair";
-                label_sunshine_duration="Sunshine duration";
-                label_wind_direction="Wind direction";
-                label_air_temperature="Air temperature";
-                label_wind_velocity_squall="Wind velocity squall";
-                label_sun_radiation="Sun radiation";
-                label_precipitation="Precipitation";
-             }
-
-        }
-        var pression;
-        var wind_velocity;
-        var relative_humidity_hair;
-        var sunshine_duration;
-        var wind_direction;
-        var air_temperature;
-        var wind_velocity_squall;
-        var sun_radiation;
-        var precipitation;
-        var sym_pression;
-        var sym_wind_velocity;
-        var sym_relative_humidity_hair;
-        var sym_shunshine_duration;
-        var sym_wind_direction;
-        var sym_air_temperature;
-        var sym_wind_velocity_squall;
-        var sym_sun_radiation;
-        var sym_precipitation;
-        var period_pression;
-        var period_wind_velocity;
-        var period_relative_humidity_hair;
-        var period_sunshine_duration;
-        var period_wind_direction;
-        var period_air_temperature;
-        var period_wind_velocity_squall;
-        var period_sun_radiation;
-        var period_precipitation;
-        for(var i=0;i<array_last_value.length;i++){
-            if(array_last_value[i].last_value<0){
-                    array_last_value[i].last_value=0;
-            }
-            if(array_last_value[i].type=="LD"){
-                pression=array_last_value[i].last_value;
-                sym_pression=array_last_value[i].symbol;
-                period_pression=array_last_value[i].period;
-            }
-            else{
-                if(array_last_value[i].type=="WG"){
-                    wind_velocity=array_last_value[i].last_value;
-                    sym_wind_velocity=array_last_value[i].symbol;
-                    period_wind_velocity=array_last_value[i].period;
-                }
-                else{
-                   if(array_last_value[i].type=="LF"){
-                       relative_humidity_hair=array_last_value[i].last_value;
-                       sym_relative_humidity_hair=array_last_value[i].symbol;
-                       period_relative_humidity_hair=array_last_value[i].period;
-                   }
-                   else{
-                      if(array_last_value[i].type=="SD"){
-                          sunshine_duration=array_last_value[i].last_value;
-                          sym_shunshine_duration=array_last_value[i].symbol;
-                          period_sunshine_duration=array_last_value[i].period;
-                      }
-                      else{
-                          if(array_last_value[i].type=="WR"){
-                              wind_direction=array_last_value[i].last_value;
-                              sym_wind_direction=array_last_value[i].symbol;
-                              period_wind_direction=array_last_value[i].period;
-                          }
-                          else{
-                              if(array_last_value[i].type=="LT"){
-                                  air_temperature=array_last_value[i].last_value;
-                                  sym_air_temperature=array_last_value[i].symbol;
-                                  period_air_temperature=array_last_value[i].period;
-                              }
-                              else{
-                                  if(array_last_value[i].type=="WG.BOE"){
-                                      wind_velocity_squall=array_last_value[i].last_value;
-                                      sym_wind_velocity_squall=array_last_value[i].symbol;
-                                      period_wind_velocity_squall=array_last_value[i].period;
-                                  }
-                                  else{
-                                      if(array_last_value[i].type=="GS"){
-                                          sun_radiation=array_last_value[i].last_value;
-                                          sym_sun_radiation=array_last_value[i].symbol;
-                                          period_sun_radiation=array_last_value[i].period;
-                                      }
-                                      else{
-                                          if(array_last_value[i].type=="N"){
-                                              precipitation=array_last_value[i].last_value;
-                                              sym_precipitation=array_last_value[i].symbol;
-                                              period_precipitation=array_last_value[i].period;
-
-                                          }
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                   }
-                }
-            }
-        }
-
-        var popup = L.popup({maxWidth:450,minWidth:550})
-            .setLatLng(stations_cord_lat,stations_cord_log)
-            .setContent(create_popoup_weather(id_station,name_station,label_pression,label_wind_velocity,label_relative_humidity_hair,label_sunshine_duration,label_wind_direction,label_air_temperature,label_wind_velocity_squall,label_sun_radiation,label_precipitation,period_pression,period_wind_velocity,period_relative_humidity_hair,period_sunshine_duration,period_wind_direction,period_air_temperature,period_wind_velocity_squall,period_sun_radiation,period_precipitation,sym_pression,sym_wind_velocity,sym_relative_humidity_hair,sym_shunshine_duration,sym_wind_direction,sym_air_temperature,sym_wind_velocity_squall,sym_sun_radiation,sym_precipitation,pression,wind_velocity,relative_humidity_hair,sunshine_duration,wind_direction,air_temperature,wind_velocity_squall,sun_radiation,precipitation,left_link,right_link,"#93208c","Meteo"));
-        markersMeteo.bindPopup(popup);
-
-    }
-
-
-
-
-    function onEachFeatureEnv (feature, layer) {
-        var popupContent;
-        if (feature.properties && feature.properties.popupContent) {
-            popupContent = feature.properties.popupContent;
-        }
-        var popup;
-        var first_text;
-        var second_text;
-        var left_link;
-        var right_link;
-        var tipology="Environment";
-        var text_tipology;
-        if(langCode=="de"){
-            text_tipology="Stationen Verschmutzung";
-        }else{
-            if(langCode=="it"){
-                text_tipology="Stazioni inquinamento";
-            }else{
-              text_tipology="Stations pollution";
-            }
-        }
-        var street=adapt_string_for_view(popupContent,tipology);
-        var coordinate_long=feature['geometry']['coordinates'][0];
-        var coordinate_lat=feature['geometry']['coordinates'][1];
-        var last_value=feature['properties']['last_value'];
-        var id_station=feature['properties']['id'];
-        if(langCode=="it"){
-            first_text="Concentrazione NO2";
-            second_text="Dato attuale"
-            left_link="Trend ultima ora";
-            right_link="Grafico storico";
-        }else{
-         if(langCode=="de"){
-                first_text="Konzentration NO2";
-                second_text="Gegebenen Strom"
-                left_link="Trend der letzten Stunde";
-                right_link="History Graphen";
-         }
-         else{
-             first_text="Concentration NO2";
-             second_text="Actual date"
-             left_link="Trend last hours";
-             right_link="Storic graph";
-         }
-
-        }
-        var popup = L.popup({maxWidth:350,minWidth:350})
-            .setLatLng(coordinate_lat,coordinate_long)
-            .setContent(create_popoup(id_station,last_value,"","","","µg/m3",street,text_tipology,first_text,second_text,left_link,right_link,"#ffa927",street,tipology));
-            layer.bindPopup(popup);
-        if (feature.properties && feature.properties.openPopup) {
-            popup_selected = popup;
-        }
-    }
-
-
-
+ 
     $(document).on('click', '.forecast h3', function(){
         var el = $(this);
 	    $(this).toggleClass('open').next().slideToggle('fast', function() {
@@ -957,29 +212,6 @@
 	    });
     });
 
-    function reset_map(){
-        var for_take_first_layer=0;
-        map.eachLayer(function (layer) {
-            if(for_take_first_layer!=0){
-               map.removeLayer(layer);
-            }else{
-                for_take_first_layer++;
-            }
-        });
-        var a_layers=$("a");
-        for(var i=0;a_layers.length;a++){
-               var layer=$(a_layers)[i];
-               if($(layer).hasClass("active")){
-                   $(layer).removeClass("active");
-               }
-        }
-        if(markersMeteo.length>0){
-            for(var i=0;markersMeteo.length;i++){
-                map.removeLayer(markersMeteo[i]);
-            }
-            $(".icon-meteo").removeClass("active");
-        }
-    }
 
     function graphTrend(tipology,id_station){
         change_to_graph();
@@ -1066,26 +298,6 @@
         return left_part_popoup+"</div><div class='col-md-6' style='padding-left:0px'><div style='padding-top:25px;height:100px;color:#fff;background:"+color+"'><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+text_tipology+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+first_text+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;display:inline'>"+second_text+"</h1></br></div></div></div>"+popoup_footer;
     }
     
-
-    function create_popoup_weather(id_station,name_station,label_pression,label_wind_velocity,label_relative_humidity_hair,label_sunshine_duration,label_wind_direction,label_air_temperature,label_wind_velocity_squall,label_sun_radiation,label_precipitation,period_pression,period_wind_velocity,period_relative_humidity_hair,period_sunshine_duration,period_wind_direction,period_air_temperature,period_wind_velocity_squall,period_sun_radiation,period_precipitation,sym_pression,sym_wind_velocity,sym_relative_humidity_hair,sym_shunshine_duration,sym_wind_direction,sym_air_temperature,sym_wind_velocity_squall,sym_sun_radiation,sym_precipitation,pression,wind_velocity,relative_humidity_hair,sunshine_duration,wind_direction,air_temperature,wind_velocity_squall,sun_radiation,precipitation,left_link,right_link,color,tipology){
-        
-        var url_image_weather;
-        if(precipitation==0 && air_temperature>=18){
-            url_image_weather="{{=URL('static','images/sunny.png')}}"
-        }else{
-            if(precipitation>0){
-                url_image_weather="{{=URL('static','images/cloud_weather.png')}}"
-            }
-            else{
-                if(precipitation==0 && air_temperature<18){
-                    url_image_weather="{{=URL('static','images/cloud_weather.png')}}";
-                }
-            }
-        }
-       
-        return "<div class='row' style='padding-top:10px;'><div class='col-md-6'><h1 style='font-weight: bold;font-size: 30px;'>"+name_station+"</h1><br/><table class='table'><tr style='border-bottom: 1px solid black;'><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_pression+" </h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+pression+sym_pression+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_velocity+sym_wind_velocity+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_relative_humidity_hair+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+relative_humidity_hair+sym_relative_humidity_hair+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sunshine_duration+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+sunshine_duration+sym_shunshine_duration+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_direction+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_direction+sym_wind_direction+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_air_temperature+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+air_temperature+sym_air_temperature+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_wind_velocity_squall+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+wind_velocity_squall+sym_wind_velocity_squall+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_sun_radiation+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+sun_radiation+sym_sun_radiation+"</h1></td></tr><tr><td><h1 style='font-weight: bold;font-size: 15px;color:#93208c;display:inline'>"+label_precipitation+"</h1></td><td><h1 style='font-weight: bold;font-size: 12px;display:inline'>"+precipitation+sym_precipitation+"</h1></td></tr></table></div><div class='col-md-6'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url_image_weather+"'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_air_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+air_temperature+" "+sym_air_temperature+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+label_relative_humidity_hair+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+relative_humidity_hair+" "+sym_relative_humidity_hair+"</h1></td></table></div></div><div class='row' style='padding-top:10px;'><div class='col-md-7'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a></td></tr></table></div><div class='col-md-5'><table style='border-spacing: 10px;border-collapse:separate !important;'><tr><td><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>"
-
-    }
 
 
     function recover_stations(tipology,id_station){
