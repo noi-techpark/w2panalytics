@@ -1,27 +1,6 @@
 var markersMeteo=[];
-var array_types_meteo=[];
 var array_date_station=[];
-var url_data_types="http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types";
-
-$.ajax({
-  url: url_data_types,
-  type: 'GET',
-  success: function( stations_type ) {
-      for(var i_typ=0;i_typ<stations_type.length;i_typ++){
-        var type=stations_type[i_typ][0];
-        var symbol=stations_type[i_typ][1];
-        var title=stations_type[i_typ][2];
-        var period=stations_type[i_typ][3];
-        var item={
-          'type':type,
-          'symbol':symbol,
-          'title':title,
-          'period':period,
-        }
-        array_types_meteo.push(item);  
-       }
-  }
-});
+var array_types_meteo=[];
 
 function load_geojson_weather() {
     if($(".icon-meteo").hasClass("active")==false && $("#icon-meteo").hasClass("active")==false){
@@ -78,11 +57,35 @@ function load_geojson_weather() {
 
 function onClickMarkerWeather(e){
     array_date_station=[];
+    array_types_meteo=[];
     var id_station=this.id;
     var name_station=this.name_station;
     var marker=this;
-    get_records(id_station,name_station,0,marker);
+    get_records_type(id_station,name_station,0,marker);
     
+}
+
+function get_records_type(id_station,name_station,index,marker){
+    $.ajax({
+      url: "http://ipchannels.integreen-life.bz.it/MeteoFrontEnd/rest/get-data-types?station="+id_station,
+      type: 'GET',
+      success: function( stations_type ) {
+        for(var i_typ=0;i_typ<stations_type.length;i_typ++){
+          var type=stations_type[i_typ][0];
+          var symbol=stations_type[i_typ][1];
+          var title=stations_type[i_typ][2];
+          var period=stations_type[i_typ][3];
+          var item={
+            'type':type,
+            'symbol':symbol,
+            'title':title,
+            'period':period,
+          }
+          array_types_meteo.push(item);  
+        }
+        get_records(id_station,name_station,index,marker);
+      }
+    });
 }
 
 function get_records(id_station,name_station,index,marker){
@@ -126,11 +129,10 @@ function  createWeatherMarker(id_station,name_station,marker){
             .setContent(create_popup_weather(id_station,name_station,"#93208c","Meteo"));
         marker.bindPopup(popup).openPopup();
 
-    }
+}
 
 
 function create_popup_weather(id_station,name_station,color,tipology){
-        console.log("create popup weather");
         var left_link;
         var right_link;
         if(langCode=="it"){
@@ -174,7 +176,6 @@ function create_popup_weather(id_station,name_station,color,tipology){
                }
             }
         }
-        console.log(air_temperature+" "+precipitation+" "+relative_humidity_hair);
         var url_image_weather;
         if(precipitation==0 && air_temperature>=18){
             url_image_weather=url_image_weather_sunny;
@@ -193,7 +194,11 @@ function create_popup_weather(id_station,name_station,color,tipology){
             html=html+"<tr style='border-bottom: 1px solid black;'><td><h1 style='font-weight: bold;font-size: 10px;color:#93208c;display:inline'>"+translate_popup_title_weather(array_date_station[i].type)+" "+array_date_station[i].type+" "+array_date_station[i].period+"</td><td><h1 style='font-weight: bold;font-size: 10px;color:#93208c;display:inline'>"+array_date_station[i].value+" "+array_date_station[i].symbol+"</td></tr>";  
         }
         html=html+"</table></div>";
-        html=html+"<div class='col-md-6'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url_image_weather+"'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+title_air_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+air_temperature+" "+symbol_air_temperature+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+title_relative_humidity_hair+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+relative_humidity_hair+" "+symbol_relative_humidity_hair+"</h1></td></table><table style='width:100%'><tr><td colspan='2'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><td colspan='2' style='text-align:right'><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>";
+        if(precipitation!=undefined && air_temperature!=undefined){
+             html=html+"<div class='col-md-6'><table style='background:#93208c;width:100%'><tr><td  colspan='4' style='text-align:center'><img src='"+url_image_weather+"'/></td></tr><tr><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+title_air_temperature+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+air_temperature+" "+symbol_air_temperature+"</h1></td><td style='text-align:center'  colspan='2'><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+title_relative_humidity_hair+"</h1><br/><h1 style='font-weight: bold;font-size: 15px;color:#fff;display:inline'>"+relative_humidity_hair+" "+symbol_relative_humidity_hair+"</h1></td></table><table style='width:100%'><tr><td colspan='2'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><td colspan='2' style='text-align:right'><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>";
+        }else{
+             html=html+"<div class='col-md-6'><table style='width:100%'><tr><td colspan='2'><a href='#' onclick='graphTrend(\""+tipology+"\",\""+id_station+"\")' style='color:"+color+";border-bottom:2px dashed "+color+";border-color:"+color+"'>"+left_link+"</a><td colspan='2' style='text-align:right'><a  onclick='graphStoric(\""+tipology+"\",\""+id_station+"\")' href='#' style='color:#93208c;border-bottom:2px dashed #d5d5d5;border-color:"+color+";'><span style='margin-right:2px'>"+right_link+"</span><i class='glyphicon glyphicon-edit' style='color:"+color+"'/></a></td></tr></table></div></div>";
+        }
         
         return html;
 
