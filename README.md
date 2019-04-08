@@ -1,3 +1,8 @@
+DEPRECATED REPOSITORY
+=====================
+
+This repository is deprecated. See https://github.com/idm-suedtirol/geobank-analytics
+
 # BZAnalytics
 
 BZAnalytics (http://analytics.mobility.bz.it) is a [free software](http://www.gnu.org/philosophy/free-sw.html) on-line application and is developed under [AGPL License](http://www.gnu.org/licenses/agpl-3.0.en.html)
